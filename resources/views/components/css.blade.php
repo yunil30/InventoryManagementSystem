@@ -39,6 +39,35 @@
             padding: .1rem .1rem;
         }
 
+        .header-logo-div {
+            display: flex;
+            justify-content: left;
+            align-items: center;
+
+            a {
+                font-family: "Poppins", sans-serif;
+                font-size: 20px;
+                font-weight: 500;
+                letter-spacing: 1px;
+                text-decoration: none; 
+                color: inherit; 
+
+                i {
+                    font-size: 24px; 
+                    font-weight: 500;
+                }
+
+                span {
+                    font-weight: 600;
+                }
+            }
+
+            a:hover {
+                text-decoration: none; 
+                color: inherit;   
+            }
+        }
+
         ul {
             border-bottom: 1px solid rgba(242, 242, 242, 1);
             list-style-type: none;
@@ -48,20 +77,21 @@
             display: flex;
             justify-content: flex-end;
             align-items: center; 
+            gap: 25px;
 
             li {
                 display: inline-block;
             }
 
             .menu-item a {
-                border-radius: 5px;
+                border-radius: 0px;
                 color: #1f2328;
                 font-size: 0.9rem;
                 font-weight: 600;
                 letter-spacing: 2px;
                 text-decoration: none;
                 line-height: 36px;
-                padding: .4rem .65rem;
+                padding: .4rem .0rem .4rem .0rem;
                 margin: 5px 0;
                 text-align: center;
             }
@@ -69,7 +99,9 @@
         
         .menu-item a:hover,
         .menu-item a:focus {
-            color: #173a68;
+            border-radius: 0px;
+            color: #357edd;
+            border-bottom: 2px solid #357edd;
         }
     }
 
