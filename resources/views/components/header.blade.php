@@ -9,7 +9,7 @@
             <a href="{{ url('/') }}">Home</a>
         </li>
         <li class="menu-item hidden">
-            <a href="{{ url('/ShowListOfUsers') }}">Document</a>
+            <a href="{{ url('/ShowListOfUsers') }}">Users</a>
         </li>
         <li class="menu-item hidden">
             <a href="{{ url('/about') }}">About</a>
