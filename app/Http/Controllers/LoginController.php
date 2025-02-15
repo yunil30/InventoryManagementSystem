@@ -6,11 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller {
-    public function index() {
-        return view('welcome');
+    public function ShowHomePage() {
+        return view('home');
     }
 
     public function showLogin() {
+        if (Auth::check()) {
+            return redirect('/ShowHomePage');
+        }
+
         return view('authentication.login');
     }
 
@@ -23,7 +27,7 @@ class LoginController extends Controller {
         if (Auth::attempt(['user_name' => $credentials['user_name'], 'password' => $credentials['password']])) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/home');
+            return redirect()->intended('/ShowHomePage');
         }
     
         return back()->withErrors([
