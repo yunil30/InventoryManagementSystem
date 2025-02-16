@@ -1,12 +1,18 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [LoginController::class, 'showLogin'])->name('showLogin');
     Route::post('/login', [LoginController::class, 'userLogin'])->name('userLogin');
+});
+
+Route::middleware(['guest'])->group(function () {
+    Route::get('/register', [RegisterController::class, 'showRegister'])->name('showRegister');
+    Route::post('/register', [RegisterController::class, 'userRegister'])->name('userRegister');
 });
 
 Route::middleware(['auth'])->group(function () {
