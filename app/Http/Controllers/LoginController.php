@@ -11,20 +11,16 @@ class LoginController extends Controller {
     }
 
     public function showLogin() {
-        if (Auth::check()) {
-            return redirect('/ShowHomePage');
-        }
-
         return view('authentication.login');
     }
 
     public function userLogin(Request $request) {
         $credentials = $request->validate([
-            'user_name' => ['required'], 
-            'password' => ['required']   
+            'inputUserName' => ['required'], 
+            'inputUserPassword' => ['required']   
         ]);
     
-        if (Auth::attempt(['user_name' => $credentials['user_name'], 'password' => $credentials['password']])) {
+        if (Auth::attempt(['user_name' => $credentials['inputUserName'], 'password' => $credentials['inputUserPassword']])) {
             $request->session()->regenerate();
 
             return redirect()->intended('/ShowHomePage');
