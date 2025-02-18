@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login User</title>
+    <title>Company Name</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
 </head>
 <style>
     body {
+        background-color: #f6f6f6;
         position: relative;
         height: 100vh;
         padding: 0px;
@@ -17,14 +18,14 @@
     }
 
     form {
+        background-color: #ffffff;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        box-shadow: 0px 0px 1px #00000047;
-        border: 1px solid #cecece;
+        box-shadow: 0px 0px 15px #00000025;
+        border: 1px solid #d1d1d1;
         width: 480px;
-        height: 500px; 
     
         .form-header {
             display: grid;
@@ -33,21 +34,53 @@
             margin: 0px;
 
             h4 {
+                color: #1f2328;
+                letter-spacing: .5px;
+                text-shadow: 0px 0px 1px rgba(23, 32, 42, 0.8);
                 padding: 0px;
                 margin: 0px;
             }
         }
 
         .form-body {
-            padding: 30px;
+            padding: 0px 30px 30px 30px;
             margin: 0px;
+
+            h5 {
+                color: #1f2328;
+                letter-spacing: .5px;
+                text-shadow: 0px 0px 1px rgba(23, 32, 42, 0.8);
+            }
+
+            #btnLogin {
+                background-color: #0d6Efd;
+                color: #ffffff;
+                font-size: 14px;
+                letter-spacing: .5px;
+                border-radius: 0px;
+                border: 1px solid #dee2e6;
+                width: 100%;
+                padding: 10px 40px;
+                margin: 0px;
+
+                &:hover {
+                    background-color: #0869fc;
+                    color: #fff;
+                    cursor: pointer;
+                }
+
+                &:active {
+                    background-color: #0d6Efd;
+                    transform: translateY(2px);
+                }
+            }
 
             .form-group {
                 margin-bottom: 15px;
                 padding: 0px;
                 position: relative;
 
-                i {
+                .input-icon {
                     position: absolute;
                     top: 60%;
                     left: 13px;
@@ -62,25 +95,58 @@
                     margin-bottom: 5px;
                 }
 
-                input {
-                    border: 1px solid #dee2e6;
-                    padding: 10px 40px 10px 40px;
-                }
-
-                input::placeholder {
+                a {
+                    text-decoration-line: none;
                     font-size: 14px;
                     letter-spacing: .5px;
                     text-shadow: 0px 0px 1px rgba(23, 32, 42, 0.8);
-                    color: #8c8f92;
+                    margin-bottom: 5px;
+
+                    &:hover {
+                        text-decoration-line: underline;
+                        font-size: 14px;
+                        letter-spacing: .5px;
+                        text-shadow: 0px 0px 1px rgba(23, 32, 42, 0.8);
+                        margin-bottom: 5px;
+                    }
                 }
 
-                input:focus {
-                    border: 1.5px solid #e74c3c;
-                    border-color: #1f2328;
-                    letter-spacing: .5px;
+                input {
                     color: #1f2328;
-                    outline: none;
-                    box-shadow: 0px 0px 5px rgba(23, 32, 42, 0.8);
+                    font-size: 14px;
+                    letter-spacing: .5px;
+                    border-radius: 0px;
+                    border: 1px solid #dee2e6;
+                    padding: 10px 40px;
+                    box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.3);
+
+                    &::placeholder {
+                        font-size: 14px;
+                        letter-spacing: .5px;
+                        text-shadow: 0px 0px 1px rgba(23, 32, 42, 0.8);
+                        color: #8c8f92;
+                    }
+
+                    &:focus {
+                        border-color: #0056c0;
+                        font-size: 14px;
+                        letter-spacing: .5px;
+                        color: #1f2328;
+                        outline: none;
+                        box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.8);
+                    }
+                }
+
+                .toggle-password {
+                    position: absolute;
+                    right: 10px;
+                    top: 50%;
+                    transform: translateY(15%);
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    font-size: 14px;
+                    color: #8c8f92;
                 }
             }
         }
@@ -90,24 +156,56 @@
     <form action="{{ route('userLogin') }}" method="POST">
         @csrf
         <div class="form-header">
-            <h5 class="form-title">Company Name</h5>
+            <h4 class="form-title">Company Name</h4>
         </div>
 
         <div class="form-body">
+            <h5>Login</h5>
+
             <div class="form-group">
-                <i class="fa-solid fa-envelope"></i>
+                <i class="fa-solid fa-envelope input-icon"></i>
                 <label for="inputUserName">Username</label>
                 <input type="text" class="form-control" id="inputUserName" name="inputUserName" placeholder="Username">
             </div>
     
             <div class="form-group">
-                <i class="fa-solid fa-lock"></i>
+                <i class="fa-solid fa-lock input-icon"></i>
                 <label for="inputUserPassword">Password</label>
                 <input type="password" class="form-control" id="inputUserPassword" name="inputUserPassword" placeholder="Password">
+                <button type="button" class="toggle-password" onclick="togglePassword()">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
             </div>
 
-            <button type="submit" class="btn btn-primary">Login</button>
+            <div class="form-group" style="text-align: end;" >
+                <a href="{{ url('/register') }}">Forgot password?</a>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btnLogin" id="btnLogin">Login Now</button>
+            </div>
+            
+            <div class="form-group" style="text-align: center;" >
+                <label for="">Don't have an account? <a href="{{ url('/register') }}">Register now</a></label>
+            </div>
         </div>
     </form>
 </body>
 </html>
+
+<script>
+    function togglePassword() {
+        const passwordField = document.getElementById("inputUserPassword");
+        const toggleButton = document.querySelector(".toggle-password i");
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleButton.classList.remove("fa-eye");
+            toggleButton.classList.add("fa-eye-slash");
+        } else {
+            passwordField.type = "password";
+            toggleButton.classList.remove("fa-eye-slash");
+            toggleButton.classList.add("fa-eye");
+        }
+    }
+</script>

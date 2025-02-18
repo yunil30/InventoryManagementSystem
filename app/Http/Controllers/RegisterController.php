@@ -13,27 +13,27 @@ class RegisterController extends Controller {
 
     public function userRegister(Request $request) {
         $request->validate([
-            'first_name' => 'required|string|max:145',
-            'last_name' => 'required|string|max:145',
-            'user_name' => 'required|string|max:50|unique:tbl_user_access,user_name',
-            'user_email' => 'required|email|max:50|unique:tbl_user_access,user_email',
-            'password' => 'required|string|min:8', 
+            'inputFirstName' => 'required|string|max:145',
+            'inputLastName' => 'required|string|max:145',
+            'inputUserName' => 'required|string|max:50|unique:tbl_user_access,user_name',
+            'inputUserEmail' => 'required|email|max:50|unique:tbl_user_access,user_email',
+            'inputUserPassword' => 'required|string|min:8', 
         ]);
 
-        $hashedPassword = Hash::make($request->input('password'));
+        $hashedPassword = Hash::make($request->input('inputUserPassword'));
 
         $user = LoginModel::create([
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
-            'user_name' => $request->input('user_name'),
-            'user_email' => $request->input('user_email'),
+            'first_name' => $request->input('inputFirstName'),
+            'last_name' => $request->input('inputLastName'),
+            'user_name' => $request->input('inputUserName'),
+            'user_email' => $request->input('inputUserEmail'),
             'password' => $hashedPassword,
             'user_role' => 'user',
             'user_status' => 1,
         ]);
 
         if ($user) {
-            session()->flash('success', 'Registration successful! You can now log in.');
+            session()->flash('success', 'Registration successful! You can now login.');
     
             return redirect('/login'); 
         }
