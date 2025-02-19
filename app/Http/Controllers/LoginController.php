@@ -27,7 +27,7 @@ class LoginController extends Controller {
         }
     
         return back()->withErrors([
-            'user_name' => 'The provided credentials are incorrect.'
+            'ErrorMessage' => 'Invalid username and password.'
         ]);
     }
 

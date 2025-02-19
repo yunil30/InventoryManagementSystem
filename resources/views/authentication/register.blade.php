@@ -76,7 +76,7 @@
             }
 
             .form-group {
-                margin-bottom: 15px;
+                margin-bottom: 16px;
                 padding: 0px;
                 position: relative;
 
@@ -141,6 +141,22 @@
                     color: #8c8f92;
                 }
             }
+
+            .error-message-div {
+                color: rgb(177, 54, 54);
+                border-radius: 0px;
+                padding: 10px 20px;
+
+                ul {
+                    margin: 0px;
+
+                    li {
+                        font-size: 13px;
+                        letter-spacing: .5px;
+                        margin: 5px 0px;  
+                    }
+                }
+            }
         }
     }
 </style>
@@ -156,34 +172,44 @@
 
             <div class="form-group">
                 <label for="inputFirstName">First name</label>
-                <input type="text" class="form-control" name="inputFirstName" id="inputFirstName" placeholder="First name">
+                <input type="text" class="form-control" name="inputFirstName" id="inputFirstName" placeholder="First name" required>
             </div>
             
             <div class="form-group">
                 <label for="inputLastName">Last name</label>
-                <input type="text" class="form-control" name="inputLastName" id="inputLastName" placeholder="Last name">
+                <input type="text" class="form-control" name="inputLastName" id="inputLastName" placeholder="Last name" required>
             </div>
 
             <div class="form-group">
                 <label for="inputUserName">Username</label>
-                <input type="text" class="form-control" name="inputUserName" id="inputUserName" placeholder="Username">
+                <input type="text" class="form-control" name="inputUserName" id="inputUserName" placeholder="Username" required>
             </div>
 
             <div class="form-group">
                 <label for="inputUserEmail">Email</label>
-                <input type="email" class="form-control" name="inputUserEmail" id="inputUserEmail" placeholder="Email">
+                <input type="email" class="form-control" name="inputUserEmail" id="inputUserEmail" placeholder="Email" required>
             </div>
 
             <div class="form-group">
                 <label for="inputUserPassword">Password</label>
-                <input type="password" class="form-control" name="inputUserPassword" id="inputUserPassword" placeholder="Password">
+                <input type="password" class="form-control" name="inputUserPassword" id="inputUserPassword" placeholder="Password" required>
                 <button type="button" class="toggle-password" onclick="togglePassword()">
                     <i class="fa-solid fa-eye"></i>
                 </button>
             </div>
 
+            @if ($errors->any())
+                <div class="alert alert-danger error-message-div">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="form-group">
-                <button type="submit" class="btnRegister" id="btnRegister">Register Now</button>
+                <button type="submit" class="btnRegister" id="btnRegister">Register</button>
             </div>
 
             <div class="form-group" style="text-align: center;" >

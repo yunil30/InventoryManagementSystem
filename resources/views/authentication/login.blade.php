@@ -75,8 +75,16 @@
                 }
             }
 
+            .error-message {
+                color: rgb(177, 54, 54);
+                font-size: 13px;
+                letter-spacing: .5px;
+                border-radius: 0px;
+                padding: 10px 20px;
+            }
+
             .form-group {
-                margin-bottom: 15px;
+                margin-bottom: 16px;
                 padding: 0px;
                 position: relative;
 
@@ -165,24 +173,28 @@
             <div class="form-group">
                 <i class="fa-solid fa-envelope input-icon"></i>
                 <label for="inputUserName">Username</label>
-                <input type="text" class="form-control" id="inputUserName" name="inputUserName" placeholder="Username">
+                <input type="text" class="form-control" id="inputUserName" name="inputUserName" placeholder="Username" required>
             </div>
-    
+         
             <div class="form-group">
                 <i class="fa-solid fa-lock input-icon"></i>
                 <label for="inputUserPassword">Password</label>
-                <input type="password" class="form-control" id="inputUserPassword" name="inputUserPassword" placeholder="Password">
+                <input type="password" class="form-control" id="inputUserPassword" name="inputUserPassword" placeholder="Password" required>
                 <button type="button" class="toggle-password" onclick="togglePassword()">
                     <i class="fa-solid fa-eye"></i>
                 </button>
             </div>
+
+            @error('ErrorMessage')
+                <div class="alert alert-danger error-message">{{ $message }}</div>
+            @enderror
 
             <div class="form-group" style="text-align: end;" >
                 <a href="{{ url('/register') }}">Forgot password?</a>
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btnLogin" id="btnLogin">Login Now</button>
+                <button type="submit" class="btnLogin" id="btnLogin">Login</button>
             </div>
             
             <div class="form-group" style="text-align: center;" >
