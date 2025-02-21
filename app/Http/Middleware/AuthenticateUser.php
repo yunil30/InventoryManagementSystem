@@ -14,17 +14,12 @@ class AuthenticateUser
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response {
-        // Check if user is NOT authenticated
-        // if (!Auth::check()) {
-        //     // Prevent redirect loop by checking the current route
-        //     if ($request->routeIs('login')) {
-        //         return $next($request);
-        //     }
 
-        //     // Redirect unauthenticated users to login page
-        //     return redirect()->route('login');
-        // }
-        // return $next($request);
+    public function handle(Request $request, Closure $next): Response {
+        if (!Auth::check()) {
+            return redirect('login');
+        }
+
+        return $next($request);
     }
 }

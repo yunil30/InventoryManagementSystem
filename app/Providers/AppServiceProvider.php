@@ -20,5 +20,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        // $router = $this->app['router'];
+        // $router->aliasMiddleware('auth.redirect', \App\Http\Middleware\AuthenticateUser::class);
     }
 }

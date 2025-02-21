@@ -170,14 +170,16 @@
         <div class="form-body">
             <h5>Register User</h5>
 
-            <div class="form-group">
-                <label for="inputFirstName">First name</label>
-                <input type="text" class="form-control" name="inputFirstName" id="inputFirstName" placeholder="First name" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="inputLastName">Last name</label>
-                <input type="text" class="form-control" name="inputLastName" id="inputLastName" placeholder="Last name" required>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label for="inputFirstName">First name</label>
+                    <input type="text" class="form-control" name="inputFirstName" id="inputFirstName" placeholder="First name" required>
+                </div>
+                
+                <div class="col-md-6">
+                    <label for="inputLastName">Last name</label>
+                    <input type="text" class="form-control" name="inputLastName" id="inputLastName" placeholder="Last name" required>
+                </div>
             </div>
 
             <div class="form-group">

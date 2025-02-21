@@ -15,9 +15,9 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/register', [RegisterController::class, 'userRegister'])->name('userRegister');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/ShowHomePage', [LoginController::class, 'ShowHomePage']);
+Route::middleware(\App\Http\Middleware\AuthenticateUser::class)->group(function () {
     Route::get('/ShowListOfUsers', [UserController::class, 'ShowListOfUsers']);
+    Route::get('/ShowHomePage', [LoginController::class, 'ShowHomePage']);
     Route::get('/CreateUser', [UserController::class, 'CreateUser']);
     Route::get('/GetActiveUsers', [UserController::class, 'GetActiveUsers']);
     Route::get('/GetUserRecord/{UserID}', [UserController::class, 'GetUserRecord']);
@@ -27,8 +27,3 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/RemoveUserRecord/{UserID}', [UserController::class, 'RemoveUserRecord']);
     Route::post('/EditUserRecord/{UserID}', [UserController::class, 'EditUserRecord']);
 });
-
-
-
-
-
