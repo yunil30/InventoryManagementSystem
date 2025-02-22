@@ -90,7 +90,7 @@
 
                 .input-icon {
                     position: absolute;
-                    top: 60%;
+                    top: 59%;
                     left: 13px;
                     font-size: 16px;
                     color: #8c8f92;

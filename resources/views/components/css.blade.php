@@ -11,7 +11,6 @@
 
 <style>
     body {
-        font-family: Lato, Arial, sans-serif;
         margin: 0;
         height: 100vh;
         display: grid;
@@ -45,10 +44,9 @@
             align-items: center;
 
             a {
-                font-family: "Poppins", sans-serif;
                 font-size: 20px;
                 font-weight: 500;
-                letter-spacing: 1px;
+                letter-spacing: .5px;
                 text-decoration: none; 
                 color: inherit; 
 
@@ -88,7 +86,7 @@
                 color: #1f2328;
                 font-size: 0.9rem;
                 font-weight: 600;
-                letter-spacing: 2px;
+                letter-spacing: .5px;
                 text-decoration: none;
                 line-height: 36px;
                 padding: .4rem .0rem .4rem .0rem;
@@ -123,19 +121,33 @@
                 height: 10%;
                 
                 h3 {
-                    font-family: Lato, Arial, sans-serif;
                     color: #1f2328;
                     font-size: 1.5rem;
                     font-weight: 600;
-                    letter-spacing: 2px;
+                    letter-spacing: .5px;
                     margin: 0;
                 }
 
                 button {
-                    font-family: Lato, Arial, sans-serif;
-                    font-size: 0.9rem;
-                    font-weight: 500;
-                    letter-spacing: 2px;
+                    background-color: #0d6Efd;
+                    color: #ffffff;
+                    font-size: 14px;
+                    letter-spacing: .5px;
+                    border-radius: 0px;
+                    border: 1px solid #dee2e6;
+                    padding: 10px 40px;
+                    margin: 0px;
+
+                    &:hover {
+                        background-color: #0869fc;
+                        color: #fff;
+                        cursor: pointer;
+                    }
+
+                    &:active {
+                        background-color: #0d6Efd;
+                        transform: translateY(2px);
+                    }
                 }
             }
 
@@ -143,33 +155,48 @@
                 height: 100%;
 
                 table {
-                    font-family: Lato, Arial, sans-serif;
-
                     th {
                         color: #1f2328;
                         font-size: 0.9rem;
                         font-weight: 600;
-                        letter-spacing: 2px;
+                        letter-spacing: .5px;
                     }
 
                     td {
                         color: #1f2328;
                         font-size: 0.9rem;
-                        font-weight: 500;
-                        letter-spacing: 2px;
+                        font-weight: 400;
+                        letter-spacing: .5px;
                     }
                 }
 
                 .dt-layout-row {
-                    font-family: Lato, Arial, sans-serif;
-                    letter-spacing: 2px;
+                    letter-spacing: .5px;
 
                     .dt-input {
-                        font-family: Lato, Arial, sans-serif;
-                        font-size: 0.9rem;
-                        font-weight: 500;
-                        letter-spacing: 2px;
-                        padding: 8px 12px;
+                        color: #1f2328;
+                        font-size: 14px;
+                        letter-spacing: .5px;
+                        border-radius: 0px;
+                        border: 1px solid #dee2e6;
+                        padding: 10px 15px;
+                        box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.3);
+
+                        &::placeholder {
+                            font-size: 14px;
+                            letter-spacing: .5px;
+                            text-shadow: 0px 0px 1px rgba(23, 32, 42, 0.8);
+                            color: #8c8f92;
+                        }
+
+                        &:focus {
+                            border-color: #0056c0;
+                            font-size: 14px;
+                            letter-spacing: .5px;
+                            color: #1f2328;
+                            outline: none;
+                            box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.8);
+                        }
                     }
 
                     label{
@@ -209,19 +236,17 @@
             padding: 16px;
 
             p { 
-                font-family: Lato, Arial, sans-serif;
                 color: #1f2328;
                 font-size: 0.9rem;
                 font-weight: 600;
-                letter-spacing: 2px;
+                letter-spacing: .5px;
                 margin: 0;
             }
         }
     }
 
     .modal {
-        font-family: Lato, Arial, sans-serif;
-        letter-spacing: 2px;
+        letter-spacing: .5px;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -260,30 +285,77 @@
             }
 
             label {
-                font-family: Lato, Arial, sans-serif;
                 font-size: 0.9rem;
                 font-weight: 500;
-                letter-spacing: 2px;
+                letter-spacing: .5px;
+                margin: 0px 0px 5px 0px;
             }
 
             input {
-                border: 1px solid rgb(215, 215, 215);
-                border-radius: 1px;
-                font-family: Lato, Arial, sans-serif;
-                font-size: 0.9rem;
-                font-weight: 400;
-                letter-spacing: 2px;
+                color: #1f2328;
+                font-size: 14px;
+                letter-spacing: .5px;
+                border-radius: 0px;
+                border: 1px solid #dee2e6;
+                padding: 10px 15px;
+                box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.3);
+
+                &::placeholder {
+                    font-size: 14px;
+                    letter-spacing: .5px;
+                    text-shadow: 0px 0px 1px rgba(23, 32, 42, 0.8);
+                    color: #8c8f92;
+                }
+
+                &:focus {
+                    border-color: #0056c0;
+                    font-size: 14px;
+                    letter-spacing: .5px;
+                    color: #1f2328;
+                    outline: none;
+                    box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.8);
+                }
+            }
+
+            select {
+                color: #1f2328;
+                font-size: 14px;
+                letter-spacing: .5px;
+                border-radius: 0px;
+                border: 1px solid #dee2e6;
+                padding: 10px 15px;
+                box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.3);
+
+                &::placeholder {
+                    font-size: 14px;
+                    letter-spacing: .5px;
+                    text-shadow: 0px 0px 1px rgba(23, 32, 42, 0.8);
+                    color: #8c8f92;
+                }
+
+                &:focus {
+                    border-color: #0056c0;
+                    font-size: 14px;
+                    letter-spacing: .5px;
+                    color: #1f2328;
+                    outline: none;
+                    box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.8);
+                }
             }
         }
 
         .modal-footer {
             padding: 5px 20px 15px 20px;
+            gap: 8px;
 
             button {
-                font-family: Lato, Arial, sans-serif;
-                font-weight: 400;
-                letter-spacing: 2px;
-                border-radius: 3px;
+                color: #ffffff;
+                font-size: 14px;
+                letter-spacing: .5px;
+                border-radius: 0px;
+                border: 1px solid #dee2e6;
+                padding: 10px 40px;
+                margin: 0px;
             }
         }
     }

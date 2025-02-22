@@ -31,29 +31,31 @@
             </div>
             <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
                 <div class="row">
-                    <div class="col-md-12 mb-3">
-                        <label for="addFirstName">First Name:</label>
-                        <input type="text" class="form-control" id="addFirstName">
+                    <div class="col-md-6 mb-3">
+                        <label for="addFirstName">First name:</label>
+                        <input type="text" class="form-control" id="addFirstName" placeholder="First name" required>
                     </div>
-                    <div class="col-md-12 mb-3">
-                        <label for="addLastName">Last Name:   </label>
-                        <input type="text" class="form-control" id="addLastName">
+
+                    <div class="col-md-6 mb-3">
+                        <label for="addLastName">Last name:</label>
+                        <input type="text" class="form-control" id="addLastName" placeholder="Last name" required>
                     </div>
+                
                     <div class="col-md-12 mb-3">
                         <label for="addUserName">Username:</label>
-                        <input type="text" class="form-control" id="addUserName">
+                        <input type="text" class="form-control" id="addUserName" placeholder="Username" required>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="addUserEmail">Email:</label>
-                        <input type="email" class="form-control" id="addUserEmail">
+                        <input type="email" class="form-control" id="addUserEmail" placeholder="Email" required>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="addContactNo">Contact#:</label>
-                        <input type="text" class="form-control" id="addContactNo">
+                        <input type="text" class="form-control" id="addContactNo" placeholder="Contact no." required>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="addUserPassword">Password:</label>
-                        <input type="password" class="form-control" id="addUserPassword">
+                        <input type="password" class="form-control" id="addUserPassword" placeholder="Password" required>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="addUserRole">User role:</label>
@@ -83,25 +85,25 @@
             </div>
             <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
                 <div class="row">
-                    <div class="col-md-12 mb-3">
-                        <label for="showFirstName">First Name:</label>
-                        <input type="text" class="form-control" id="showFirstName">
+                    <div class="col-md-6 mb-3">
+                        <label for="showFirstName">First name:</label>
+                        <input type="text" class="form-control" id="showFirstName" placeholder="First name" required>
                     </div>
-                    <div class="col-md-12 mb-3">
-                        <label for="showLastName">Last Name:   </label>
-                        <input type="text" class="form-control" id="showLastName">
+                    <div class="col-md-6 mb-3">
+                        <label for="showLastName">Last name:   </label>
+                        <input type="text" class="form-control" id="showLastName" placeholder="Last name" required>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="showUserName">Username:</label>
-                        <input type="text" class="form-control" id="showUserName">
+                        <input type="text" class="form-control" id="showUserName" placeholder="Username" required>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="showUserEmail">Email:</label>
-                        <input type="email" class="form-control" id="showUserEmail">
+                        <input type="email" class="form-control" id="showUserEmail" placeholder="Email" required>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="showContactNo">Contact#:</label>
-                        <input type="text" class="form-control" id="showContactNo">
+                        <input type="text" class="form-control" id="showContactNo" placeholder="Contact no." required>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="showUserRole">User role:</label>
