@@ -222,6 +222,92 @@
                     }
                 }
             }
+
+            .accountSettingDiv {
+                font-family: "Poppins", sans-serif;
+                letter-spacing: 1px;
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                display: grid;
+                grid-template-rows: 1fr 1fr auto;
+                grid-template-areas: 
+                    "accSettingDiv1"
+                    "accSettingDiv2"
+                    "accSettingDiv3";
+                padding-right: 0 !important;
+
+                input {
+                    font-family: "Poppins", sans-serif;
+                    font-weight: 400;
+                    letter-spacing: 1px;
+                    border-radius: 1px;
+                }
+
+                .accHeadingDiv {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    h5 {
+                        margin: 0;
+                    }
+
+                    .edit-button {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        background-color: white;
+                        color: #1f2328;
+                        box-shadow: 0px 1px 5px #00000035;
+                        border: 1px solid rgb(215, 215, 215);
+                        border-radius: 50px;
+                        padding: 5px 18px;
+                        font-size: 14px;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+
+                        i {
+                            margin-right: 0.5rem; 
+                        }
+                    }
+
+                    .edit-button:hover {
+                        background-color: #f0f8ff;
+                        border: 0.1px solid #0056b3;
+                        color: #0056b3;
+                    }
+                }
+
+                .accHeadingDescription {
+                    color: #1f2328;
+                    font-weight: 400;
+                    font-size: 14px;
+                    margin-bottom: 2rem;
+                }
+
+                .accSettingDiv1 {
+                    background-color: #ffffff;
+                    border: 1px solid rgb(215, 215, 215);
+                    grid-area: accSettingDiv1;
+                    padding: 1rem;
+                }
+
+                .accSettingDiv2 {
+                    background-color: #ffffff;
+                    border: 1px solid rgb(215, 215, 215);
+                    grid-area: accSettingDiv2;
+                    padding: 1rem;
+                }
+
+                .accSettingDiv3 {
+                    background-color: #ffffff;
+                    border: 1px solid rgb(215, 215, 215);
+                    grid-area: accSettingDiv3;
+                    padding: 1rem;
+                }
+            }
         }
     }
 

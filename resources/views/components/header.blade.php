@@ -12,6 +12,9 @@
             <a href="{{ url('/ShowListOfUsers') }}">Users</a>
         </li>
         <li class="menu-item hidden">
+            <a href="{{ url('/ShowUserProfile') }}">Profile</a>
+        </li>
+        <li class="menu-item hidden">
             <a href="{{ url('/') }}">About</a>
         </li>
         <li class="menu-item hidden">

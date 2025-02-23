@@ -12,6 +12,10 @@ class UserController extends Controller {
         return view('ListOfUsers');
     }
 
+    public function ShowUserProfile() {
+        return view('UserProfile');
+    }
+
     public function GetActiveUsers() {
         $users = LoginModel::where('user_status', 1)->get();
 
