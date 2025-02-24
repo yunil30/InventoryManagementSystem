@@ -23,6 +23,7 @@ Route::middleware(\App\Http\Middleware\AuthenticateUser::class)->group(function 
     Route::get('/GetActiveUsers', [UserController::class, 'GetActiveUsers']);
     Route::get('/GetUserRecord/{UserID}', [UserController::class, 'GetUserRecord']);
     Route::get('/ShowUserProfile', [UserController::class, 'ShowUserProfile']);
+    Route::get('/GetUserInformation', [UserController::class, 'GetUserInformation']);
 
     Route::post('/logout', [LoginController::class, 'userLogout'])->name('userLogout');
     Route::post('/CreateUserRecord', [UserController::class, 'CreateUserRecord'])->name('info.create');

@@ -17,10 +17,6 @@
                             <input type="text" class="form-control" id="accFirstName" disabled>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label>Middle name</label>
-                            <input type="text" class="form-control" id="accMiddleName" disabled>
-                        </div>
-                        <div class="col-md-4 mb-3">
                             <label>Last name</label>
                             <input type="text" class="form-control" id="accLastName" disabled>
                         </div>
@@ -67,19 +63,13 @@
         <div class="modal-content" style="height: auto; max-height: 80vh;">
             <div class="modal-header">
                 <h4 class="modal-title" id="titleUserModal">Edit Information</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
                 <div class="row">
                     <div class="col-md-12 mb-3">
                         <label>First Name:</label>
                         <input type="text" class="form-control" id="showFirstName">
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <label>Middle Name:</label>
-                        <input type="text" class="form-control" id="showMiddleName">
                     </div>
                     <div class="col-md-12 mb-3">
                         <label>Last Name:</label>
@@ -92,7 +82,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-success" id="btnEditInfo">Submit</button>
             </div>
         </div>
@@ -105,9 +95,7 @@
         <div class="modal-content" style="height: auto; max-height: 80vh;">
             <div class="modal-header">
                 <h4 class="modal-title" id="titleUserModal">Edit Contacts</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
                 <div class="row">
@@ -122,7 +110,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-success" id="btnEditContacts">Submit</button>
             </div>
         </div>
@@ -135,9 +123,7 @@
         <div class="modal-content" style="height: auto; max-height: 80vh;">
             <div class="modal-header">
                 <h4 class="modal-title" id="titleUserModal">Change Password</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
                 <div class="row">
@@ -152,7 +138,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-success" id="btnChangePassword">Submit</button>
             </div>
         </div>
@@ -160,6 +146,88 @@
 </div>
 
 <script>
+    function GetUserInformation() {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const firstName = document.getElementById('accFirstName');
+        const lastName = document.getElementById('accLastName');
+        const userName = document.getElementById('accUserName');
+        const userEmail = document.getElementById('accContactEmail');
+        const contactNo = document.getElementById('accContactNumber');
+
+        $.ajax({
+            url: `/GetUserInformation`,
+            method: 'GET',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            success: function(response) {
+                firstName.value = response.first_name;
+                lastName.value = response.last_name;
+                userName.value = response.user_name;
+                userEmail.value = response.user_email;
+                contactNo.value = response.contact_number;
+            },
+            error: function(error) {
+                console.error('Failed to get the user record!', error);
+            }
+        });
+    }
+
+    function ShowUserDataToEdit() {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const firstName = document.getElementById('showFirstName');
+        const lastName = document.getElementById('showLastName');
+        const userName = document.getElementById('showUserName');
+        const userEmail = document.getElementById('showUserContactEmail');
+        const contactNo = document.getElementById('showUserContactNumber');
+
+        $.ajax({
+            url: `/GetUserInformation`,
+            method: 'GET',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            success: function(response) {
+                firstName.value = response.first_name;
+                lastName.value = response.last_name;
+                userName.value = response.user_name;
+                userEmail.value = response.user_email;
+                contactNo.value = response.contact_number;
+            },
+            error: function(error) {
+                console.error('Failed to get the user record!', error);
+            }
+        });
+    }
+
+    document.getElementById('btnShowUserInfoModal').addEventListener('click', function() {
+        const modal = new bootstrap.Modal(document.getElementById('showUserInfoModal'));
+
+        ShowUserDataToEdit();
+
+        modal.show();
+    });
+
+    document.getElementById('btnShowUserContactModal').addEventListener('click', function() {
+        const modal = new bootstrap.Modal(document.getElementById('showUserContactModal'));
+
+        ShowUserDataToEdit();
+
+        modal.show();
+    });
+
+    document.getElementById('btnShowChangePassModal').addEventListener('click', function() {
+        const modal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
+
+        ShowUserDataToEdit();
+        
+        modal.show();
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        GetUserInformation();
+    });
+    
     // $('#btnShowUserInfoModal').click(function() {
     //     $('#btnShowUserInfoModal').attr({
     //         'data-toggle': 'modal',
@@ -231,32 +299,6 @@
     //     });
     // }
 
-    // function ShowUserDataToEdit() {
-    //     axios.get(host_url + 'User/GetUserInfo')
-    //     .then((res) => {
-    //         var userData = res.data[0];
-    //         $('#showFirstName').val(userData.first_name);
-    //         $('#showMiddleName').val(userData.middle_name);
-    //         $('#showLastName').val(userData.last_name);
-    //         $('#showUserName').val(userData.user_name);
-    //         $('#showUserContactEmail').val(userData.user_email);
-    //         $('#showUserContactNumber').val(userData.contact_number);
-    //     });
-    // }
-
-    // function ShowUserData() {
-    //     axios.get(host_url + 'User/GetUserInfo')
-    //     .then((res) => {
-    //         var userData = res.data[0];
-    //         $('#accFirstName').val(userData.first_name);
-    //         $('#accMiddleName').val(userData.middle_name);
-    //         $('#accLastName').val(userData.last_name);
-    //         $('#accUserName').val(userData.user_name);
-    //         $('#accContactEmail').val(userData.user_email);
-    //         $('#accContactNumber').val(userData.contact_number);
-    //     });
-    // }
-
     // function EditUserInfo() {
     //     var data = {
     //         FirstName: $('#showFirstName').val(),
@@ -323,8 +365,4 @@
     //         ShowMessage('error', 'Failed!', error.response?.data?.error || 'An error occurred while changing the password.');
     //     }); 
     // }
-    
-    // $(document).ready(function() {
-    //     ShowUserData();
-    // });
 </script>

@@ -224,8 +224,7 @@
             }
 
             .accountSettingDiv {
-                font-family: "Poppins", sans-serif;
-                letter-spacing: 1px;
+                letter-spacing: .5px;
                 margin: 0;
                 padding: 0;
                 height: 100%;
@@ -236,12 +235,22 @@
                     "accSettingDiv2"
                     "accSettingDiv3";
                 padding-right: 0 !important;
+                                
+                label {
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                    letter-spacing: .5px;
+                    margin: 0px 0px 5px 0px;
+                }
 
                 input {
-                    font-family: "Poppins", sans-serif;
-                    font-weight: 400;
-                    letter-spacing: 1px;
-                    border-radius: 1px;
+                    color: #1f2328;
+                    font-size: 14px;
+                    letter-spacing: .5px;
+                    border-radius: 0px;
+                    border: 1px solid #dee2e6;
+                    padding: 10px 15px;
+                    box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.3);
                 }
 
                 .accHeadingDiv {
@@ -284,7 +293,7 @@
                     color: #1f2328;
                     font-weight: 400;
                     font-size: 14px;
-                    margin-bottom: 2rem;
+                    margin-bottom: 1rem;
                 }
 
                 .accSettingDiv1 {

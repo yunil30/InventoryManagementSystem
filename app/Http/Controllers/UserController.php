@@ -90,4 +90,12 @@ class UserController extends Controller {
     
         return response()->json(['message' => 'User status updated successfully!']);
     }
+
+    public function GetUserInformation() {
+        $u_id = session('u_id');
+
+        $userRecord = LoginModel::where('UserID',  $u_id)->first();
+  
+        return $userRecord->toArray();
+    }
 }

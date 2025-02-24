@@ -23,6 +23,15 @@ class LoginController extends Controller {
         if (Auth::attempt(['user_name' => $credentials['inputUserName'], 'password' => $credentials['inputUserPassword']])) {
             $request->session()->regenerate();
 
+            $user = Auth::user();
+
+            session([
+                'u_id' => $user->UserID,
+                'u_username' => $user->user_name,   
+                'u_email' => $user->user_email,  
+                'u_role' => $user->user_role,
+            ]);
+
             return redirect()->intended('/ShowHomePage');
         }
     
