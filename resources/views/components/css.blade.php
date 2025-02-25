@@ -152,8 +152,6 @@
             }
 
             .content-body {
-                height: 100%;
-
                 table {
                     th {
                         color: #1f2328;
@@ -435,6 +433,42 @@
                     color: #1f2328;
                     outline: none;
                     box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.8);
+                }
+            }
+
+            .input-correct {
+                border-color: #2ecc71 !important;
+                font-size: 14px;
+                letter-spacing: .5px;
+                color: #1f2328;
+                outline: none;
+                box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.8);
+            }
+
+            .input-error {
+                border-color: #e74c3c !important;
+                font-size: 14px;
+                letter-spacing: .5px;
+                color: #1f2328;
+                outline: none;
+                box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.8);
+            }
+
+            .password-div {
+                margin-bottom: 16px;
+                padding: 0px;
+                position: relative;
+                
+                .toggle-password {
+                    position: absolute;
+                    right: 10px;
+                    top: 50%;
+                    transform: translateY(15%);
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    font-size: 14px;
+                    color: #8c8f92;
                 }
             }
         }

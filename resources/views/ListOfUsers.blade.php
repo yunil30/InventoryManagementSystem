@@ -50,7 +50,7 @@
                         <input type="email" class="form-control" id="addUserEmail" placeholder="Email" required>
                     </div>
                     <div class="col-md-12 mb-3">
-                        <label for="addContactNo">Contact#:</label>
+                        <label for="addContactNo">Contact number:</label>
                         <input type="text" class="form-control" id="addContactNo" placeholder="Contact no." required>
                     </div>
                     <div class="col-md-12 mb-3">
@@ -102,7 +102,7 @@
                         <input type="email" class="form-control" id="showUserEmail" placeholder="Email" required>
                     </div>
                     <div class="col-md-12 mb-3">
-                        <label for="showContactNo">Contact#:</label>
+                        <label for="showContactNo">Contact number:</label>
                         <input type="text" class="form-control" id="showContactNo" placeholder="Contact no." required>
                     </div>
                     <div class="col-md-12 mb-3">

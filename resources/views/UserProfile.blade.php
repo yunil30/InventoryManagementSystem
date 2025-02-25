@@ -1,7 +1,7 @@
 <x-layout>
     <div class="main-content">
         <div class="col-md-12 content-header">
-            <h3 style="margin: 0;">User Profile</h3>
+            <h3 style="margin-top: 7px; margin-bottom: 7px;">User Profile</h3>
         </div>
         <div class="col-md-12 p-0 content-body">
             <div class="col-md-12 accountSettingDiv">
@@ -69,15 +69,15 @@
                 <div class="row">
                     <div class="col-md-12 mb-3">
                         <label>First Name:</label>
-                        <input type="text" class="form-control" id="showFirstName">
+                        <input type="text" class="form-control" id="showFirstName" placeholder="First name" required>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label>Last Name:</label>
-                        <input type="text" class="form-control" id="showLastName">
+                        <input type="text" class="form-control" id="showLastName" placeholder="Last name" required>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label>Username:</label>
-                        <input type="text" class="form-control" id="showUserName">
+                        <input type="text" class="form-control" id="showUserName" placeholder="Username" required>
                     </div>
                 </div>
             </div>
@@ -101,11 +101,11 @@
                 <div class="row">
                     <div class="col-md-12 mb-3">
                         <label>Contact email:</label>
-                        <input type="text" class="form-control" id="showUserContactEmail">
+                        <input type="text" class="form-control" id="showUserContactEmail" placeholder="Email" required>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label>Contact number:</label>
-                        <input type="text" class="form-control" id="showUserContactNumber">
+                        <input type="text" class="form-control" id="showUserContactNumber" placeholder="Contact no." required>
                     </div>
                 </div>
             </div>
@@ -127,25 +127,46 @@
             </div>
             <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
                 <div class="row">
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-12 mb-3 password-div">
                         <label>New Password:</label>
-                        <input type="password" class="form-control" id="NewUserPassword">
+                        <input type="password" class="form-control" id="NewUserPassword" style="padding-right: 40px;" placeholder="New Password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('NewUserPassword')">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-12 mb-3 password-div">
                         <label>Confirm Password:</label>
-                        <input type="password" class="form-control" id="ConfirmUserPassword">
+                        <input type="password" class="form-control" id="ConfirmUserPassword" style="padding-right: 40px;" placeholder="Confirm Password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('ConfirmUserPassword')">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btnChangePassword">Submit</button>
+                <button type="button" class="btn btn-success" id="btnChangePassword" disabled>Submit</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    function togglePassword(element) {
+        const passwordField = document.getElementById(element);
+        const toggleButton = document.querySelector(".toggle-password i");
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleButton.classList.remove("fa-eye");
+            toggleButton.classList.add("fa-eye-slash");
+        } else {
+            passwordField.type = "password";
+            toggleButton.classList.remove("fa-eye-slash");
+            toggleButton.classList.add("fa-eye");
+        }
+    }
+
     function GetUserInformation() {
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         const firstName = document.getElementById('accFirstName');
@@ -200,169 +221,148 @@
         });
     }
 
+    function EditUserInfo() {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const firstName = document.getElementById('showFirstName').value;
+        const lastName = document.getElementById('showLastName').value;
+        const userName = document.getElementById('showUserName').value;
+
+        $.ajax({
+            url: `/EditUserInfo`,
+            method: 'POST',
+            data: {
+                _token: csrfToken,
+                first_name: firstName,
+                last_name: lastName,
+                user_name: userName,
+            },
+            success: function(response) {
+                console.log('User information updated successfully', response);
+                window.location.reload();
+            },
+            error: function(error) {
+                console.log('Error updating user information', error);
+            }
+        });
+    }
+
+    function EditUserContacts() {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const userEmail = document.getElementById('showUserContactEmail').value;
+        const contactNo = document.getElementById('showUserContactNumber').value;
+
+        $.ajax({
+            url: `/EditUserContacts`,
+            method: 'POST',
+            data: {
+                _token: csrfToken,
+                user_email: userEmail,
+                contact_number: contactNo,
+            },
+            success: function(response) {
+                console.log('User contacts updated successfully', response);
+                window.location.reload();
+            },
+            error: function(error) {
+                console.log('Error updating user contacts', error);
+            }
+        });
+    }
+
+    function ChangePassword() {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const NewUserPassword = document.getElementById('NewUserPassword').value;
+        const ConfirmUserPassword = document.getElementById('ConfirmUserPassword').value;
+
+        if (NewUserPassword === ConfirmUserPassword) {
+            $.ajax({
+                url: `/ChangePassword`,
+                method: 'POST',
+                data: {
+                    _token: csrfToken,
+                    password: NewUserPassword,
+                },
+                success: function(response) {
+                    console.log('User password updated successfully', response);
+                    window.location.reload();
+                },
+                error: function(error) {
+                    console.log('Error updating user password', error);
+                }
+            });
+        } 
+    }
+
     document.getElementById('btnShowUserInfoModal').addEventListener('click', function() {
         const modal = new bootstrap.Modal(document.getElementById('showUserInfoModal'));
+        modal.show();
 
         ShowUserDataToEdit();
 
-        modal.show();
+        document.getElementById('btnEditInfo').onclick = function() {
+            EditUserInfo();
+        };
     });
 
     document.getElementById('btnShowUserContactModal').addEventListener('click', function() {
         const modal = new bootstrap.Modal(document.getElementById('showUserContactModal'));
+        modal.show();
 
         ShowUserDataToEdit();
 
-        modal.show();
+        document.getElementById('btnEditContacts').onclick = function() {
+            EditUserContacts();
+        };
     });
 
     document.getElementById('btnShowChangePassModal').addEventListener('click', function() {
         const modal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
-
-        ShowUserDataToEdit();
-        
         modal.show();
+
+        document.getElementById('btnChangePassword').onclick = function() {
+            ChangePassword();
+        };
+    });
+
+    document.getElementById('ConfirmUserPassword').addEventListener('input', function() {
+        const NewUserPassword = document.getElementById('NewUserPassword');
+        const ConfirmUserPassword = document.getElementById('ConfirmUserPassword');
+        const btnChangePassword = document.getElementById('btnChangePassword');
+
+        NewUserPassword.classList.remove('input-error', 'input-correct');
+        ConfirmUserPassword.classList.remove('input-error', 'input-correct');
+
+        if (NewUserPassword.value === ConfirmUserPassword.value && ConfirmUserPassword.value !== "") {
+            NewUserPassword.classList.add('input-correct');
+            ConfirmUserPassword.classList.add('input-correct');
+            btnChangePassword.disabled = false;
+        } else if (ConfirmUserPassword.value !== "") {
+            NewUserPassword.classList.add('input-error');
+            ConfirmUserPassword.classList.add('input-error');
+            btnChangePassword.disabled = true;
+        }
+    });
+
+    document.getElementById('NewUserPassword').addEventListener('input', function() {
+        const NewUserPassword = document.getElementById('NewUserPassword');
+        const ConfirmUserPassword = document.getElementById('ConfirmUserPassword');
+        const btnChangePassword = document.getElementById('btnChangePassword');
+
+        NewUserPassword.classList.remove('input-error', 'input-correct');
+        ConfirmUserPassword.classList.remove('input-error', 'input-correct');
+
+        if (NewUserPassword.value === ConfirmUserPassword.value && NewUserPassword.value !== "") {
+            NewUserPassword.classList.add('input-correct');
+            ConfirmUserPassword.classList.add('input-correct');
+            btnChangePassword.disabled = false;
+        } else if (NewUserPassword.value !== "") {
+            NewUserPassword.classList.add('input-error');
+            ConfirmUserPassword.classList.add('input-error');
+            btnChangePassword.disabled = true;
+        }
     });
 
     document.addEventListener('DOMContentLoaded', function() {
         GetUserInformation();
     });
-    
-    // $('#btnShowUserInfoModal').click(function() {
-    //     $('#btnShowUserInfoModal').attr({
-    //         'data-toggle': 'modal',
-    //         'data-target': '#showUserInfoModal'
-    //     });
-
-    //     ShowUserDataToEdit();
-    //     $('#btnEditInfo').attr('onclick', `EditUserInfo()`);
-    // });
-
-    // $('#btnShowUserContactModal').click(function() {
-    //     $('#btnShowUserContactModal').attr({
-    //         'data-toggle': 'modal',
-    //         'data-target': '#showUserContactModal'
-    //     });
-
-    //     ShowUserDataToEdit();
-    //     $('#btnEditContacts').attr('onclick', `EditUserContacts()`);
-    // });
-
-    // $('#btnShowChangePassModal').click(function() {
-    //     $('#btnShowChangePassModal').attr({
-    //         'data-toggle': 'modal',
-    //         'data-target': '#changePasswordModal'
-    //     });
-
-    //     $('#btnChangePassword').attr('onclick', `ChangePassword()`);
-    // });
-
-    // $('#ConfirmUserPassword').on('input', function() {
-    //     var NewUserPassword = $('#NewUserPassword').val();
-    //     var ConfirmUserPassword = $('#ConfirmUserPassword').val();
-
-    //     $('#NewUserPassword, #ConfirmUserPassword').removeClass('input-error input-correct');
-
-    //     if (NewUserPassword === ConfirmUserPassword && ConfirmUserPassword !== "") {
-    //         $('#NewUserPassword, #ConfirmUserPassword').addClass('input-correct');
-    //     } else if (ConfirmUserPassword !== "") {
-    //         $('#NewUserPassword, #ConfirmUserPassword').addClass('input-error');
-    //     }
-    // });
-
-    // $('#NewUserPassword').on('input', function() {
-    //     var NewUserPassword = $('#NewUserPassword').val();
-    //     var ConfirmUserPassword = $('#ConfirmUserPassword').val();
-
-    //     $('#NewUserPassword, #ConfirmUserPassword').removeClass('input-error input-correct');
-
-    //     if (NewUserPassword !== "" || NewUserPassword === "") {
-    //         $('#NewUserPassword, #ConfirmUserPassword').removeClass('input-error input-correct');
-    //     } else if (NewUserPassword !== ConfirmUserPassword) {
-    //         $('#NewUserPassword, #ConfirmUserPassword').addClass('input-error');
-    //     }
-    // });
-
-    // function ShowMessage(icon, title, text, position = 'center') {
-    //     Swal.fire({
-    //         icon: icon,
-    //         title: title,
-    //         text: text,
-    //         position: position, 
-    //         timerProgressBar: true, 
-    //         confirmButtonText: 'OK',
-    //         heightAuto: false
-    //     }).then((result) => {
-    //         if (result.isConfirmed && icon !== 'error') {
-    //             window.location.reload();
-    //         }
-    //     });
-    // }
-
-    // function EditUserInfo() {
-    //     var data = {
-    //         FirstName: $('#showFirstName').val(),
-    //         MiddleName: $('#showMiddleName').val(),
-    //         LastName: $('#showLastName').val(),
-    //         UserName: $('#showUserName').val()
-    //     }
-
-    //     axios.post(host_url + 'User/EditUserInfo', data)
-    //     .then((res) => {
-    //         ShowMessage('success', 'Successful!', res.data.message);
-    //     })
-    //     .catch((error) => {
-    //         ShowMessage('error', 'Failed!', error.response?.data?.error || 'An error occurred while updating data.');
-    //     }); 
-    // }
-
-    // function EditUserContacts() {
-    //     var data = {
-    //         UserEmail: $('#showUserContactEmail').val(),
-    //         UserNumber: $('#showUserContactNumber').val()
-    //     }
-
-    //     axios.post(host_url + 'User/EditUserContacts', data)
-    //     .then((res) => {
-    //         ShowMessage('success', 'Successful!', res.data.message);
-    //     })
-    //     .catch((error) => {
-    //         ShowMessage('error', 'Failed!', error.response?.data?.error || 'An error occurred while updating data.');
-    //     }); 
-    // }
-
-    // function ChangePassword() {
-    //     if ($('#NewUserPassword').val() === '') {
-    //         ShowMessage('error', 'Failed!', 'Please enter a new password!');
-    //         $('#NewUserPassword').trigger('chosen:activate');
-
-    //         return false;
-    //     }
-
-    //     if ($('#ConfirmUserPassword').val() === '') {
-    //         ShowMessage('error', 'Failed!', 'Please confirm your new password!');
-    //         $('#ConfirmUserPassword').trigger('chosen:activate');
-
-    //         return false;
-    //     }
-
-    //     if ($('#NewUserPassword').val() !== $('#ConfirmUserPassword').val()) {
-    //         ShowMessage('error', 'Failed!', 'Passwords do not match. Please try again.');
-    //         $('#NewUserPassword').trigger('chosen:activate');
-
-    //         return false;
-    //     }
-
-    //     var data = {
-    //         NewPassword: $('#NewUserPassword').val(),
-    //     };
-
-    //     axios.post(host_url + 'User/ChangePassword', data)
-    //     .then((res) => {
-    //         ShowMessage('success', 'Successful!', res.data.message);
-    //     })
-    //     .catch((error) => {
-    //         ShowMessage('error', 'Failed!', error.response?.data?.error || 'An error occurred while changing the password.');
-    //     }); 
-    // }
 </script>

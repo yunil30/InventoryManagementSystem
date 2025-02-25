@@ -29,4 +29,8 @@ Route::middleware(\App\Http\Middleware\AuthenticateUser::class)->group(function 
     Route::post('/CreateUserRecord', [UserController::class, 'CreateUserRecord'])->name('info.create');
     Route::post('/RemoveUserRecord/{UserID}', [UserController::class, 'RemoveUserRecord']);
     Route::post('/EditUserRecord/{UserID}', [UserController::class, 'EditUserRecord']);
+
+    Route::post('/EditUserInfo', [UserController::class, 'EditUserInfo']);
+    Route::post('/EditUserContacts', [UserController::class, 'EditUserContacts']);
+    Route::post('/ChangePassword', [UserController::class, 'ChangePassword']);
 });

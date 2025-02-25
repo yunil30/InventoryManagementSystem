@@ -92,10 +92,63 @@ class UserController extends Controller {
     }
 
     public function GetUserInformation() {
-        $u_id = session('u_id');
+        $UserID = session('u_id');
 
-        $userRecord = LoginModel::where('UserID',  $u_id)->first();
+        $userRecord = LoginModel::where('UserID',  $UserID)->first();
   
         return $userRecord->toArray();
+    }
+
+    public function EditUserInfo(Request $request) {
+        $UserID = session('u_id');
+
+        $request->validate([
+            'first_name' => 'required|string|max:145',
+            'last_name' => 'required|string|max:145',
+            'user_name' => 'required|string|max:50|unique:tbl_user_access,user_name,' . $UserID . ',UserID',
+        ]);
+
+        $user = LoginModel::find($UserID);
+
+        $user->first_name = $request->input('first_name');
+        $user->last_name = $request->input('last_name');
+        $user->user_name = $request->input('user_name');
+        $user->save();
+    
+        return response()->json(['message' => 'User information updated successfully!']);
+    }
+
+    public function EditUserContacts(Request $request) {
+        $UserID = session('u_id');
+
+        $request->validate([
+            'user_email' => 'required|email|max:50|unique:tbl_user_access,user_email,' . $UserID . ',UserID',
+            'contact_number' => 'required',
+        ]);
+
+        $user = LoginModel::find($UserID);
+
+        $user->user_email = $request->input('user_email');
+        $user->contact_number = $request->input('contact_number');
+        $user->save();
+    
+        return response()->json(['message' => 'User information updated successfully!']);
+    }
+
+    public function ChangePassword(Request $request) {
+        $UserID = session('u_id');
+
+        $request->validate([
+            'password' => 'required|string|min:8', 
+        ]);
+
+        $hashedPassword = Hash::make($request->input('password'));
+
+        $user = LoginModel::find($UserID);
+
+        $user->password = $hashedPassword;
+        $user->save();
+
+        return response()->json(['message' => 'User password changed successfully!']);
     }
 }
