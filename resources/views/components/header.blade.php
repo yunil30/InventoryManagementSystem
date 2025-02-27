@@ -9,6 +9,9 @@
             <a href="{{ url('/ShowHomePage') }}">Home</a>
         </li>
         <li class="menu-item hidden">
+            <a href="{{ url('/ShowListOfProducts') }}">Products</a>
+        </li>
+        <li class="menu-item hidden">
             <a href="{{ url('/ShowListOfUsers') }}">Users</a>
         </li>
         <li class="menu-item hidden">

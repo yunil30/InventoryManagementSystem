@@ -19,6 +19,7 @@ Route::middleware(\App\Http\Middleware\AuthenticateUser::class)->group(function 
     Route::get('/', function () {return view('welcome');});
     Route::get('/ShowHomePage', [LoginController::class, 'ShowHomePage']);
     Route::get('/ShowListOfUsers', [UserController::class, 'ShowListOfUsers']);
+    Route::get('/ShowListOfProducts', [UserController::class, 'ShowListOfProducts']);
     Route::get('/CreateUser', [UserController::class, 'CreateUser']);
     Route::get('/GetActiveUsers', [UserController::class, 'GetActiveUsers']);
     Route::get('/GetUserRecord/{UserID}', [UserController::class, 'GetUserRecord']);
