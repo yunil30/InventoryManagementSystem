@@ -65,7 +65,7 @@
                 <h4 class="modal-title" id="titleUserModal">Edit Information</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
+            <div class="col-md-12 modal-body" style="max-height: 65vh; overflow-y: auto;">
                 <div class="row">
                     <div class="col-md-12 mb-3">
                         <label>First Name:</label>
@@ -97,7 +97,7 @@
                 <h4 class="modal-title" id="titleUserModal">Edit Contacts</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
+            <div class="col-md-12 modal-body" style="max-height: 65vh; overflow-y: auto;">
                 <div class="row">
                     <div class="col-md-12 mb-3">
                         <label>Contact email:</label>
@@ -125,7 +125,7 @@
                 <h4 class="modal-title" id="titleUserModal">Change Password</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
+            <div class="col-md-12 modal-body" style="max-height: 65vh; overflow-y: auto;">
                 <div class="row">
                     <div class="col-md-12 mb-3 password-div">
                         <label>New Password:</label>

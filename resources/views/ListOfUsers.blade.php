@@ -2,7 +2,7 @@
     <div class="col-md-12 main-content">
         <div class="col-md-12 content-header">
             <h3>List of Users</h3>
-            <button type="button" class="btn btn-primary btnHeader" id="btnAddUser">Add User</button>
+            <button type="button" class="btn btn-primary" id="btnAddUser">Add User</button>
         </div>
         <div class="col-md-12 content-body">
             <table class="table table-hover table-bordered" id="userListTable">
@@ -29,7 +29,7 @@
                 <h4 class="modal-title">Add User</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
+            <div class="col-md-12 modal-body" style="max-height: 65vh; overflow-y: auto;">
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="addFirstName">First name:</label>
@@ -83,7 +83,7 @@
                 <h4 class="modal-title" id="titleUserModal">Edit User</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
+            <div class="col-md-12 modal-body" style="max-height: 65vh; overflow-y: auto;">
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="showFirstName">First name:</label>
@@ -146,8 +146,8 @@
 
 <script>
     document.getElementById('btnAddUser').addEventListener('click', function() {
-        var myModal = new bootstrap.Modal(document.getElementById('createUserModal'));
-        myModal.show();
+        const modal = new bootstrap.Modal(document.getElementById('createUserModal'));
+        modal.show();
     });
 
     function LoadListOfUsers() {
