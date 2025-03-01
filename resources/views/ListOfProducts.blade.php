@@ -9,11 +9,11 @@
                 <thead>
                     <tr>
                         <th class="text-left" style="width: 15%; text-align: left;">ProductNo.</th>
-                        <th class="text-left" style="width: 15%;">Product Code</th>
-                        <th class="text-left" style="width: 15%;">Product</th>
-                        <th class="text-left" style="width: 15%;">Category</th>
-                        <th class="text-left" style="width: 15%;">Stocks</th>
-                        <th class="text-center" style="width: 20%;">Action</th>
+                        <th class="text-left" style="width: 15%; text-align: left;">Product Code</th>
+                        <th class="text-left" style="width: 20%; text-align: left;">Product</th>
+                        <th class="text-left" style="width: 15%; text-align: left;">Category</th>
+                        <th class="text-left" style="width: 15%; text-align: left;">Stocks</th>
+                        <th class="text-center" style="width: 15%;">Action</th>
                     </tr>
                 </thead>
                 <tbody id="loadProducts"></tbody>
@@ -45,17 +45,17 @@
                         <label for="addProductCategory">Product category:</label>
                         <select class="form-control" id="addProductCategory">
                             <option value="">Select an Option</option>
-                            <option value="user" selected>Mobile</option>
-                            <option value="admin">Laptop</option>
+                            <option value="1" selected>Mobile</option>
+                            <option value="2">Laptop</option>
                         </select>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="addProductQuantity">Product quantity:</label>
-                        <input type="text" class="form-control" id="addProductQuantity" placeholder="Product quantity" required>
+                        <input type="number" class="form-control" id="addProductQuantity" placeholder="Product quantity" required>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="addProductPrice">Product price:</label>
-                        <input type="text" class="form-control" id="addProductPrice" placeholder="Product price" required>
+                        <input type="number" class="form-control" id="addProductPrice" placeholder="Product price" required>
                     </div>
                 </div>
             </div>
@@ -69,15 +69,84 @@
 
 <script>
     function LoadListOfProducts() {
-        if ($.fn.DataTable.isDataTable('#productListTable')) {
-            $('#productListTable').DataTable().destroy();
-        }
+        $.ajax({
+            url: '/GetAllProducts',
+            method: 'GET',
+            success: function(products) {
+                console.table(products);
 
-        $('#loadProducts').empty();
+                if ($.fn.DataTable.isDataTable('#productListTable')) {
+                    $('#productListTable').DataTable().destroy();
+                }
+
+                $('#loadProducts').empty();
+
+                products.forEach(function(row, index) {
+                    if (row.product_status === 1) { 
+                        $('#loadProducts').append(`
+                            <tr>
+                                <td style="vertical-align: middle; text-align: left;">${row.ProdID}</td>
+                                <td style="vertical-align: middle; text-align: left;">${row.product_code}</td>
+                                <td style="vertical-align: middle; text-align: left;">${row.product_name}</td>
+                                <td style="vertical-align: middle; text-align: left;">${row.product_category}</td>    
+                                <td style="vertical-align: middle; text-align: left;">${row.product_stock}</td>
+                                <td style="vertical-align: middle; text-align: center;">
+                                    <button class="btn btn-transparent"><span class="fas fa-eye"></span></button>
+                                    <button class="btn btn-transparent"><span class="fas fa-pencil"></span></button>
+                                    <button class="btn btn-transparent"><span class="fas fa-trash"></span></button>
+                                </td>
+                            </tr>
+                        `);
+                    }
+                });
+
+                $('#productListTable').DataTable({
+                    searching: true,
+                    pageLength: 7,
+                    lengthChange: false,
+                    ordering: true,
+                    columnDefs: [
+                        { type: 'num', targets: 0 }
+                    ]
+                });
+            },
+            error: function() {
+                console.error('Error fetching users.');
+            }
+        });
     }
 
     function CreateNewProduct() {
-        console.log('Product created');
+        const submit = document.getElementById('btnSubmitCreateProduct');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const productCode = document.getElementById('addProductCode').value;
+        const productName = document.getElementById('addProductName').value;
+        const productCategory = document.getElementById('addProductCategory').value;
+        const productQuantity = document.getElementById('addProductQuantity').value;
+        const productPrice = document.getElementById('addProductPrice').value;
+
+        submit.disabled = true;
+        
+        $.ajax({
+            url: `/CreateProductRecord`,
+            method: 'POST',
+            data: {
+                _token: csrfToken,
+                product_code: productCode,
+                product_name: productName,
+                product_category: productCategory,
+                product_stock: productQuantity,
+                product_price: productPrice,
+            },
+            success: function(response) {
+                console.log('Product record created successfully', response);
+                window.location.reload();
+                submit.disabled = false;
+            },
+            error: function(error) {
+                console.log('Error creating product record', error);
+            }
+        });
     }
 
     document.getElementById('btnAddProduct').addEventListener('click', function() {

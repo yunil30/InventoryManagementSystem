@@ -21,6 +21,7 @@ class ProductModel extends Model {
         'product_category', 
         'product_stock',
         'modified_by', 
-        'date_modified'
+        'date_modified',
+        'product_status'
     ];
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function () {
@@ -30,6 +31,9 @@ Route::middleware(\App\Http\Middleware\AuthenticateUser::class)->group(function 
     Route::post('/CreateUserRecord', [UserController::class, 'CreateUserRecord'])->name('info.create');
     Route::post('/RemoveUserRecord/{UserID}', [UserController::class, 'RemoveUserRecord']);
     Route::post('/EditUserRecord/{UserID}', [UserController::class, 'EditUserRecord']);
+
+    Route::get('/GetAllProducts', [ProductController::class, 'GetAllProducts']);
+    Route::post('/CreateProductRecord', [ProductController::class, 'CreateProductRecord']);
 
     Route::post('/EditUserInfo', [UserController::class, 'EditUserInfo']);
     Route::post('/EditUserContacts', [UserController::class, 'EditUserContacts']);

@@ -9,10 +9,10 @@
                 <thead>
                     <tr>
                         <th class="text-left" style="width: 15%; text-align: left;">UserNo.</th>
-                        <th class="text-left" style="width: 20%;">Username</th>
-                        <th class="text-left" style="width: 30%;">Fullname</th>
-                        <th class="text-left" style="width: 20%;">Status</th>
-                        <th class="text-center" style="width: 15%;">Action</th>
+                        <th class="text-left" style="width: 20%; text-align: left;">Username</th>
+                        <th class="text-left" style="width: 30%; text-align: left;">Fullname</th>
+                        <th class="text-left" style="width: 20%; text-align: left;">Status</th>
+                        <th class="text-center" style="width: 15%; text-align: center;">Action</th>
                     </tr>
                 </thead>
                 <tbody id="loadUsers"></tbody>
@@ -166,9 +166,9 @@
                         $('#loadUsers').append(`
                             <tr>
                                 <td style="vertical-align: middle; text-align: left;">${row.UserID}</td>
-                                <td style="vertical-align: middle;">${row.user_name}</td>
-                                <td style="vertical-align: middle;">${row.first_name} ${row.last_name}</td>    
-                                <td style="vertical-align: middle;">${row.user_status === 1 ? 'Active' : 'Inactive'}</td>
+                                <td style="vertical-align: middle; text-align: left;">${row.user_name}</td>
+                                <td style="vertical-align: middle; text-align: left;">${row.first_name} ${row.last_name}</td>    
+                                <td style="vertical-align: middle; text-align: left;">${row.user_status === 1 ? 'Active' : 'Inactive'}</td>
                                 <td style="vertical-align: middle; text-align: center;">
                                     <button class="btn btn-transparent" id="btnShowUser${row.UserID}" onclick="ShowUserModal(${row.UserID}, 'Show')"><span class="fas fa-eye"></span></button>
                                     <button class="btn btn-transparent" id="btnEditUser${row.UserID}" onclick="ShowUserModal(${row.UserID}, 'Edit')"><span class="fas fa-pencil"></span></button>
@@ -243,6 +243,7 @@
     }
 
     function CreateNewUser() {
+        const submit = document.getElementById('btnSubmitCreateUser');
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         const firstName = document.getElementById('addFirstName').value;
         const lastName = document.getElementById('addLastName').value;
@@ -251,6 +252,8 @@
         const contactNo = document.getElementById('addContactNo').value;
         const userPassword = document.getElementById('addUserPassword').value;
         const userRole = document.getElementById('addUserRole').value;
+
+        submit.disabled = true;
         
         $.ajax({
             url: `/CreateUserRecord`,
@@ -268,6 +271,7 @@
             success: function(response) {
                 console.log('User created successfully', response);
                 window.location.reload();
+                submit.disabled = false;
             },
             error: function(error) {
                 console.log('Error creating user', error);
