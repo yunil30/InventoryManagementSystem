@@ -73,6 +73,12 @@
                     background-color: #0d6Efd;
                     transform: translateY(2px);
                 }
+
+                &:disabled {
+                    background-color: #8c8f92;
+                    cursor: not-allowed;
+                    border: 1px solid #dee2e6;
+                }
             }
 
             .form-group {
@@ -237,4 +243,17 @@
             toggleButton.classList.add("fa-eye");
         }
     }
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        const submit = document.getElementById('btnRegister');
+
+        if (submit.disabled) {
+            event.preventDefault(); 
+            return;
+        }
+
+        submit.disabled = true;
+        console.log('Button disabled:', submit.disabled);
+        submit.innerHTML = 'Processing registration...';
+    });
 </script>

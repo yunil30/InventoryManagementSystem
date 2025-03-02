@@ -43,11 +43,16 @@
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="addProductCategory">Product category:</label>
-                        <select class="form-control" id="addProductCategory">
-                            <option value="">Select an Option</option>
-                            <option value="1" selected>Mobile</option>
-                            <option value="2">Laptop</option>
-                        </select>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <select class="form-control" id="addProductCategory">
+                                    <option value="">Select an Option</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 d-flex justify-content-center align-items-center">
+                                <button type="button" class="btn btn-primary" id="btnAddCategory">Add Category</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="addProductQuantity">Product quantity:</label>
@@ -62,6 +67,30 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-success" id="btnSubmitCreateProduct" onclick="CreateNewProduct()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create user modal -->
+<div class="modal fade" id="createCategoryModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Category</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="col-md-12 modal-body" style="max-height: 65vh; overflow-y: auto;">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label for="addCategory">Category</label>
+                        <input type="text" class="form-control" id="addCategory" placeholder="Category" required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="btnSubmitCreateCategory" onclick="CreateNewCategory()">Submit</button>
             </div>
         </div>
     </div>
@@ -85,7 +114,7 @@
                     if (row.product_status === 1) { 
                         $('#loadProducts').append(`
                             <tr>
-                                <td style="vertical-align: middle; text-align: left;">${row.ProdID}</td>
+                                <td style="vertical-align: middle; text-align: left;">${row.ProductID}</td>
                                 <td style="vertical-align: middle; text-align: left;">${row.product_code}</td>
                                 <td style="vertical-align: middle; text-align: left;">${row.product_name}</td>
                                 <td style="vertical-align: middle; text-align: left;">${row.product_category}</td>    
@@ -111,7 +140,7 @@
                 });
             },
             error: function() {
-                console.error('Error fetching users.');
+                console.error('Error fetching product record.');
             }
         });
     }
@@ -149,9 +178,71 @@
         });
     }
 
+    function CreateNewCategory() {
+        const submit = document.getElementById('btnSubmitCreateCategory');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const categoryDescription = document.getElementById('addCategory').value;
+
+        submit.disabled = true;
+        
+        $.ajax({
+            url: `/CreateProductCategory`,
+            method: 'POST',
+            data: {
+                _token: csrfToken,
+                category: categoryDescription,
+            },
+            success: function(response) {
+                console.log('Product category created successfully', response);
+                window.location.reload();
+                submit.disabled = false;
+            },
+            error: function(error) {
+                console.log('Error creating product category', error);
+            }
+        });
+    }
+
+    function GetAllProductCategory() {
+        const selectProductCategory = document.getElementById('addProductCategory');
+        selectProductCategory.innerHTML = '';
+
+        $.ajax({
+            url: `/GetAllProductCategory`,
+            method: 'GET',
+            success: function(response) {
+                response.forEach(function(row) {
+                    const option = document.createElement("option");
+                    option.value = row.CategoryID;
+                    option.textContent = row.category;
+
+                    selectProductCategory.appendChild(option);
+                });
+            },
+            error: function(error) {
+                console.log('Error fetching product category', error);
+            }
+        });
+    }
+
     document.getElementById('btnAddProduct').addEventListener('click', function() {
-        const modal = new bootstrap.Modal(document.getElementById('createProductModal'));
-        modal.show();
+        const productModalElement = document.getElementById('createProductModal');
+        const productModal = new bootstrap.Modal(productModalElement);
+        productModal.show();
+        GetAllProductCategory();
+
+        document.getElementById('btnAddCategory').addEventListener('click', function() {
+            productModal.hide();
+
+            const existingBackdrop = document.querySelector('.modal-backdrop');
+            if (existingBackdrop) {
+                existingBackdrop.remove(); 
+            }
+
+            const categoryModalElement = document.getElementById('createCategoryModal');
+            const categoryModal = new bootstrap.Modal(categoryModalElement);
+            categoryModal.show();
+        });
     });
 
     document.addEventListener('DOMContentLoaded', function() {

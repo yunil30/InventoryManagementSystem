@@ -35,6 +35,9 @@ Route::middleware(\App\Http\Middleware\AuthenticateUser::class)->group(function 
     Route::get('/GetAllProducts', [ProductController::class, 'GetAllProducts']);
     Route::post('/CreateProductRecord', [ProductController::class, 'CreateProductRecord']);
 
+    Route::get('/GetAllProductCategory', [ProductController::class, 'GetAllProductCategory']);
+    Route::post('/CreateProductCategory', [ProductController::class, 'CreateProductCategory']);
+
     Route::post('/EditUserInfo', [UserController::class, 'EditUserInfo']);
     Route::post('/EditUserContacts', [UserController::class, 'EditUserContacts']);
     Route::post('/ChangePassword', [UserController::class, 'ChangePassword']);

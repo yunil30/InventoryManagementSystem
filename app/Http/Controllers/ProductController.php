@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductModel;
+use App\Models\CategoryModel;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller {
@@ -13,6 +14,8 @@ class ProductController extends Controller {
     }
 
     public function CreateProductRecord(Request $request) {
+        $UserID = session('u_id');
+
         $request->validate([
             'product_code' => 'required|string|max:255',
             'product_name' => 'required|string|max:255',
@@ -28,6 +31,29 @@ class ProductController extends Controller {
             'product_stock' => $request->input('product_stock'),
             'product_price' => $request->input('product_price'),
             'user_status' => 1,
+            'created_by' => $UserID
+        ]);
+
+        return response()->json(['message' => 'Product record created successfully!']);
+    }
+
+    public function GetAllProductCategory() {
+        $category = CategoryModel::all();
+
+        return response()->json($category);
+    }
+
+    public function CreateProductCategory(Request $request) {
+        $UserID = session('u_id');
+
+        $request->validate([
+            'category' => 'required|string|max:255',
+        ]);
+
+        CategoryModel::create([
+            'category' => $request->input('category'),
+            'category_status' => 1,
+            'created_by' => $UserID
         ]);
 
         return response()->json(['message' => 'Product record created successfully!']);

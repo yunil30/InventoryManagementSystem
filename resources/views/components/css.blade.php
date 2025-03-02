@@ -454,6 +454,16 @@
                 box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.8);
             }
 
+            button {
+                color: #ffffff;
+                font-size: 14px;
+                letter-spacing: .5px;
+                border-radius: 0px;
+                border: 1px solid #dee2e6;
+                padding: 10px 10px;
+                margin: 0px;
+            }
+
             .password-div {
                 margin-bottom: 16px;
                 padding: 0px;

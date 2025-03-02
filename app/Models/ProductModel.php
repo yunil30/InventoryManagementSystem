@@ -10,9 +10,9 @@ class ProductModel extends Model {
 
     public $timestamps = false;
 
-    protected $table = 'tbl_product';
+    protected $table = 'tbl_product_record';
 
-    protected $primaryKey = 'ProdID';
+    protected $primaryKey = 'ProductID';
 
     protected $fillable = [
         'product_code', 
@@ -20,8 +20,10 @@ class ProductModel extends Model {
         'product_price', 
         'product_category', 
         'product_stock',
+        'product_status',
+        'created_by',
+        'date_created',
         'modified_by', 
         'date_modified',
-        'product_status'
     ];
 }
