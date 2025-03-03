@@ -22,7 +22,7 @@
     </div>
 </x-layout>
 
-<!-- Create user modal -->
+<!-- Create product modal -->
 <div class="modal fade" id="createProductModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document" style="max-width: 500px;">
         <div class="modal-content">
@@ -72,7 +72,56 @@
     </div>
 </div>
 
-<!-- Create user modal -->
+<!-- Show product modal -->
+<div class="modal fade" id="showProductModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="titleProductModal">Edit Product</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="col-md-12 modal-body" style="max-height: 65vh; overflow-y: auto;">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label for="showProductCode">Product code:</label>
+                        <input type="text" class="form-control" id="showProductCode" placeholder="Product code" required>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="showProductName">Product name:</label>
+                        <input type="text" class="form-control" id="showProductName" placeholder="Product name" required>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="showProductCategory">Product category:</label>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <select class="form-control" id="showProductCategory">
+                                    <option value="">Select an Option</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 d-flex justify-content-center align-items-center">
+                                <button type="button" class="btn btn-primary" id="btnShowAddCategory">Add Category</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="showProductQuantity">Product quantity:</label>
+                        <input type="number" class="form-control" id="showProductQuantity" placeholder="Product quantity" required>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="showProductPrice">Product price:</label>
+                        <input type="number" class="form-control" id="showProductPrice" placeholder="Product price" required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="btnSubmitEditProduct">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create category modal -->
 <div class="modal fade" id="createCategoryModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document" style="max-width: 500px;">
         <div class="modal-content">
@@ -117,11 +166,11 @@
                                 <td style="vertical-align: middle; text-align: left;">${row.ProductID}</td>
                                 <td style="vertical-align: middle; text-align: left;">${row.product_code}</td>
                                 <td style="vertical-align: middle; text-align: left;">${row.product_name}</td>
-                                <td style="vertical-align: middle; text-align: left;">${row.product_category}</td>    
-                                <td style="vertical-align: middle; text-align: left;">${row.product_stock}</td>
+                                <td style="vertical-align: middle; text-align: left;">${row.category_name}</td>    
+                                <td style="vertical-align: middle; text-align: left;">${row.product_quantity}</td>
                                 <td style="vertical-align: middle; text-align: center;">
-                                    <button class="btn btn-transparent"><span class="fas fa-eye"></span></button>
-                                    <button class="btn btn-transparent"><span class="fas fa-pencil"></span></button>
+                                    <button class="btn btn-transparent" id="btnShowProduct${row.ProductID}" onclick="ShowProductModal(${row.ProductID}, 'Show')"><span class="fas fa-eye"></span></button>
+                                    <button class="btn btn-transparent" id="btnEditProduct${row.ProductID}" onclick="ShowProductModal(${row.ProductID}, 'Edit')"><span class="fas fa-pencil"></span></button>
                                     <button class="btn btn-transparent"><span class="fas fa-trash"></span></button>
                                 </td>
                             </tr>
@@ -164,7 +213,7 @@
                 product_code: productCode,
                 product_name: productName,
                 product_category: productCategory,
-                product_stock: productQuantity,
+                product_quantity: productQuantity,
                 product_price: productPrice,
             },
             success: function(response) {
@@ -178,33 +227,87 @@
         });
     }
 
-    function CreateNewCategory() {
-        const submit = document.getElementById('btnSubmitCreateCategory');
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const categoryDescription = document.getElementById('addCategory').value;
+    function EditProductRecord(ProductNo) {
+        console.log('ProductNo: ' + ProductNo);
+    }
 
-        submit.disabled = true;
+    function ShowProductModal(ProductNo, Mode) {
+        const modalTitle = document.getElementById('titleProductModal');
+        const ProductCode = document.getElementById('showProductCode');
+        const ProductName = document.getElementById('showProductName');
+        const productCategory = document.getElementById('showProductCategory');
+        const productQuantity = document.getElementById('showProductQuantity');
+        const productPrice = document.getElementById('showProductPrice');
         
+        const btnSubmit = document.getElementById('btnSubmitEditProduct');
+        const modal = new bootstrap.Modal(document.getElementById('showProductModal'));
+        const btnCategoryModal = document.getElementById('btnShowAddCategory');
+        const categoryModal = new bootstrap.Modal(document.getElementById('createCategoryModal'));
+        GetAllProductCategory('showProductCategory');
+        GetProductRecord(ProductNo);
+
+        btnCategoryModal.addEventListener('click', function() {
+            modal.hide();
+
+            const existingBackdrop = document.querySelector('.modal-backdrop');
+            if (existingBackdrop) {
+                existingBackdrop.remove(); 
+            }
+
+            categoryModal.show();
+        });
+
+        if (Mode == 'Show') {
+            btnSubmit.style.display = 'none'; 
+            modalTitle.innerText = 'Product';
+            ProductCode.disabled = true;
+            ProductName.disabled = true;
+            productCategory.disabled = true;
+            productQuantity.disabled = true;
+            productPrice.disabled = true;
+            modal.show();
+        } else {
+            btnSubmit.style.display = ''; 
+            modalTitle.innerText = 'Edit Product';
+            ProductCode.disabled = false;
+            ProductName.disabled = false;
+            productCategory.disabled = false;
+            productQuantity.disabled = false;
+            productPrice.disabled = false;
+            modal.show();
+            btnSubmit.setAttribute('onclick', `EditProductRecord(${ProductNo})`);
+        }
+    }
+
+    function GetProductRecord(ProductNo) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const ProductCode = document.getElementById('showProductCode');
+        const ProductName = document.getElementById('showProductName');
+        const productCategory = document.getElementById('showProductCategory');
+        const productQuantity = document.getElementById('showProductQuantity');
+        const productPrice = document.getElementById('showProductPrice');
+
         $.ajax({
-            url: `/CreateProductCategory`,
-            method: 'POST',
-            data: {
-                _token: csrfToken,
-                category: categoryDescription,
+            url: `/GetProductRecord/${ProductNo}`,
+            method: 'GET',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
             },
             success: function(response) {
-                console.log('Product category created successfully', response);
-                window.location.reload();
-                submit.disabled = false;
+                ProductCode.value = response.product_code;
+                ProductName.value = response.product_name;
+                productCategory.value = response.product_category;
+                productQuantity.value = response.product_quantity;
+                productPrice.value = response.product_price;
             },
             error: function(error) {
-                console.log('Error creating product category', error);
+                console.error('Failed to get the product record!', error);
             }
         });
     }
 
-    function GetAllProductCategory() {
-        const selectProductCategory = document.getElementById('addProductCategory');
+    function GetAllProductCategory(elem) {
+        const selectProductCategory = document.getElementById(elem);
         selectProductCategory.innerHTML = '';
 
         $.ajax({
@@ -229,7 +332,7 @@
         const productModalElement = document.getElementById('createProductModal');
         const productModal = new bootstrap.Modal(productModalElement);
         productModal.show();
-        GetAllProductCategory();
+        GetAllProductCategory('addProductCategory');
 
         document.getElementById('btnAddCategory').addEventListener('click', function() {
             productModal.hide();

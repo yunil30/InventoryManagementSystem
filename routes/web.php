@@ -32,6 +32,7 @@ Route::middleware(\App\Http\Middleware\AuthenticateUser::class)->group(function 
     Route::post('/RemoveUserRecord/{UserID}', [UserController::class, 'RemoveUserRecord']);
     Route::post('/EditUserRecord/{UserID}', [UserController::class, 'EditUserRecord']);
 
+    Route::get('/GetProductRecord/{ProductID}', [ProductController::class, 'GetProductRecord']);
     Route::get('/GetAllProducts', [ProductController::class, 'GetAllProducts']);
     Route::post('/CreateProductRecord', [ProductController::class, 'CreateProductRecord']);
 
