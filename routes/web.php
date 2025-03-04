@@ -19,26 +19,29 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(\App\Http\Middleware\AuthenticateUser::class)->group(function () {
     Route::get('/', function () {return view('welcome');});
     Route::get('/ShowHomePage', [LoginController::class, 'ShowHomePage']);
+    Route::get('/CreateUser', [UserController::class, 'CreateUser']);
     Route::get('/ShowListOfUsers', [UserController::class, 'ShowListOfUsers']);
     Route::get('/ShowListOfProducts', [UserController::class, 'ShowListOfProducts']);
-    Route::get('/CreateUser', [UserController::class, 'CreateUser']);
-    Route::get('/GetActiveUsers', [UserController::class, 'GetActiveUsers']);
-    Route::get('/GetUserRecord/{UserID}', [UserController::class, 'GetUserRecord']);
     Route::get('/ShowUserProfile', [UserController::class, 'ShowUserProfile']);
-    Route::get('/GetUserInformation', [UserController::class, 'GetUserInformation']);
 
     Route::post('/logout', [LoginController::class, 'userLogout'])->name('userLogout');
+
+    Route::get('/GetUserRecord/{UserID}', [UserController::class, 'GetUserRecord']);
+    Route::get('/GetActiveUsers', [UserController::class, 'GetActiveUsers']);
     Route::post('/CreateUserRecord', [UserController::class, 'CreateUserRecord'])->name('info.create');
-    Route::post('/RemoveUserRecord/{UserID}', [UserController::class, 'RemoveUserRecord']);
-    Route::post('/EditUserRecord/{UserID}', [UserController::class, 'EditUserRecord']);
+    Route::post('/EditUserRecord', [UserController::class, 'EditUserRecord']);
+    Route::post('/RemoveUserRecord', [UserController::class, 'RemoveUserRecord']);
 
     Route::get('/GetProductRecord/{ProductID}', [ProductController::class, 'GetProductRecord']);
     Route::get('/GetAllProducts', [ProductController::class, 'GetAllProducts']);
     Route::post('/CreateProductRecord', [ProductController::class, 'CreateProductRecord']);
+    Route::post('/EditProductRecord', [ProductController::class, 'EditProductRecord']);
+    Route::post('/RemoveProductRecord', [ProductController::class, 'RemoveProductRecord']);
 
     Route::get('/GetAllProductCategory', [ProductController::class, 'GetAllProductCategory']);
     Route::post('/CreateProductCategory', [ProductController::class, 'CreateProductCategory']);
 
+    Route::get('/GetUserInformation', [UserController::class, 'GetUserInformation']);
     Route::post('/EditUserInfo', [UserController::class, 'EditUserInfo']);
     Route::post('/EditUserContacts', [UserController::class, 'EditUserContacts']);
     Route::post('/ChangePassword', [UserController::class, 'ChangePassword']);

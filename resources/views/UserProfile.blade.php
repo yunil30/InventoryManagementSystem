@@ -126,21 +126,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="col-md-12 modal-body" style="max-height: 65vh; overflow-y: auto;">
-                <div class="row">
-                    <div class="col-md-12 mb-3 password-div">
-                        <label>New Password:</label>
-                        <input type="password" class="form-control" id="NewUserPassword" style="padding-right: 40px;" placeholder="New Password" required>
-                        <button type="button" class="toggle-password" onclick="togglePassword('NewUserPassword')">
-                            <i class="fa-solid fa-eye"></i>
-                        </button>
-                    </div>
-                    <div class="col-md-12 mb-3 password-div">
-                        <label>Confirm Password:</label>
-                        <input type="password" class="form-control" id="ConfirmUserPassword" style="padding-right: 40px;" placeholder="Confirm Password" required>
-                        <button type="button" class="toggle-password" onclick="togglePassword('ConfirmUserPassword')">
-                            <i class="fa-solid fa-eye"></i>
-                        </button>
-                    </div>
+                <div class="col-md-12 mb-3 password-div">
+                    <label>New Password:</label>
+                    <input type="password" class="form-control" id="NewUserPassword" style="padding-right: 40px;" placeholder="New Password" required>
+                    <button type="button" class="toggle-password" onclick="togglePassword('NewUserPassword')">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+                <div class="col-md-12 mb-3 password-div">
+                    <label>Confirm Password:</label>
+                    <input type="password" class="form-control" id="ConfirmUserPassword" style="padding-right: 40px;" placeholder="Confirm Password" required>
+                    <button type="button" class="toggle-password" onclick="togglePassword('ConfirmUserPassword')">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
                 </div>
             </div>
             <div class="modal-footer">

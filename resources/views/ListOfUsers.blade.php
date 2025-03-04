@@ -233,7 +233,6 @@
     }
 
     function ShowRemoveUserModal(UserID) {
-        const removeUserButton = document.getElementById('btnRemoveUser' + UserID);
         const confirmRemoveButton = document.getElementById('btnConfirmRemoveUser');
         const modal = new bootstrap.Modal(document.getElementById('removeUserModal'));
 
@@ -309,6 +308,7 @@
     }
 
     function EditUserRecord(UserID) {
+        const submit = document.getElementById('btnSubmitEditUser');
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         const firstName = document.getElementById('showFirstName').value;
         const lastName = document.getElementById('showLastName').value;
@@ -317,8 +317,10 @@
         const contactNo = document.getElementById('showContactNo').value;
         const userRole = document.getElementById('showUserRole').value;
 
+        submit.disabled = true;
+
         $.ajax({
-            url: `/EditUserRecord/${UserID}`,
+            url: `/EditUserRecord`,
             method: 'POST',
             data: {
                 _token: csrfToken,
@@ -327,11 +329,13 @@
                 user_name: userName,
                 user_email: userEmail,
                 contact_number: contactNo,
-                user_role: userRole
+                user_role: userRole,
+                UserID: UserID,
             },
             success: function(response) {
                 console.log('Successfully edited!', response);
                 window.location.reload();
+                submit.disabled = false;
             },
             error: function(error) {
                 console.error('Failed to edit!', error);
@@ -340,17 +344,22 @@
     }
 
     function RemoveUserRecord(UserID) {
+        const submit = document.getElementById('btnConfirmRemoveUser');
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+        submit.disabled = true;
+
         $.ajax({
-            url: `/RemoveUserRecord/${UserID}`,
+            url: `/RemoveUserRecord`,
             method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
+            data: {
+                _token: csrfToken,
+                UserID: UserID,
             },
             success: function(response) {
                 console.log('Successfully removed!', response);
                 window.location.reload();
+                submit.disabled = false;
             },
             error: function(error) {
                 console.error('Failed to remove!', error);

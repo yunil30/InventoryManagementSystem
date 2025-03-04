@@ -121,6 +121,27 @@
     </div>
 </div>
 
+<!-- Remove product modal -->
+<div class="modal fade" id="removeProductModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 400px; width: 100%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Action Verification</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="col-md-12 modal-body">
+                <div class="col-md-12 mb-3 p-0">
+                    <label>Are you sure you want to remove this product?</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="btnConfirmRemoveProduct">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Create category modal -->
 <div class="modal fade" id="createCategoryModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document" style="max-width: 500px;">
@@ -171,7 +192,7 @@
                                 <td style="vertical-align: middle; text-align: center;">
                                     <button class="btn btn-transparent" id="btnShowProduct${row.ProductID}" onclick="ShowProductModal(${row.ProductID}, 'Show')"><span class="fas fa-eye"></span></button>
                                     <button class="btn btn-transparent" id="btnEditProduct${row.ProductID}" onclick="ShowProductModal(${row.ProductID}, 'Edit')"><span class="fas fa-pencil"></span></button>
-                                    <button class="btn btn-transparent"><span class="fas fa-trash"></span></button>
+                                    <button class="btn btn-transparent" id="btnRemoveProduct${row.ProductID}" onclick="ShowRemoveProductModal(${row.ProductID})"><span class="fas fa-trash"></span></button>
                                 </td>
                             </tr>
                         `);
@@ -228,7 +249,61 @@
     }
 
     function EditProductRecord(ProductNo) {
-        console.log('ProductNo: ' + ProductNo);
+        const submit = document.getElementById('btnSubmitEditProduct');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const productCode = document.getElementById('showProductCode').value;
+        const productName = document.getElementById('showProductName').value;
+        const productCategory = document.getElementById('showProductCategory').value;
+        const productQuantity = document.getElementById('showProductQuantity').value;
+        const productPrice = document.getElementById('showProductPrice').value;
+
+        submit.disabled = true;
+
+        $.ajax({
+            url: `/EditProductRecord`,
+            method: 'POST',
+            data: {
+                _token: csrfToken,
+                product_code: productCode,
+                product_name: productName,
+                product_category: productCategory,
+                product_quantity: productQuantity,
+                product_price: productPrice,
+                ProductNo: ProductNo,
+            },
+            success: function(response) {
+                console.log('Product record edited successfully', response);
+                window.location.reload();
+                submit.disabled = false;
+            },
+            error: function(error) {
+                console.log('Error editing product record', error);
+            }
+        });
+    }
+
+    function RemoveProductRecord(ProductNo) {
+        const submit = document.getElementById('btnConfirmRemoveProduct');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        submit.disabled = true;
+
+        $.ajax({
+            url: `/RemoveProductRecord`,
+            method: 'POST',
+            data: {
+                _token: csrfToken,
+                ProductNo: ProductNo,
+            },
+            success: function(response) {
+                console.log('Product record removed successfully', response);
+                window.location.reload();
+                submit.disabled = false;
+            },
+            error: function(error) {
+                console.log('Error removing product record', error);
+            }
+        });
     }
 
     function ShowProductModal(ProductNo, Mode) {
@@ -277,6 +352,15 @@
             modal.show();
             btnSubmit.setAttribute('onclick', `EditProductRecord(${ProductNo})`);
         }
+    }
+
+    function ShowRemoveProductModal(ProductNo) {
+        const confirmRemoveButton = document.getElementById('btnConfirmRemoveProduct');
+        const modal = new bootstrap.Modal(document.getElementById('removeProductModal'));
+
+        modal.show();
+
+        confirmRemoveButton.setAttribute('onclick', `RemoveProductRecord(${ProductNo})`);
     }
 
     function GetProductRecord(ProductNo) {

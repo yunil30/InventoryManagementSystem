@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\LoginModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller {
     public function ShowListOfUsers() {
@@ -59,17 +58,20 @@ class UserController extends Controller {
         return response()->json(['message' => 'User created successfully!']);
     }
 
-    public function EditUserRecord(Request $request, $UserID) {
+    public function EditUserRecord(Request $request) {
+        $UserID = session('u_id');
+        $UserRecordID = $request->input('UserID');
+
         $request->validate([
             'first_name' => 'required|string|max:145',
             'last_name' => 'required|string|max:145',
-            'user_name' => 'required|string|max:50|unique:tbl_user_access,user_name,' . $UserID . ',UserID',
-            'user_email' => 'required|email|max:50|unique:tbl_user_access,user_email,' . $UserID . ',UserID',
+            'user_name' => 'required|string|max:50|unique:tbl_user_access,user_name,' . $UserRecordID . ',UserID',
+            'user_email' => 'required|email|max:50|unique:tbl_user_access,user_email,' . $UserRecordID . ',UserID',
             'contact_number' => 'required',
             'user_role' => 'required|string|in:user,admin',
         ]);
     
-        $user = LoginModel::find($UserID);
+        $user = LoginModel::find($UserRecordID);
     
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
@@ -77,19 +79,26 @@ class UserController extends Controller {
         $user->user_email = $request->input('user_email');
         $user->contact_number = $request->input('contact_number');
         $user->user_role = $request->input('user_role');
+        $user->modified_by = $UserID;
+        $user->date_modified = now()->format('Y-m-d H:i:s');
         $user->save();
     
         return response()->json(['message' => 'User information updated successfully!']);
     }
 
-    public function RemoveUserRecord(Request $request, $UserID) {
-        $user = LoginModel::find($UserID);
+    public function RemoveUserRecord(Request $request) {
+        $UserID = session('u_id');
+        $UserRecordID = $request->input('UserID');
+
+        $user = LoginModel::find($UserRecordID);
     
         if (!$user) {
             return response()->json(['message' => 'User not found.'], 404);
         }
     
         $user->user_status = 0;
+        $user->modified_by = $UserID;
+        $user->date_modified = now()->format('Y-m-d H:i:s');
         $user->save();
     
         return response()->json(['message' => 'User status updated successfully!']);
@@ -117,6 +126,8 @@ class UserController extends Controller {
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->user_name = $request->input('user_name');
+        $user->modified_by = $UserID;
+        $user->date_modified = now()->format('Y-m-d H:i:s');
         $user->save();
     
         return response()->json(['message' => 'User information updated successfully!']);
@@ -134,6 +145,8 @@ class UserController extends Controller {
 
         $user->user_email = $request->input('user_email');
         $user->contact_number = $request->input('contact_number');
+        $user->modified_by = $UserID;
+        $user->date_modified = now()->format('Y-m-d H:i:s');
         $user->save();
     
         return response()->json(['message' => 'User information updated successfully!']);
@@ -151,6 +164,8 @@ class UserController extends Controller {
         $user = LoginModel::find($UserID);
 
         $user->password = $hashedPassword;
+        $user->modified_by = $UserID;
+        $user->date_modified = now()->format('Y-m-d H:i:s');
         $user->save();
 
         return response()->json(['message' => 'User password changed successfully!']);

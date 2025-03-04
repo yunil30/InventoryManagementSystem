@@ -468,11 +468,11 @@
                 margin-bottom: 16px;
                 padding: 0px;
                 position: relative;
-                
+
                 .toggle-password {
                     position: absolute;
                     right: 10px;
-                    top: 50%;
+                    top: 33%;
                     transform: translateY(15%);
                     background: none;
                     border: none;
