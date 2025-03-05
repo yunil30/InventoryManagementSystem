@@ -25,8 +25,10 @@ class UserController extends Controller {
         return response()->json($users);
     }
 
-    public function GetUserRecord($UserID) {
-        $user = LoginModel::where('UserID', $UserID)->where('user_status', 1)->first(); 
+    public function GetUserRecord(Request $request) {
+        $UserRecordID = $request->input('UserID');
+
+        $user = LoginModel::where('UserID', $UserRecordID)->where('user_status', 1)->first(); 
 
         return response()->json($user);
     }

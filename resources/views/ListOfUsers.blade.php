@@ -288,10 +288,11 @@
         const userRole = document.getElementById('showUserRole');
 
         $.ajax({
-            url: `/GetUserRecord/${UserID}`,
+            url: `/GetUserRecord`,
             method: 'GET',
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
+            data: {
+                _token: csrfToken,
+                UserID: UserID,
             },
             success: function(response) {
                 firstName.value = response.first_name;

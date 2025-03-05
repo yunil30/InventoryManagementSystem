@@ -372,10 +372,11 @@
         const productPrice = document.getElementById('showProductPrice');
 
         $.ajax({
-            url: `/GetProductRecord/${ProductNo}`,
+            url: `/GetProductRecord`,
             method: 'GET',
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
+            data: {
+                _token: csrfToken,
+                ProductNo: ProductNo,
             },
             success: function(response) {
                 ProductCode.value = response.product_code;

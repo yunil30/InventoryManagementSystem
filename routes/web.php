@@ -26,13 +26,13 @@ Route::middleware(\App\Http\Middleware\AuthenticateUser::class)->group(function 
 
     Route::post('/logout', [LoginController::class, 'userLogout'])->name('userLogout');
 
-    Route::get('/GetUserRecord/{UserID}', [UserController::class, 'GetUserRecord']);
+    Route::get('/GetUserRecord', [UserController::class, 'GetUserRecord']);
     Route::get('/GetActiveUsers', [UserController::class, 'GetActiveUsers']);
     Route::post('/CreateUserRecord', [UserController::class, 'CreateUserRecord'])->name('info.create');
     Route::post('/EditUserRecord', [UserController::class, 'EditUserRecord']);
     Route::post('/RemoveUserRecord', [UserController::class, 'RemoveUserRecord']);
 
-    Route::get('/GetProductRecord/{ProductID}', [ProductController::class, 'GetProductRecord']);
+    Route::get('/GetProductRecord', [ProductController::class, 'GetProductRecord']);
     Route::get('/GetAllProducts', [ProductController::class, 'GetAllProducts']);
     Route::post('/CreateProductRecord', [ProductController::class, 'CreateProductRecord']);
     Route::post('/EditProductRecord', [ProductController::class, 'EditProductRecord']);

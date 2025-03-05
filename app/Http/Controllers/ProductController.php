@@ -13,12 +13,13 @@ class ProductController extends Controller {
         return response()->json($product);
     }
 
-    public function GetProductRecord($ProductID) {
-        $product = ProductModel::where('ProductID', $ProductID)->where('product_status', 1)->first(); 
+    public function GetProductRecord(Request $request) {
+        $ProductRecordID = $request->input('ProductNo');
+
+        $product = ProductModel::where('ProductID', $ProductRecordID)->where('product_status', 1)->first(); 
 
         return response()->json($product);
     }
-
 
     public function CreateProductRecord(Request $request) {
         $UserID = session('u_id');
