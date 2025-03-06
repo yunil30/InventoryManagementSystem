@@ -9,16 +9,7 @@
             <a href="{{ url('/ShowHomePage') }}">Home</a>
         </li>
         <li class="menu-item hidden">
-            <a href="{{ url('/ShowListOfProducts') }}">Products</a>
-        </li>
-        <li class="menu-item hidden">
-            <a href="{{ url('/ShowListOfUsers') }}">Users</a>
-        </li>
-        <li class="menu-item hidden">
             <a href="{{ url('/ShowUserProfile') }}">Profile</a>
-        </li>
-        <li class="menu-item hidden">
-            <a href="{{ url('/') }}">About</a>
         </li>
         <li class="menu-item hidden">
             <form id="logoutForm" action="{{ route('userLogout') }}" method="POST">

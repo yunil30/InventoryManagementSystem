@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LoginModel;
+use App\Models\MenuModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,6 +18,12 @@ class UserController extends Controller {
 
     public function ShowListOfProducts() {
         return view('ListOfProducts');
+    }
+
+    public function GetMenu() {
+        $menus = MenuModel::all();
+
+        return response()->json($menus);
     }
 
     public function GetActiveUsers() {

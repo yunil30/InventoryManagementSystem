@@ -17,6 +17,8 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(\App\Http\Middleware\AuthenticateUser::class)->group(function () {
+    Route::get('/GetMenu', [UserController::class, 'GetMenu']);
+
     Route::get('/', function () {return view('welcome');});
     Route::get('/ShowHomePage', [LoginController::class, 'ShowHomePage']);
     Route::get('/CreateUser', [UserController::class, 'CreateUser']);

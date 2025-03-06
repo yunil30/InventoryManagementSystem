@@ -9,6 +9,7 @@
 </head>
 <body>
     @include('components.header')
+    @include('components.sidebar')
 
     <main>
         {{ $slot }}

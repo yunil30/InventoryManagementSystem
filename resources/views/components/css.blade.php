@@ -14,11 +14,12 @@
         margin: 0;
         height: 100vh;
         display: grid;
+        grid-template-columns: 14rem 1fr;
         grid-template-rows: 3.5rem 1fr auto;
         grid-template-areas: 
-            "header"
-            "main"
-            "footer";
+            "header header"
+            "sidebar main"
+            "footer footer";
         transition: all 1s ease;
         padding-right: 0 !important;
     }
@@ -100,6 +101,42 @@
             border-radius: 0px;
             color: #357edd;
             border-bottom: 2px solid #357edd;
+        }
+    }
+
+    aside {
+        grid-area: sidebar;
+        background-color: #ffffff;
+        border-right: 1px solid rgb(215, 215, 215);
+        padding: 2rem 0rem 2rem 0rem;
+        z-index: 9;
+
+        #menu-list {
+            padding: 1rem 1rem 1rem 1rem;
+            list-style-type: none;
+
+            .menu-item{
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: 500;
+                letter-spacing: .5px;
+                padding: 0.8rem 0.5rem 0.8rem 0.5rem;
+
+                &:hover {
+                    background-color: #d5d8dc;
+                    font-size: 15px;
+                }
+
+                &:active {
+                    font-size: 14px;
+                }
+            }
+
+            a {
+                letter-spacing: .5px;
+                text-decoration: none; 
+                color: inherit; 
+            }
         }
     }
 
