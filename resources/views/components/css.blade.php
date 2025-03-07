@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
 <!-- This is fpm -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+<!-- This is fontawesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
 <style>
     body {
@@ -97,7 +99,8 @@
         }
         
         .menu-item a:hover,
-        .menu-item a:focus {
+        .menu-item a:focus,
+        .menu-item a:active {
             border-radius: 0px;
             color: #357edd;
             border-bottom: 2px solid #357edd;
@@ -108,34 +111,63 @@
         grid-area: sidebar;
         background-color: #ffffff;
         border-right: 1px solid rgb(215, 215, 215);
-        padding: 2rem 0rem 2rem 0rem;
-        z-index: 9;
+        padding: 2rem 0rem;
 
-        #menu-list {
-            padding: 1rem 1rem 1rem 1rem;
-            list-style-type: none;
+        .menu-list {
+            padding: 0;
 
-            .menu-item{
-                cursor: pointer;
+            .menu-item {
                 font-size: 14px;
                 font-weight: 500;
                 letter-spacing: .5px;
-                padding: 0.8rem 0.5rem 0.8rem 0.5rem;
+                position: relative;
 
-                &:hover {
-                    background-color: #d5d8dc;
-                    font-size: 15px;
-                }
+                a {     
+                    text-decoration: none;
+                    color: #1f2328;
+                    padding: 1rem 1.5rem 1rem 1.5rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
 
-                &:active {
-                    font-size: 14px;
+                    &:hover {
+                        background-color: #d5d8dc;
+                        color: #357edd;
+                    }
+
+                    &:active {
+                        font-size: 13px;
+                        color: #357edd;
+                    }
                 }
             }
 
-            a {
-                letter-spacing: .5px;
-                text-decoration: none; 
-                color: inherit; 
+            .menu-toggle-icon {
+                font-size: 12px;
+                transition: transform 0.3s ease;
+            }
+
+            .child-menu {
+                padding: 0;
+                display: none; 
+                background-color: #f5f5f5;
+
+                a {
+                    display: block;
+                    text-decoration: none;
+                    color: #1f2328;
+                    padding: 1rem 1rem 1rem 3rem;
+
+                    &:hover {
+                        background-color: #d5d8dc;
+                        color: #357edd;
+                    }
+
+                    &:active {
+                        font-size: 13px;
+                        color: #357edd;
+                    }
+                }
             }
         }
     }
