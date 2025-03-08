@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -28,11 +29,11 @@ Route::middleware(\App\Http\Middleware\AuthenticateUser::class)->group(function 
 
     Route::post('/logout', [LoginController::class, 'userLogout'])->name('userLogout');
 
-    Route::get('/GetUserRecord', [UserController::class, 'GetUserRecord']);
-    Route::get('/GetActiveUsers', [UserController::class, 'GetActiveUsers']);
-    Route::post('/CreateUserRecord', [UserController::class, 'CreateUserRecord'])->name('info.create');
-    Route::post('/EditUserRecord', [UserController::class, 'EditUserRecord']);
-    Route::post('/RemoveUserRecord', [UserController::class, 'RemoveUserRecord']);
+    Route::get('/GetAllUsers', [MaintenanceController::class, 'GetAllUsers']);
+    Route::get('/GetUserRecord', [MaintenanceController::class, 'GetUserRecord']);
+    Route::post('/CreateUserRecord', [MaintenanceController::class, 'CreateUserRecord'])->name('info.create');
+    Route::post('/EditUserRecord', [MaintenanceController::class, 'EditUserRecord']);
+    Route::post('/RemoveUserRecord', [MaintenanceController::class, 'RemoveUserRecord']);
 
     Route::get('/GetProductRecord', [ProductController::class, 'GetProductRecord']);
     Route::get('/GetAllProducts', [ProductController::class, 'GetAllProducts']);

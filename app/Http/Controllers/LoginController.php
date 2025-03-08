@@ -30,6 +30,7 @@ class LoginController extends Controller {
                 'u_username' => $user->user_name,   
                 'u_email' => $user->user_email,  
                 'u_role' => $user->user_role,
+                'u_level' => $user->access_level,
             ]);
 
             return redirect()->intended('/ShowHomePage');

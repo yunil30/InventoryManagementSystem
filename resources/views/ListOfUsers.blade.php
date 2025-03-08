@@ -57,12 +57,21 @@
                         <label for="addUserPassword">Password:</label>
                         <input type="password" class="form-control" id="addUserPassword" placeholder="Password" required>
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label for="addUserRole">User role:</label>
                         <select class="form-control" id="addUserRole">
                             <option value="">Select an Option</option>
                             <option value="user" selected>User</option>
                             <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="addAccessLevel">Access level:</label>
+                        <select class="form-control" id="addAccessLevel">
+                            <option value="">Select an Option</option>
+                            <option value="1">level1</option>
+                            <option value="2">level2</option>
+                            <option value="3" selected>level3</option>
                         </select>
                     </div>
                 </div>
@@ -105,12 +114,21 @@
                         <label for="showContactNo">Contact number:</label>
                         <input type="text" class="form-control" id="showContactNo" placeholder="Contact no." required>
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label for="showUserRole">User role:</label>
                         <select class="form-control" id="showUserRole">
                             <option value="">Select an Option</option>
                             <option value="user" selected>User</option>
                             <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="showAccessLevel">Access level:</label>
+                        <select class="form-control" id="showAccessLevel">
+                            <option value="">Select an Option</option>
+                            <option value="1">level1</option>
+                            <option value="2">level2</option>
+                            <option value="3" selected>level3</option>
                         </select>
                     </div>
                 </div>
@@ -152,7 +170,7 @@
 
     function LoadListOfUsers() {
         $.ajax({
-            url: '/GetActiveUsers',
+            url: '/GetAllUsers',
             method: 'GET',
             success: function(users) {
                 if ($.fn.DataTable.isDataTable('#userListTable')) {
@@ -203,6 +221,7 @@
         const userEmail = document.getElementById('showUserEmail');
         const contactNo = document.getElementById('showContactNo');
         const userRole = document.getElementById('showUserRole');
+        const accessLevel = document.getElementById('showAccessLevel');
 
         const btnSubmit = document.getElementById('btnSubmitEditUser');
         const modal = new bootstrap.Modal(document.getElementById('showUserModal'));
@@ -217,6 +236,7 @@
             userEmail.disabled = true;
             contactNo.disabled = true;
             userRole.disabled = true;
+            accessLevel.disabled = true;
             modal.show();
         } else {
             btnSubmit.style.display = ''; 
@@ -227,6 +247,7 @@
             userEmail.disabled = false;
             contactNo.disabled = false;
             userRole.disabled = false;
+            accessLevel.disabled = false;
             modal.show();
             btnSubmit.setAttribute('onclick', `EditUserRecord(${UserID})`);
         }
@@ -251,6 +272,7 @@
         const contactNo = document.getElementById('addContactNo').value;
         const userPassword = document.getElementById('addUserPassword').value;
         const userRole = document.getElementById('addUserRole').value;
+        const accessLevel = document.getElementById('addAccessLevel').value;
 
         submit.disabled = true;
         
@@ -265,7 +287,8 @@
                 user_email: userEmail,
                 contact_number: contactNo,
                 password: userPassword,
-                user_role: userRole
+                user_role: userRole,
+                access_level: accessLevel
             },
             success: function(response) {
                 console.log('User created successfully', response);
@@ -286,6 +309,7 @@
         const userEmail = document.getElementById('showUserEmail');
         const contactNo = document.getElementById('showContactNo');
         const userRole = document.getElementById('showUserRole');
+        const accessLevel = document.getElementById('showAccessLevel');
 
         $.ajax({
             url: `/GetUserRecord`,
@@ -301,6 +325,7 @@
                 userEmail.value = response.user_email;
                 contactNo.value = response.contact_number;
                 userRole.value = response.user_role;
+                accessLevel.value = response.access_level;
             },
             error: function(error) {
                 console.error('Failed to get the user record!', error);
@@ -317,6 +342,7 @@
         const userEmail = document.getElementById('showUserEmail').value;
         const contactNo = document.getElementById('showContactNo').value;
         const userRole = document.getElementById('showUserRole').value;
+        const accessLevel = document.getElementById('showAccessLevel').value;
 
         submit.disabled = true;
 
@@ -331,6 +357,7 @@
                 user_email: userEmail,
                 contact_number: contactNo,
                 user_role: userRole,
+                access_level: accessLevel,
                 UserID: UserID,
             },
             success: function(response) {

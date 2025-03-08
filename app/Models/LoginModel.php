@@ -24,6 +24,7 @@ class LoginModel extends Authenticatable {
         'password', 
         'user_role', 
         'user_status', 
+        'access_level',
         'modified_by', 
         'date_modified'
     ];

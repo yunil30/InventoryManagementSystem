@@ -117,7 +117,7 @@
             padding: 0;
 
             .menu-item {
-                font-size: 14px;
+                font-size: 14.4px;
                 font-weight: 500;
                 letter-spacing: .5px;
                 position: relative;
