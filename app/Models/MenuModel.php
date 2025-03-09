@@ -18,5 +18,10 @@ class MenuModel extends Model {
         'menu_type',
         'menu_index', 
         'menu_icon',
+        'menu_status',
+        'created_by',
+        'date_created',
+        'modified_by', 
+        'date_modified',
     ];
 }

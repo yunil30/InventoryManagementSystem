@@ -19,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app['router']->aliasMiddleware('auth.user', \App\Http\Middleware\AuthenticateUser::class);
+        $this->app['router']->aliasMiddleware('auth.accessLevel', \App\Http\Middleware\CheckAccessLevel::class);
     }
 }

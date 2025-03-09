@@ -17,7 +17,7 @@
                     </tr>
                 </thead>
                 <tbody id="loadProducts"></tbody>
-            </table>    
+            </table> 
         </div>
     </div>
 </x-layout>
@@ -190,9 +190,11 @@
                                 <td style="vertical-align: middle; text-align: left;">${row.category_name}</td>    
                                 <td style="vertical-align: middle; text-align: left;">${row.product_quantity}</td>
                                 <td style="vertical-align: middle; text-align: center;">
-                                    <button class="btn btn-transparent" id="btnShowProduct${row.ProductID}" onclick="ShowProductModal(${row.ProductID}, 'Show')"><span class="fas fa-eye"></span></button>
-                                    <button class="btn btn-transparent" id="btnEditProduct${row.ProductID}" onclick="ShowProductModal(${row.ProductID}, 'Edit')"><span class="fas fa-pencil"></span></button>
-                                    <button class="btn btn-transparent" id="btnRemoveProduct${row.ProductID}" onclick="ShowRemoveProductModal(${row.ProductID})"><span class="fas fa-trash"></span></button>
+                                    <div style="display: flex; justify-content: space-evenly; align-items: center; width: 100%;">
+                                        <button class="btn btn-transparent" id="btnShowProduct${row.ProductID}" onclick="ShowProductModal(${row.ProductID}, 'Show')"><span class="fas fa-eye"></span></button>
+                                        <button class="btn btn-transparent" id="btnEditProduct${row.ProductID}" onclick="ShowProductModal(${row.ProductID}, 'Edit')"><span class="fas fa-pencil"></span></button>
+                                        <button class="btn btn-transparent" id="btnRemoveProduct${row.ProductID}" onclick="ShowRemoveProductModal(${row.ProductID})"><span class="fas fa-trash"></span></button>
+                                    </div>
                                 </td>
                             </tr>
                         `);

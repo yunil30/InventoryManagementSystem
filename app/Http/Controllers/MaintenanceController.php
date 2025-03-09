@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\LoginModel;
+use App\Models\MenuModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class MaintenanceController extends Controller {
+    // Maintenance controllers for list of users
     public function GetAllUsers() {
         $users = LoginModel::where('user_status', 1)->get();
 
@@ -96,5 +98,12 @@ class MaintenanceController extends Controller {
         $user->save();
     
         return response()->json(['message' => 'User status updated successfully!']);
+    }
+
+    // Maintenance controllers for list of menus
+    public function GetAllMenus() {
+        $menus = MenuModel::where('menu_status', 1)->get();
+
+        return response()->json($menus);
     }
 }

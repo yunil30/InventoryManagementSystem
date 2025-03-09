@@ -170,6 +170,36 @@
                 }
             }
         }
+
+        .menu-logout {
+            padding: 0;
+            
+            .menu-item {
+                font-size: 14.4px;
+                font-weight: 500;
+                letter-spacing: .5px;
+                position: relative;
+
+                a {     
+                    text-decoration: none;
+                    color: #1f2328;
+                    padding: 1rem 1.5rem 1rem 1.5rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    &:hover {
+                        background-color: #d5d8dc;
+                        color: #357edd;
+                    }
+
+                    &:active {
+                        font-size: 13px;
+                        color: #357edd;
+                    }
+                }
+            }
+        }
     }
 
     main {

@@ -10,7 +10,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller {
     public function ShowListOfUsers() {
-        return view('ListOfUsers');
+        return view('maintenance.ListOfUsers');
+    }
+
+    public function ShowListOfMenus() {
+        return view('maintenance.ListOfMenus');
     }
 
     public function ShowUserProfile() {

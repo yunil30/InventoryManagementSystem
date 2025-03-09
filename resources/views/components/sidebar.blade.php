@@ -1,7 +1,32 @@
 <aside class="sidebar">
-    <div class="menu-list">
+    <div class="menu-list"></div>
+    <div class="menu-logout">
+        <div class="menu-item">
+            <a href="#" class="parent-menu" id="showLogoutModal">Logout</a>
+        </div>
     </div>
 </aside>
+
+<!-- Logout user modal -->
+<div class="modal fade" id="logoutUserModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 400px; width: 100%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Action Verification</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="col-md-12 modal-body">
+                <div class="col-md-12 mb-3 p-0">
+                    <label>Are you sure you want to log out?</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="btnConfirmLogout">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     function GetMenu() {
@@ -64,6 +89,38 @@
             }
         });
     }
+
+    function logoutUser() {
+        const submit = document.getElementById('btnConfirmLogout');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        submit.disabled = true;
+
+        $.ajax({
+            url: `/logout`,
+            method: 'POST',
+            data: {
+                _token: csrfToken,
+            },
+            success: function(response) {
+                console.log('User logout successfully', response);
+                window.location.reload();
+                submit.disabled = false;
+            },
+            error: function(error) {
+                console.log('Error user logout', error);
+            }
+        });
+    }
+
+    document.getElementById('showLogoutModal').addEventListener('click', function() {
+        const modal = new bootstrap.Modal(document.getElementById('logoutUserModal'));
+        const btnSubmit = document.getElementById('btnConfirmLogout');
+
+        modal.show();
+
+        btnSubmit.setAttribute('onclick', `logoutUser()`);
+    });
 
     document.addEventListener('DOMContentLoaded', GetMenu);
 </script>
