@@ -168,7 +168,7 @@
         modal.show();
     });
 
-    function LoadListOfUsers() {
+    function GetListOfUsers() {
         $.ajax({
             url: '/GetAllUsers',
             method: 'GET',
@@ -398,6 +398,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        LoadListOfUsers();
+        GetListOfUsers();
     });
 </script>

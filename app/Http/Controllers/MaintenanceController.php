@@ -106,4 +106,80 @@ class MaintenanceController extends Controller {
 
         return response()->json($menus);
     }
+
+    public function GetMenuRecord(Request $request) {
+        $MenuRecordID = $request->input('MenuID');
+
+        $menu = MenuModel::where('MenuID', $MenuRecordID)->where('menu_status', 1)->first(); 
+
+        return response()->json($menu);
+    }
+
+    public function CreateMenuRecord(Request $request) {
+        $UserID = session('u_id');
+
+        $request->validate([
+            'menu_name' => 'required|string|max:45|unique:tbl_user_menu,menu_name',
+            'menu_page' => 'required|string|max:45',
+            'menu_type' => 'required|string|max:45',
+            'parent_menu' => 'required|int|max:100',
+            'menu_index' => 'required|int|max:100',
+        ]);
+
+        MenuModel::create([
+            'menu_name' => $request->input('menu_name'),
+            'menu_page' => $request->input('menu_page'),
+            'menu_type' => $request->input('menu_type'),
+            'parent_menu' => $request->input('parent_menu'),
+            'menu_index' => $request->input('menu_index'),
+            'created_by' => $UserID,
+            'menu_status' => 1,
+        ]);
+
+        return response()->json(['message' => 'Menu created successfully!']);
+    }
+
+    public function EditMenuRecord(Request $request) {
+        $UserID = session('u_id');
+        $MenuRecordID = $request->input('MenuID');
+
+        $request->validate([
+            'menu_name' => 'required|string|max:45|unique:tbl_user_menu,menu_name,' . $MenuRecordID . ',MenuID',
+            'menu_page' => 'required|string|max:45',
+            'menu_type' => 'required|string|max:45',
+            'parent_menu' => 'required|int|max:100',
+            'menu_index' => 'required|int|max:100',
+        ]);
+
+        $menu = MenuModel::find($MenuRecordID);
+
+        $menu->menu_name = $request->input('menu_name');
+        $menu->menu_page = $request->input('menu_page');
+        $menu->menu_type = $request->input('menu_type');
+        $menu->parent_menu = $request->input('parent_menu');
+        $menu->menu_index = $request->input('menu_index');
+        $menu->modified_by = $UserID;
+        $menu->date_modified = now()->format('Y-m-d H:i:s');
+        $menu->save();
+    
+        return response()->json(['message' => 'Menu record edited successfully!']);
+    }
+
+    public function RemoveMenuRecord(Request $request) {
+        $UserID = session('u_id');
+        $MenuRecordID = $request->input('MenuID');
+
+        $menu = MenuModel::find($MenuRecordID);
+    
+        if (!$menu) {
+            return response()->json(['message' => 'Menu not found.'], 404);
+        }
+    
+        $menu->menu_status = 0;
+        $menu->modified_by = $UserID;
+        $menu->date_modified = now()->format('Y-m-d H:i:s');
+        $menu->save();
+    
+        return response()->json(['message' => 'Menu status updated successfully!']);
+    }
 }

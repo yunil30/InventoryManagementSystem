@@ -122,6 +122,15 @@
         btnSubmit.setAttribute('onclick', `logoutUser()`);
     });
 
+    document.getElementById('showHeaderLogoutModal').addEventListener('click', function() {
+        const modal = new bootstrap.Modal(document.getElementById('logoutUserModal'));
+        const btnSubmit = document.getElementById('btnConfirmLogout');
+
+        modal.show();
+
+        btnSubmit.setAttribute('onclick', `logoutUser()`);
+    });
+
     document.addEventListener('DOMContentLoaded', GetMenu);
 </script>
 
