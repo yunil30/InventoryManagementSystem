@@ -249,7 +249,7 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                height: 10%;
+                height: 10vh;
                 
                 h3 {
                     color: #1f2328;

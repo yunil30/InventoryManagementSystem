@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Name</title>
+    <title>Forgot Password</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
@@ -52,7 +52,7 @@
                 text-shadow: 0px 0px 1px rgba(23, 32, 42, 0.8);
             }
 
-            #btnLogin {
+            #btnReset {
                 background-color: #0d6Efd;
                 color: #ffffff;
                 font-size: 14px;
@@ -167,44 +167,44 @@
     }
 </style>
 <body>
-    <form action="{{ route('userLogin') }}" method="POST">
+    <form action="" method="POST">
         @csrf
         <div class="form-header">
             <h4 class="form-title">Company Name</h4>
         </div>
-
         <div class="form-body">
-            <h5>Login</h5>
+            <h5>Forgot Password</h5>
 
             <div class="form-group">
                 <i class="fa-solid fa-envelope input-icon"></i>
                 <label for="inputUserName">Username</label>
                 <input type="text" class="form-control" id="inputUserName" name="inputUserName" placeholder="Username" required>
             </div>
-         
+
             <div class="form-group">
                 <i class="fa-solid fa-lock input-icon"></i>
-                <label for="inputUserPassword">Password</label>
-                <input type="password" class="form-control" id="inputUserPassword" name="inputUserPassword" placeholder="Password" required>
-                <button type="button" class="toggle-password" onclick="togglePassword()">
+                <label for="inputNewPassword">New Password</label>
+                <input type="password" class="form-control" id="inputNewPassword" name="inputNewPassword" placeholder="New Password" required>
+                <button type="button" class="toggle-password" onclick="togglePassword('inputNewPassword')">
                     <i class="fa-solid fa-eye"></i>
                 </button>
             </div>
 
-            @error('ErrorMessage')
-                <div class="alert alert-danger error-message">{{ $message }}</div>
-            @enderror
-
-            <div class="form-group" style="text-align: end;" >
-                <a href="{{ url('/reset') }}">Forgot password?</a>
+            <div class="form-group">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <label for="inputConfirmPassword">Confirm Password</label>
+                <input type="password" class="form-control" id="inputConfirmPassword" name="inputConfirmPassword" placeholder="Confirm Password" required>
+                <button type="button" class="toggle-password" onclick="togglePassword('inputConfirmPassword')">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btnLogin" id="btnLogin">Login</button>
+                <button type="submit" class="btnReset" id="btnReset">Reset</button>
             </div>
-            
+
             <div class="form-group" style="text-align: center;" >
-                <label for="">Don't have an account? <a href="{{ url('/register') }}">Register now</a></label>
+                <label for="">Do you want to go back? <a href="{{ url('/login') }}">Go Back</a></label>
             </div>
         </div>
     </form>
@@ -212,8 +212,8 @@
 </html>
 
 <script>
-    function togglePassword() {
-        const passwordField = document.getElementById("inputUserPassword");
+    function togglePassword(element) {
+        const passwordField = document.getElementById(element);
         const toggleButton = document.querySelector(".toggle-password i");
 
         if (passwordField.type === "password") {
@@ -226,17 +226,4 @@
             toggleButton.classList.add("fa-eye");
         }
     }
-
-    document.querySelector('form').addEventListener('submit', function(event) {
-        const submit = document.getElementById('btnLogin');
-
-        if (submit.disabled) {
-            event.preventDefault(); 
-            return;
-        }
-
-        submit.disabled = true;
-        console.log('Button disabled:', submit.disabled);
-        submit.innerHTML = 'Logging in...';
-    });
 </script>

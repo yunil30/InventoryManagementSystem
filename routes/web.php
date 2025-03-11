@@ -15,9 +15,13 @@ Route::middleware(['guest'])->group(function () {
     // Registration page controllers
     Route::get('/register', [RegisterController::class, 'showRegister'])->name('showRegister');
     Route::post('/register', [RegisterController::class, 'userRegister'])->name('userRegister');
+
+    Route::get('/reset', [LoginController::class, 'showResetPassword'])->name('showResetPassword');
 });
 
 Route::middleware(['auth.user'])->group(function () {
+    Route::get('/GetCategoryDistribution', [ProductController::class, 'GetCategoryDistribution']);
+
     Route::get('/GetMenu', [UserController::class, 'GetMenu']);
     Route::post('/logout', [LoginController::class, 'userLogout'])->name('userLogout');
 

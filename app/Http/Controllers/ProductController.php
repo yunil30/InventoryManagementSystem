@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ProductModel;
 use App\Models\ProductCategoryModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller {
     public function GetAllProducts() {
@@ -16,7 +17,9 @@ class ProductController extends Controller {
     public function GetProductRecord(Request $request) {
         $ProductRecordID = $request->input('ProductNo');
 
-        $product = ProductModel::where('ProductID', $ProductRecordID)->where('product_status', 1)->first(); 
+        $product = ProductModel::where('ProductID', $ProductRecordID)
+                               ->where('product_status', 1)
+                               ->first(); 
 
         return response()->json($product);
     }
@@ -105,5 +108,96 @@ class ProductController extends Controller {
         ]);
 
         return response()->json(['message' => 'Product record created successfully!']);
+    }
+
+    public function Dashboard(Request $request)
+    {
+        // 1. Product Category Distribution
+        $categoryCounts = ProductModel::select('product_category', DB::raw('count(*) as count'))
+                                 ->groupBy('product_category')
+                                 ->get();
+
+        $categories = [];
+        $counts = [];
+        foreach ($categoryCounts as $category) {
+            $categories[] = $category->category->category;  // Eager load 'category' relationship
+            $counts[] = $category->count;
+        }
+
+        // 2. Stock Level Distribution (In Stock, Low Stock, Out of Stock)
+        $stockStatusCounts = ProductModel::select('product_status', DB::raw('count(*) as count'))
+                                    ->groupBy('product_status')
+                                    ->get();
+
+        $statusLabels = ['In Stock', 'Out of Stock'];
+        $stockCounts = [0, 0]; // Default values
+        foreach ($stockStatusCounts as $status) {
+            if ($status->product_status == 1) {
+                $stockCounts[0] = $status->count; // In Stock
+            } else {
+                $stockCounts[1] = $status->count; // Out of Stock
+            }
+        }
+
+        // 3. Total Inventory Value (Price * Quantity)
+        $totalInventoryValue = ProductModel::sum(DB::raw('product_price * product_quantity'));
+
+        // 4. Top 5 Most Expensive Products
+        $mostExpensiveProducts = ProductModel::orderBy('product_price', 'desc')
+                                        ->take(5)
+                                        ->get();
+
+        // 5. Recently Added Products
+        $recentProducts = ProductModel::orderBy('date_created', 'desc')
+                                 ->take(5)
+                                 ->get();
+
+        // 6. Price Range Distribution
+        $priceRanges = ProductModel::select(DB::raw('
+                CASE
+                    WHEN product_price <= 10000 THEN "0-10000"
+                    WHEN product_price BETWEEN 10001 AND 30000 THEN "10001-30000"
+                    ELSE "30000+" 
+                END AS price_range'), DB::raw('count(*) as count'))
+            ->groupBy('price_range')
+            ->get();
+
+        $priceLabels = [];
+        $priceCounts = [];
+        foreach ($priceRanges as $range) {
+            $priceLabels[] = $range->price_range;
+            $priceCounts[] = $range->count;
+        }
+
+        return response()->json([
+            'categoryCounts' => $categoryCounts,
+            'stockStatusCounts' => $stockStatusCounts,
+            'totalInventoryValue' => $totalInventoryValue,
+            'mostExpensiveProducts' => $mostExpensiveProducts,
+            'recentProducts' => $recentProducts,
+            'priceRangeDistribution' => [
+                'labels' => $priceLabels,
+                'counts' => $priceCounts
+            ]
+        ]);
+    }
+
+    public function GetCategoryDistribution() {
+        // Retrieve the products with the category relationship loaded
+        $products = ProductModel::with('category')->get();
+
+        // Group the products by category
+        $grouped = $products->groupBy(function ($product) {
+            return $product->category ? $product->category->category : 'Unknown'; // Category name or 'Unknown' if not set
+        });
+
+        // Get the category names and counts
+        $categories = $grouped->keys()->toArray(); // Get the category names (keys of the group)
+        $quantities = $grouped->map(function ($items) {
+            // Sum up the product quantities for each category
+            return $items->sum('product_quantity');
+        })->toArray();
+
+        return ['categories' => $categories, 'quantities' => $quantities];
     }
 }

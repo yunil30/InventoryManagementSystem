@@ -13,6 +13,10 @@ class LoginController extends Controller {
     public function showLogin() {
         return view('authentication.login');
     }
+    
+    public function showResetPassword() {
+        return view('authentication.reset');
+    }
 
     public function userLogin(Request $request) {
         $credentials = $request->validate([
