@@ -1,19 +1,51 @@
 <x-layout>
     <style>
-        .chart {
+        .ProductQuantityDiv {
+            background-color: #ffffff;
+            padding: 0rem;
+            margin: 0rem;
             display: flex;
             justify-content: center;
             align-items: center;
 
-            .categoryChartDoughnutDiv,
-            .categoryChartPieDiv {
-                font-size: 5rem;
-                font-weight: 500;
-                letter-spacing: .5px;
+            h5 {
+                text-align: start;
             }
 
-            h5 {
-                text-align: center;
+            canvas {
+                letter-spacing: .5px;
+            }
+        }
+
+        .ProductListingDiv {
+            display: flex; 
+            justify-content: space-between;
+
+            .RecentlyAddedProductsDiv,
+            .MostExpensiveProductsDiv {
+                background-color: #ffffff;
+                padding: 1rem;
+                margin: 0rem;
+                
+                #expensiveProductsTable,
+                #recentlyAddedTable {
+                    border: 1px solid #ffffff;
+
+                    th {
+                        background-color: #357edd;
+                        color: #ffffff;
+                        font-size: 14.4px;
+                        font-weight: 500;
+                        letter-spacing: .5px;
+                    }
+
+                    td {
+                        background-color: #ffffff;
+                        font-size: 14.4px;
+                        font-weight: 400;
+                        letter-spacing: .5px;
+                    }
+                }
             }
         }
 
@@ -21,63 +53,55 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 1rem;
         }
     </style>
 
     <div class="col-md-12 main-content">
         <div class="col-md-12 content-header">
-            <h3>Inventory Dashboard</h3>
+            <h3>Dashboard</h3>
         </div>
         <div class="col-md-12 content-body">
-            <div class="row">
-                <div class="col-md-12 mt-5 chart">
+            <div class="col-md-12">
+                <div class="row ProductListingDiv">
+                    <div class="col-md-6 MostExpensiveProductsDiv">
+                        <h5>Most Expensive Products</h5>
+                        <table class="table table-hover table-bordered" id="expensiveProductsTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left" style="width: 20%; text-align: left;">No.</th>
+                                    <th class="text-left" style="width: 40%; text-align: left;">Product name</th>
+                                    <th class="text-left" style="width: 40%; text-align: left;">Product price</th>
+                                </tr>
+                            </thead>
+                            <tbody id="loadExpensiveProducts"></tbody>
+                        </table> 
+                    </div>
+
+                    <div class="col-md-5 RecentlyAddedProductsDiv">
+                        <h5>Recently Added Products</h5>
+                        <table class="table table-hover table-bordered" id="recentlyAddedTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left" style="width: 20%; text-align: left;">No.</th>
+                                    <th class="text-left" style="width: 40%; text-align: left;">Product name</th>
+                                    <th class="text-left" style="width: 40%; text-align: left;">Date Added</th>
+                                </tr>
+                            </thead>
+                            <tbody id="loadRecentlyAdded"></tbody>
+                        </table> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 totalInventoryValueDiv">
+                <h5>Total Inventory Value: ₱<span class="totalAmount"></span></h5>
+            </div>
+
+            <div class="col-md-6">
+                <div class="row ProductQuantityDiv">
                     <h5>Product Quantity by Category</h5>
-                </div>
-
-                <div class="col-md-6 chart">
-                    <div class="col-md-7 categoryChartDoughnutDiv">
-                        <h5>Doughnut Graph</h5>
-                        <canvas id="categoryChartDoughnut"></canvas>
-                    </div>
-                </div>
-
-                <div class="col-md-6 chart">
-                    <div class="col-md-7 categoryChartPieDiv">
-                        <h5>Pie Graph</h5>
-                        <canvas id="categoryChartPie"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-12 mt-5 totalInventoryValueDiv">
-                <h5>Total Inventory Value: $150,000.00</h5>
-            </div>
-
-            <div class="col-md-12 mt-5">
-                <div class="row">
-                    <!-- Most Expensive Products -->
-                    <div class="col-md-6">
-                        <h4>Top 5 Most Expensive Products</h4>
-                        <ul>
-                            <li>Product Name 1 - $45,999.00</li>
-                            <li>Product Name 2 - $35,999.00</li>
-                            <li>Product Name 3 - $19,999.00</li>
-                            <li>Product Name 4 - $16,599.00</li>
-                            <li>Product Name 5 - $15,999.00</li>
-                        </ul>
-                    </div>
-
-                    <!-- Recently Added Products -->
-                    <div class="col-md-6">
-                        <h4>Recently Added Products</h4>
-                        <ul>
-                            <li>Product Name 1 - Added on: Mar 01, 2025</li>
-                            <li>Product Name 2 - Added on: Mar 01, 2025</li>
-                            <li>Product Name 3 - Added on: Mar 01, 2025</li>
-                            <li>Product Name 4 - Added on: Mar 01, 2025</li>
-                            <li>Product Name 5 - Added on: Mar 01, 2025</li>
-                        </ul>
-                    </div>
+                    <canvas id="ProductQuantityChart"></canvas>
                 </div>
             </div>
         </div>
@@ -86,41 +110,96 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Function to fetch category data and update the chart
-    function GetCategoryDistributionPie() {
+    function GetCategoryLineChart() {
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        var categoryChartCtx = document.getElementById('categoryChartDoughnut').getContext('2d');
-        var categoryChartDoughnut;
+        var ProductQuantityChartCtx = document.getElementById('ProductQuantityChart').getContext('2d');
+        var ProductQuantityChart;
 
         $.ajax({
-            url: `/GetCategoryDistribution`,  // Assuming this is the correct endpoint
+            url: `/GetProductQuantityByCategory`,
             method: 'GET',
             data: {
                 _token: csrfToken,
             },
             success: function(response) {
-                const categories = response.categories; 
+                const categories = response.categories;
                 const quantities = response.quantities;
 
-                // Prepare the data for the chart
                 const chartData = {
-                    labels: categories,
+                    labels: categories, // Categories as X-axis labels
                     datasets: [{
-                        data: categories.map(category => quantities[category] || 0),
-                        backgroundColor: ['rgb(255, 99, 132)','rgb(54, 162, 235)','rgb(255, 205, 86)'],
-                        hoverOffset: 4,
-                        borderColor: '#1f2328',
+                        label: 'Product Quantity', // Label for the line chart
+                        data: categories.map(category => Math.round(quantities[category] || 0)), // Quantities as Y-axis data
+                        borderColor: '#357edd', // Line color
+                        backgroundColor: 'rgba(41, 128, 185, 0.3)', // Background color under the line (optional)
+                        fill: true, // To fill the area under the line (optional)
+                        tension: 0.5, // Line smoothness (optional)
+                        borderWidth: 2,
                     }]
                 };
 
-                // Update the chart or create it if it doesn't exist
-                if (categoryChartDoughnut) {
-                    categoryChartDoughnut.data = chartData; // Update the chart's data
-                    categoryChartDoughnut.update();  // Re-render the chart
+                // Chart options with font customization for axes and legend
+                const chartOptions = {
+                    scales: {
+                        x: {
+                            grid: {
+                                color: '#1f2328', // Color of the grid lines
+                                lineWidth: 1, // Thickness of the grid lines
+                            },
+                            ticks: {
+                                font: {
+                                    family: 'Arial', // Set the font family
+                                    size: 14, // Set the font size
+                                    weight: 'bold', // Set the font weight (e.g., 'normal', 'bold')
+                                    style: 'normal', // Set the font style (optional)
+                                },
+                                color: '#1f2328',
+                                maxTicksLimit: 5,
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: '#1f2328', // Color of the grid lines
+                                lineWidth: 1, // Thickness of the grid lines
+                            },
+                            ticks: {
+                                font: {
+                                    family: 'Arial', // Set the font family
+                                    size: 14, // Set the font size
+                                    weight: 'bold', // Set the font weight
+                                    style: 'normal', // Set the font style (optional)
+                                },
+                                color: '#1f2328',
+                                stepSize: 1, 
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    family: 'Arial', // Set the font family for the legend
+                                    size: 14, // Set the font size for the legend
+                                    weight: 'bold', // Set the font weight for the legend (e.g., 'normal', 'bold')
+                                    style: 'normal', // Set the font style for the legend (optional)
+                                },
+                                color: '#1f2328',
+                            }
+                        }
+                    }
+                };
+
+                // If the chart already exists, update it with the new data and options
+                if (ProductQuantityChart) {
+                    ProductQuantityChart.data = chartData;
+                    ProductQuantityChart.options = chartOptions; // Apply new options for the font
+                    ProductQuantityChart.update();
                 } else {
-                    categoryChartDoughnut = new Chart(categoryChartCtx, {
-                        type: 'doughnut',
-                        data: chartData
+                    // Create a new Line chart if it doesn't exist
+                    ProductQuantityChart = new Chart(ProductQuantityChartCtx, {
+                        type: 'line', // Set the chart type to 'line'
+                        data: chartData,
+                        options: chartOptions // Apply the font customization options
                     });
                 }
             },
@@ -130,52 +209,83 @@
         });
     }
 
-    // Function to fetch category data and update the chart
-    function GetCategoryDistributionBar() {
+    function GetTotalInventoryValue() {
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        var categoryChartCtx = document.getElementById('categoryChartPie').getContext('2d');
-        var categoryChartPie;
+        var totalAmount = document.querySelector('.totalAmount');
 
         $.ajax({
-            url: `/GetCategoryDistribution`,  // Assuming this is the correct endpoint
+            url: `/GetTotalInventoryValue`, 
             method: 'GET',
             data: {
                 _token: csrfToken,
             },
-            success: function(response) {
-                const categories = response.categories; 
-                const quantities = response.quantities;
+            success: function(response) { 
+                console.log(response.totalValue);
 
-                // Prepare the data for the chart
-                const chartData = {
-                    labels: categories,
-                    datasets: [{
-                        data: categories.map(category => quantities[category] || 0),
-                        backgroundColor: ['rgb(255, 99, 132)','rgb(54, 162, 235)','rgb(255, 205, 86)'],
-                        hoverOffset: 4,
-                        borderColor: '#1f2328',
-                    }]
-                };
+                let formattedValue = parseFloat(response.totalValue)
+                    .toFixed(2)
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-                // Update the chart or create it if it doesn't exist
-                if (categoryChartPie) {
-                    categoryChartPie.data = chartData; // Update the chart's data
-                    categoryChartPie.update();  // Re-render the chart
-                } else {
-                    categoryChartPie = new Chart(categoryChartCtx, {
-                        type: 'pie',
-                        data: chartData
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                console.log("Error fetching category distribution:", error);
+                totalAmount.textContent = formattedValue;
+            }
+        });
+    }
+
+    function GetMostExpensiveProducts() {
+        $.ajax({
+            url: `/GetMostExpensiveProducts`, 
+            method: 'GET',
+            success: function(products) { 
+                products.forEach(function(row, index) {
+                    const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'PHP' }).format(row.product_price);
+
+                    $('#loadExpensiveProducts').append(`
+                        <tr>
+                            <td style="vertical-align: middle; text-align: left;">${index + 1}</td>
+                            <td style="vertical-align: middle; text-align: left;">${row.product_name}</td>
+                            <td style="vertical-align: middle; text-align: left;">${formattedPrice}</td>
+                        </tr>
+                    `);
+                });
+            }
+        });
+    }
+
+    function GetRecentProducts() {
+        $.ajax({
+            url: `/GetRecentProducts`, 
+            method: 'GET',
+            success: function(products) { 
+                products.forEach(function(row, index) {
+                    const formattedDate = new Date(row.date_created).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+
+                    $('#loadRecentlyAdded').append(`
+                        <tr>
+                            <td style="vertical-align: middle; text-align: left;">${index + 1}</td>
+                            <td style="vertical-align: middle; text-align: left;">${row.product_name}</td>
+                            <td style="vertical-align: middle; text-align: left;">${formattedDate}</td>
+                        </tr>
+                    `);
+                });
+            }
+        });
+    }
+
+    function testing() {
+        $.ajax({
+            url: `/testing`, 
+            method: 'GET',
+            success: function(products) { 
+                console.log(products);
             }
         });
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        GetCategoryDistributionPie();
-        GetCategoryDistributionBar();
+        GetCategoryLineChart();
+        GetTotalInventoryValue();
+        GetMostExpensiveProducts();
+        GetRecentProducts();
+        testing()
     });
 </script>

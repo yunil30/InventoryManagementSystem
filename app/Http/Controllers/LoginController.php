@@ -39,7 +39,7 @@ class LoginController extends Controller {
                 'u_level' => $user->access_level,
             ]);
 
-            return redirect()->intended('/ShowHomePage');
+            return redirect()->intended('/');
         }
     
         return back()->withErrors([

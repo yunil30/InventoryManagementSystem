@@ -110,8 +110,7 @@ class ProductController extends Controller {
         return response()->json(['message' => 'Product record created successfully!']);
     }
 
-    public function Dashboard(Request $request)
-    {
+    public function Dashboard(Request $request) {
         // 1. Product Category Distribution
         $categoryCounts = ProductModel::select('product_category', DB::raw('count(*) as count'))
                                  ->groupBy('product_category')
@@ -182,22 +181,91 @@ class ProductController extends Controller {
         ]);
     }
 
-    public function GetCategoryDistribution() {
-        // Retrieve the products with the category relationship loaded
+    public function GetProductQuantityByCategory() {
         $products = ProductModel::with('category')->get();
 
-        // Group the products by category
         $grouped = $products->groupBy(function ($product) {
-            return $product->category ? $product->category->category : 'Unknown'; // Category name or 'Unknown' if not set
+            return $product->category ? $product->category->category : 'Unknown';
         });
 
-        // Get the category names and counts
-        $categories = $grouped->keys()->toArray(); // Get the category names (keys of the group)
+        $categories = $grouped->keys()->toArray();
         $quantities = $grouped->map(function ($items) {
-            // Sum up the product quantities for each category
             return $items->sum('product_quantity');
         })->toArray();
 
         return ['categories' => $categories, 'quantities' => $quantities];
     }
+
+    public function GetTotalInventoryValue() {
+        $products = ProductModel::all();
+        
+        $totalValue = 0;
+    
+        foreach ($products as $product) {
+            $totalValue += $product->product_quantity * $product->product_price;
+        }
+    
+        return ['totalValue' => $totalValue];
+    }
+
+    public function GetMostExpensiveProducts() {
+        $mostExpensiveProducts = ProductModel::select('ProductID', 'product_name', 'product_price')
+            ->orderBy('product_price', 'desc')
+            ->take(5)
+            ->get();
+    
+        return response()->json($mostExpensiveProducts);
+    }
+    
+    public function GetRecentProducts() {
+        $recentProducts = ProductModel::select('product_name', 'date_created')
+            ->orderBy('date_created', 'desc')
+            ->take(5)
+            ->get();
+
+        return response()->json($recentProducts);
+    }
+
+    public function testing()
+    {
+        // Retrieve all product records from the database
+        $products = ProductModel::all();
+    
+        // Initialize an array to store products with their statuses
+        $productStatuses = [];
+    
+        foreach ($products as $product) {
+            // Determine the product status based on quantity and product status
+            $status = $this->getProductStatus($product);
+    
+            // Add the product and its status to the result array
+            $productStatuses[] = [
+                'product_code' => $product->product_code,
+                'product_name' => $product->product_name,
+                'product_quantity' => $product->product_quantity,
+                'product_status' => $product->product_status, // product_status = 1 (active), 0 (inactive)
+                'status' => $status, // This is the calculated status (In Stock, Low Stock, or Out of Stock)
+            ];
+        }
+    
+        // Return the product status data as JSON
+        return response()->json($productStatuses);
+    }
+    
+    // Helper method to determine the product status
+    private function getProductStatus($product)
+    {
+        // Define the stock status based on product quantity
+        if ($product->product_quantity == 0) {
+            return 'Out of Stock'; // If quantity is 0, it's out of stock
+        }
+    
+        if ($product->product_quantity < 5) {
+            return 'Low Stock'; // If quantity is below 5, it's low stock
+        }
+    
+        return 'In Stock'; // If quantity is 5 or more, it's in stock
+    }
+    
+    
 }

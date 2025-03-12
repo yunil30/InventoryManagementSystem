@@ -13,6 +13,7 @@
 
 <style>
     body {
+        background-color: #e5f3fc;
         margin: 0;
         height: 100vh;
         display: grid;
@@ -43,7 +44,7 @@
 
             a {
                 color: #1f2328;
-                font-size: 16px;
+                font-size: 18px;
                 font-weight: 600;
                 letter-spacing: .5px;
                 display: flex;
@@ -118,7 +119,6 @@
                     align-items: center;
 
                     &:hover {
-                        /* background-color: #d5d8dc; */
                         border: 1px solid #357edd;
                         color: #357edd;
                     }
@@ -249,7 +249,7 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                height: 10vh;
+                height: 7vh;
                 
                 h3 {
                     color: #1f2328;
@@ -285,17 +285,29 @@
             .content-body {
                 table {
                     th {
-                        color: #1f2328;
+                        background-color: #357edd;
+                        color: #ffffff;
                         font-size: 0.9rem;
                         font-weight: 600;
                         letter-spacing: .5px;
                     }
 
                     td {
+                        background-color: #ffffff;
                         color: #1f2328;
                         font-size: 0.9rem;
                         font-weight: 400;
                         letter-spacing: .5px;
+
+                        button:hover {
+                            border: 1px solid ffffff;
+                            color: #0d6Efd;
+                        }
+
+                        button:active {
+                            color: #ffffff;
+                            font-size: 0.8rem;
+                        }
                     }
                 }
 

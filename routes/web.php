@@ -20,7 +20,11 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth.user'])->group(function () {
-    Route::get('/GetCategoryDistribution', [ProductController::class, 'GetCategoryDistribution']);
+    Route::get('/GetProductQuantityByCategory', [ProductController::class, 'GetProductQuantityByCategory']);
+    Route::get('/GetTotalInventoryValue', [ProductController::class, 'GetTotalInventoryValue']);
+    Route::get('/GetMostExpensiveProducts', [ProductController::class, 'GetMostExpensiveProducts']);
+    Route::get('/GetRecentProducts', [ProductController::class, 'GetRecentProducts']);
+    Route::get('/testing', [ProductController::class, 'testing']);
 
     Route::get('/GetMenu', [UserController::class, 'GetMenu']);
     Route::post('/logout', [LoginController::class, 'userLogout'])->name('userLogout');
@@ -61,7 +65,7 @@ Route::middleware(['auth.user'])->group(function () {
 
     Route::middleware(['auth.accessLevel:3'])->group(function () {
         Route::get('/', function () {return view('home');});
-        Route::get('/ShowHomePage', [LoginController::class, 'ShowHomePage']);
+        Route::get('/', [LoginController::class, 'ShowHomePage']);
         Route::get('/ShowListOfProducts', [UserController::class, 'ShowListOfProducts']);
         Route::get('/ShowUserProfile', [UserController::class, 'ShowUserProfile']);
         Route::get('/GetUserInformation', [UserController::class, 'GetUserInformation']);

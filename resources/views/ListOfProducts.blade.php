@@ -160,7 +160,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btnSubmitCreateCategory" onclick="CreateNewCategory()">Submit</button>
+                <button type="button" class="btn btn-success" id="btnSubmitCreateCategory" onclick="CreateProductCategory()">Submit</button>
             </div>
         </div>
     </div>
@@ -304,6 +304,31 @@
             },
             error: function(error) {
                 console.log('Error removing product record', error);
+            }
+        });
+    }
+
+    function CreateProductCategory() {
+        const submit = document.getElementById('btnSubmitCreateCategory');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const productCategory = document.getElementById('addCategory').value;
+
+        submit.disabled = true;
+        
+        $.ajax({
+            url: `/CreateProductCategory`,
+            method: 'POST',
+            data: {
+                _token: csrfToken,
+                category: productCategory,
+            },
+            success: function(response) {
+                console.log('Product category created successfully', response);
+                window.location.reload();
+                submit.disabled = false;
+            },
+            error: function(error) {
+                console.log('Error creating product category', error);
             }
         });
     }

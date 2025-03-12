@@ -140,7 +140,7 @@
             url: '/GetAllMenus',
             method: 'GET',
             success: function(menus) {
-                console.table(menus);
+                console.table(menus);   
 
                 if ($.fn.DataTable.isDataTable('#menutListTable')) {
                     $('#menutListTable').DataTable().destroy();
