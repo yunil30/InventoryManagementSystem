@@ -110,77 +110,6 @@ class ProductController extends Controller {
         return response()->json(['message' => 'Product record created successfully!']);
     }
 
-    public function Dashboard(Request $request) {
-        // 1. Product Category Distribution
-        $categoryCounts = ProductModel::select('product_category', DB::raw('count(*) as count'))
-                                 ->groupBy('product_category')
-                                 ->get();
-
-        $categories = [];
-        $counts = [];
-        foreach ($categoryCounts as $category) {
-            $categories[] = $category->category->category;  // Eager load 'category' relationship
-            $counts[] = $category->count;
-        }
-
-        // 2. Stock Level Distribution (In Stock, Low Stock, Out of Stock)
-        $stockStatusCounts = ProductModel::select('product_status', DB::raw('count(*) as count'))
-                                    ->groupBy('product_status')
-                                    ->get();
-
-        $statusLabels = ['In Stock', 'Out of Stock'];
-        $stockCounts = [0, 0]; // Default values
-        foreach ($stockStatusCounts as $status) {
-            if ($status->product_status == 1) {
-                $stockCounts[0] = $status->count; // In Stock
-            } else {
-                $stockCounts[1] = $status->count; // Out of Stock
-            }
-        }
-
-        // 3. Total Inventory Value (Price * Quantity)
-        $totalInventoryValue = ProductModel::sum(DB::raw('product_price * product_quantity'));
-
-        // 4. Top 5 Most Expensive Products
-        $mostExpensiveProducts = ProductModel::orderBy('product_price', 'desc')
-                                        ->take(5)
-                                        ->get();
-
-        // 5. Recently Added Products
-        $recentProducts = ProductModel::orderBy('date_created', 'desc')
-                                 ->take(5)
-                                 ->get();
-
-        // 6. Price Range Distribution
-        $priceRanges = ProductModel::select(DB::raw('
-                CASE
-                    WHEN product_price <= 10000 THEN "0-10000"
-                    WHEN product_price BETWEEN 10001 AND 30000 THEN "10001-30000"
-                    ELSE "30000+" 
-                END AS price_range'), DB::raw('count(*) as count'))
-            ->groupBy('price_range')
-            ->get();
-
-        $priceLabels = [];
-        $priceCounts = [];
-        foreach ($priceRanges as $range) {
-            $priceLabels[] = $range->price_range;
-            $priceCounts[] = $range->count;
-        }
-
-        return response()->json([
-            'categoryCounts' => $categoryCounts,
-            'stockStatusCounts' => $stockStatusCounts,
-            'totalInventoryValue' => $totalInventoryValue,
-            'mostExpensiveProducts' => $mostExpensiveProducts,
-            'recentProducts' => $recentProducts,
-            'priceRangeDistribution' => [
-                'labels' => $priceLabels,
-                'counts' => $priceCounts
-            ]
-        ]);
-    }
-
     public function GetProductQuantityByCategory() {
         $products = ProductModel::with('category')->get();
 
@@ -226,46 +155,15 @@ class ProductController extends Controller {
         return response()->json($recentProducts);
     }
 
-    public function testing()
-    {
-        // Retrieve all product records from the database
-        $products = ProductModel::all();
+    public function GetProductStatus() {
+        $inStockCount = ProductModel::where('product_quantity', '>=', 5)->sum('product_quantity'); 
+        $lowStockCount = ProductModel::where('product_quantity', '<', 5)->where('product_quantity', '>', 0)->sum('product_quantity');
+        $outOfStockCount = ProductModel::where('product_quantity', 0)->sum('product_quantity');  
     
-        // Initialize an array to store products with their statuses
-        $productStatuses = [];
-    
-        foreach ($products as $product) {
-            // Determine the product status based on quantity and product status
-            $status = $this->getProductStatus($product);
-    
-            // Add the product and its status to the result array
-            $productStatuses[] = [
-                'product_code' => $product->product_code,
-                'product_name' => $product->product_name,
-                'product_quantity' => $product->product_quantity,
-                'product_status' => $product->product_status, // product_status = 1 (active), 0 (inactive)
-                'status' => $status, // This is the calculated status (In Stock, Low Stock, or Out of Stock)
-            ];
-        }
-    
-        // Return the product status data as JSON
-        return response()->json($productStatuses);
+        return response()->json([
+            'inStock' => $inStockCount,
+            'lowStock' => $lowStockCount,
+            'outOfStock' => $outOfStockCount
+        ]);
     }
-    
-    // Helper method to determine the product status
-    private function getProductStatus($product)
-    {
-        // Define the stock status based on product quantity
-        if ($product->product_quantity == 0) {
-            return 'Out of Stock'; // If quantity is 0, it's out of stock
-        }
-    
-        if ($product->product_quantity < 5) {
-            return 'Low Stock'; // If quantity is below 5, it's low stock
-        }
-    
-        return 'In Stock'; // If quantity is 5 or more, it's in stock
-    }
-    
-    
 }

@@ -24,7 +24,7 @@ Route::middleware(['auth.user'])->group(function () {
     Route::get('/GetTotalInventoryValue', [ProductController::class, 'GetTotalInventoryValue']);
     Route::get('/GetMostExpensiveProducts', [ProductController::class, 'GetMostExpensiveProducts']);
     Route::get('/GetRecentProducts', [ProductController::class, 'GetRecentProducts']);
-    Route::get('/testing', [ProductController::class, 'testing']);
+    Route::get('/GetProductStatus', [ProductController::class, 'GetProductStatus']);
 
     Route::get('/GetMenu', [UserController::class, 'GetMenu']);
     Route::post('/logout', [LoginController::class, 'userLogout'])->name('userLogout');
