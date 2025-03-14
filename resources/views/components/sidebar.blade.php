@@ -2,7 +2,7 @@
     <div class="menu-list"></div>
     <div class="menu-logout">
         <div class="menu-item">
-            <a href="#" class="parent-menu" id="showLogoutModal">Logout</a>
+            <a href="#" class="parent-menu" id="showLogoutModal"><i class="fas fa-arrow-right-from-bracket"></i>Logout<i></i></a>
         </div>
     </div>
 </aside>
@@ -39,11 +39,13 @@
                 
                 parentMenus.forEach(parent => {
                     let listItem = `<div class="menu-item">
-                                        <a href="${parent.menu_page}" class="parent-menu" data-id="${parent.MenuID}">${parent.menu_name}`;
+                                        <a href="${parent.menu_page}" class="parent-menu" data-id="${parent.MenuID}"><i class="${parent.menu_icon}"></i>${parent.menu_name}`;
 
                     // Add toggle icon only if menu_page is '#'
                     if (parent.menu_page === '#') {
-                        listItem += `<span class="menu-toggle-icon"><i class="fas fa-chevron-down"></i></span>`;
+                        listItem += `<i class="fas fa-chevron-down menu-toggle-icon" style="margin-left: auto;"></i>`;
+                    } else {
+                        listItem += `<i></i>`;
                     }
                     listItem += `</a>`;
 
@@ -51,7 +53,7 @@
                     if (children.length) {
                         listItem += `<div class="child-menu">`; // Initially hide the child menu
                         children.forEach(child => {
-                            listItem += `<a href="${child.menu_page}">${child.menu_name}</a>`;
+                            listItem += `<a href="${child.menu_page}"><i class="${child.menu_icon}"></i>${child.menu_name}</a>`;
                         });
                         listItem += `</div>`;
                     }
@@ -68,7 +70,7 @@
                         
                         let parentMenuId = $(this).data('id');
                         let childMenu = $(this).next('.child-menu');
-                        let icon = $(this).find('.menu-toggle-icon i');
+                        let icon = $(this).find('.menu-toggle-icon');
 
                         // Toggle the icon between up and down
                         if (childMenu.is(':visible')) {

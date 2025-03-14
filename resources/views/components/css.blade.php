@@ -159,6 +159,14 @@
                     justify-content: space-between;
                     align-items: center;
 
+                    i:first-child {
+                        margin-right: 10px;
+                    }
+
+                    i:last-child {
+                        margin-left: auto;
+                    }
+
                     &:hover {
                         /* background-color: #d5d8dc;*/
                         border: 1px solid #357edd;
@@ -170,11 +178,11 @@
                         color: #357edd;
                     }
                 }
-            }
 
-            .menu-toggle-icon {
-                font-size: 12px;
-                transition: transform 0.3s ease;
+                .menu-toggle-icon {
+                    font-size: 12px;
+                    transition: transform 0.3s ease;
+                }
             }
 
             .child-menu {
@@ -187,6 +195,10 @@
                     text-decoration: none;
                     color: #1f2328;
                     padding: 1rem 1rem 1rem 3rem;
+
+                    i:first-child {
+                        margin-right: 10px;
+                    }
 
                     &:hover {
                         /* background-color: #d5d8dc; */
@@ -218,6 +230,14 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+
+                    i:first-child {
+                        margin-right: 10px;
+                    }
+
+                    i:last-child {
+                        margin-left: auto;
+                    }
 
                     &:hover {
                         /* background-color: #d5d8dc;*/

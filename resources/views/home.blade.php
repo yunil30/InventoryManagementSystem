@@ -88,7 +88,7 @@
         <div class="col-md-12 content-body">
             <div class="col-md-12">
                 <div class="row ProductListingDiv">
-                    <div class="col-md-6 MostExpensiveProductsDiv">
+                    <div class="col-md-5 MostExpensiveProductsDiv">
                         <h5>Most Expensive Products</h5>
                         <table class="table table-hover table-bordered" id="expensiveProductsTable">
                             <thead>
@@ -200,7 +200,7 @@
                         y: {
                             title: {
                                 display: true,
-                                text: 'Product Quantity',
+                                text: 'Total Quantity',
                             },
                             grid: {
                                 color: '#1f2328',
