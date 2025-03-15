@@ -1,7 +1,5 @@
 <x-layout>
     <style>
-
-
         .ProductListingDiv {
             display: flex; 
             justify-content: space-between;
@@ -18,7 +16,7 @@
                     border: 1px solid #ffffff;
 
                     th {
-                        background-color: #357edd;
+                        background-color: #0d6Efd;
                         color: #ffffff;
                         font-size: 14.4px;
                         font-weight: 500;
@@ -272,11 +270,11 @@
                             'rgba(255, 99, 132, 0.3)'   // Out of Stock color
                         ],
                         borderColor: [
-                            'rgba(41, 128, 185, 1)',
-                            'rgba(211, 84, 0, 1)',
-                            'rgba(255, 99, 132, 1)'
+                            'rgba(13, 110, 253)',
+                            'rgba(211, 84, 0)',
+                            'rgba(255, 99, 132)'
                         ],
-                        borderWidth: 1,
+                        borderWidth: 2,
                         // Adjust bar thickness if necessary
                         barThickness: 100, // This controls the width of each individual bar (try adjusting this value)
                         maxBarThickness: 100, // Max thickness for bars

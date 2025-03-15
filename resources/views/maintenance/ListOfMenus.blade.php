@@ -57,8 +57,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btnSubmitCreateMenu" onclick="CreateNewMenu()">Submit</button>
+                <button type="button" class="btn danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn success" id="btnSubmitCreateMenu" onclick="CreateNewMenu()">Submit</button>
             </div>
         </div>
     </div>
@@ -101,8 +101,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btnSubmitEditMenu">Submit</button>
+                <button type="button" class="btn danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn success" id="btnSubmitEditMenu">Submit</button>
             </div>
         </div>
     </div>
@@ -122,8 +122,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btnConfirmRemoveMenu">Confirm</button>
+                <button type="button" class="btn danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn success" id="btnConfirmRemoveMenu">Confirm</button>
             </div>
         </div>
     </div>
