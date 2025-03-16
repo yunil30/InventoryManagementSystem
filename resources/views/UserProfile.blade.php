@@ -82,8 +82,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btnEditInfo">Submit</button>
+                <button type="button" class="btn danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn success" id="btnEditInfo">Submit</button>
             </div>
         </div>
     </div>
@@ -110,8 +110,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btnEditContacts">Submit</button>
+                <button type="button" class="btn danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn success" id="btnEditContacts">Submit</button>
             </div>
         </div>
     </div>
@@ -142,8 +142,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btnChangePassword" disabled>Submit</button>
+                <button type="button" class="btn danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn success" id="btnChangePassword" disabled>Submit</button>
             </div>
         </div>
     </div>

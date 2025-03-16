@@ -2,7 +2,9 @@
     <div class="col-md-12 main-content">
         <div class="col-md-12 content-header">
             <h3>List of Users</h3>
-            <button type="button" class="btn btn-primary" id="btnAddUser">Add User</button>
+            @can('create-user')
+                <button type="button" class="btn btn-primary" id="btnAddUser" onclick="ShowCreateUserModal()">Add User</button>
+            @endcan
         </div>
         <div class="col-md-12 content-body">
             <table class="table table-hover table-bordered" id="userListTable">
@@ -77,8 +79,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btnSubmitCreateUser" onclick="CreateNewUser()">Submit</button>
+                <button type="button" class="btn danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn success" id="btnSubmitCreateUser" onclick="CreateNewUser()">Submit</button>
             </div>
         </div>
     </div>
@@ -134,8 +136,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btnSubmitEditUser">Submit</button>
+                <button type="button" class="btn danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn success" id="btnSubmitEditUser">Submit</button>
             </div>
         </div>
     </div>
@@ -155,18 +157,19 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btnConfirmRemoveUser">Confirm</button>
+                <button type="button" class="btn danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn success" id="btnConfirmRemoveUser">Confirm</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    document.getElementById('btnAddUser').addEventListener('click', function() {
+    function ShowCreateUserModal() {
         const modal = new bootstrap.Modal(document.getElementById('createUserModal'));
+
         modal.show();
-    });
+    }
 
     function GetListOfUsers() {
         $.ajax({

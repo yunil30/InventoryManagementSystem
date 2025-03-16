@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Name</title>
+    <title>Inventory Manager</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
@@ -34,11 +34,15 @@
             margin: 0px;
 
             h4 {
+                text-decoration: none; 
                 color: #1f2328;
+                font-size: 1.5rem;
+                font-weight: 600;
                 letter-spacing: .5px;
-                text-shadow: 0px 0px 1px rgba(23, 32, 42, 0.8);
                 padding: 0px;
                 margin: 0px;
+                display: flex;
+                align-items: center;
             }
         }
 
@@ -47,9 +51,11 @@
             margin: 0px;
 
             h5 {
+                text-decoration: none;
                 color: #1f2328;
+                font-size: 1.2rem;
+                font-weight: 600;
                 letter-spacing: .5px;
-                text-shadow: 0px 0px 1px rgba(23, 32, 42, 0.8);
             }
 
             #btnLogin {
@@ -170,7 +176,7 @@
     <form action="{{ route('userLogin') }}" method="POST">
         @csrf
         <div class="form-header">
-            <h4 class="form-title">Company Name</h4>
+            <h4 class="form-title">Inventory Manager</h4>
         </div>
 
         <div class="form-body">

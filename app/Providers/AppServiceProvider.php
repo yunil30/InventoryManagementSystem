@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,7 +21,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
-        // $router = $this->app['router'];
-        // $router->aliasMiddleware('auth.redirect', \App\Http\Middleware\AuthenticateUser::class);
+        Gate::define('create-user', function ($user) {
+            return $user->access_level == 1; 
+        });
     }
 }

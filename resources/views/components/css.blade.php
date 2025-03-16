@@ -31,7 +31,7 @@
         grid-area: header;
         background-color: #ffffff;
         box-shadow: 0px 1px 5px #00000047;
-        padding: 0.5rem 2rem 0.5rem 1.5rem;
+        padding: 0.5rem 2rem 0.5rem 1.2rem;
         position: sticky;
         display: flex;
         justify-content: space-between; 
@@ -43,13 +43,12 @@
             align-items: center;
 
             a {
+                text-decoration: none; 
                 color: #1f2328;
-                font-size: 18px;
+                font-size: 1.5rem;
                 font-weight: 600;
                 letter-spacing: .5px;
-                display: flex;
-                align-items: center;
-                text-decoration: none;
+                /* text-shadow: 0px 0px 1px rgba(23, 32, 42, 0.8); */
 
                 i {
                     margin-right: 8px;
@@ -308,7 +307,7 @@
                         background-color: #0d6efd;
                         color: #ffffff;
                         font-size: 0.9rem;
-                        font-weight: 600;
+                        font-weight: 500;
                         letter-spacing: .5px;
                     }
 
@@ -666,9 +665,10 @@
                 color: #0d6Efd;
                 font-size: 14.4px;
                 font-weight: 500;
+                letter-spacing: 0.5px;
 
                 &:hover {
-                    background-color: #0d6dfd2a;
+                    background-color: #e5f3fc;
                     border: 1px solid #0d6Efd;
                     color: #0d6Efd;
                 }
@@ -684,7 +684,8 @@
                 border: 1px solid #0d6Efd;
                 color: #ffffff;
                 font-size: 14.4px;
-                font-weight: 500;
+                font-weight: 400;
+                letter-spacing: 0.5px;
                 
                 &:hover {
                     background-color: #0869fc;

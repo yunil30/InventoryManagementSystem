@@ -65,8 +65,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btnSubmitCreateProduct" onclick="CreateNewProduct()">Submit</button>
+                <button type="button" class="btn danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn success" id="btnSubmitCreateProduct" onclick="CreateNewProduct()">Submit</button>
             </div>
         </div>
     </div>
@@ -114,8 +114,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btnSubmitEditProduct">Submit</button>
+                <button type="button" class="btn danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn success" id="btnSubmitEditProduct">Submit</button>
             </div>
         </div>
     </div>
@@ -135,8 +135,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btnConfirmRemoveProduct">Confirm</button>
+                <button type="button" class="btn danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn success" id="btnConfirmRemoveProduct">Confirm</button>
             </div>
         </div>
     </div>
@@ -159,8 +159,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btnSubmitCreateCategory" onclick="CreateProductCategory()">Submit</button>
+                <button type="button" class="btn danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn success" id="btnSubmitCreateCategory" onclick="CreateProductCategory()">Submit</button>
             </div>
         </div>
     </div>

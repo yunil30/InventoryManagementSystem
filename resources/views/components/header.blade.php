@@ -1,10 +1,9 @@
 <header class="header">
-    
     <div class="logo">
         <div class="header-logo-div">
             <a href="http://localhost:8040/">
-                <i class="fas fa-clipboard"></i><span> Company Name</span>
-            </a>
+                Inventory Manager
+            </a> 
         </div>
     </div>
 
