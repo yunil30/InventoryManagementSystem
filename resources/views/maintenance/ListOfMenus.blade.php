@@ -2,7 +2,9 @@
     <div class="col-md-12 main-content">
         <div class="col-md-12 content-header">
             <h3>List of Menus</h3>
-            <button type="button" class="btn btn-primary" id="btnAddMenu">Add Menu</button>
+            @can('create-menu-record')
+                <button type="button" class="btn btn-primary" id="btnAddMenu" onclick="ShowCreateMenuModal()">Add Menu</button>
+            @endcan
         </div>
         <div class="col-md-12 content-body">
             <table class="table table-hover table-bordered" id="menutListTable">
@@ -130,10 +132,8 @@
 </div>
 
 <script>
-    document.getElementById('btnAddMenu').addEventListener('click', function() {
-        const modal = new bootstrap.Modal(document.getElementById('createMenuModal'));
-        modal.show();
-    });
+    var canEditMenuRecord = @json(auth()->user()->can('edit-menu-record'));
+    var canRemoveMenuRecord = @json(auth()->user()->can('remove-menu-record'));
 
     function GetListOfMenus() {
         $.ajax({
@@ -158,8 +158,8 @@
                                 <td style="vertical-align: middle; text-align: center;">
                                     <div style="display: flex; justify-content: space-evenly; align-items: center; width: 100%;">
                                         <button class="btn btn-transparent" id="btnShowMenu${row.MenuID}" onclick="ShowMenuModal(${row.MenuID}, 'Show')"><span class="fas fa-eye"></span></button>
-                                        <button class="btn btn-transparent" id="btnEditMenu${row.MenuID}" onclick="ShowMenuModal(${row.MenuID}, 'Edit')"><span class="fas fa-pencil"></span></button>
-                                        <button class="btn btn-transparent" id="btnRemoveMenu${row.MenuID}" onclick="ShowRemoveMenuModal(${row.MenuID})"><span class="fas fa-trash"></span></button>
+                                        ${canEditMenuRecord ? `<button class="btn btn-transparent" id="btnEditMenu${row.MenuID}" onclick="ShowMenuModal(${row.MenuID}, 'Edit')"><span class="fas fa-pencil"></span></button>` : ''}
+                                        ${canRemoveMenuRecord ? `<button class="btn btn-transparent" id="btnRemoveMenu${row.MenuID}" onclick="ShowRemoveMenuModal(${row.MenuID})"><span class="fas fa-trash"></span></button>` : ''}
                                     </div>
                                 </td>
                             </tr>
@@ -181,6 +181,12 @@
                 console.error('Error fetching product record.');
             }
         });
+    }
+
+    function ShowCreateMenuModal() {
+        const modal = new bootstrap.Modal(document.getElementById('createMenuModal'));
+
+        modal.show();
     }
 
     function ShowMenuModal(MenuID, Mode) {

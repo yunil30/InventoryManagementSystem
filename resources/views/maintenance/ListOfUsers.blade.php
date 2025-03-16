@@ -2,7 +2,7 @@
     <div class="col-md-12 main-content">
         <div class="col-md-12 content-header">
             <h3>List of Users</h3>
-            @can('create-user')
+            @can('create-user-record')
                 <button type="button" class="btn btn-primary" id="btnAddUser" onclick="ShowCreateUserModal()">Add User</button>
             @endcan
         </div>
@@ -165,11 +165,8 @@
 </div>
 
 <script>
-    function ShowCreateUserModal() {
-        const modal = new bootstrap.Modal(document.getElementById('createUserModal'));
-
-        modal.show();
-    }
+    var canEditUserRecord = @json(auth()->user()->can('edit-user-record'));
+    var canRemoveUserRecord = @json(auth()->user()->can('remove-user-record'));
 
     function GetListOfUsers() {
         $.ajax({
@@ -193,8 +190,8 @@
                                 <td style="vertical-align: middle; text-align: center;">
                                     <div style="display: flex; justify-content: space-evenly; align-items: center; width: 100%;">
                                         <button class="btn btn-transparent" id="btnShowUser${row.UserID}" onclick="ShowUserModal(${row.UserID}, 'Show')"><span class="fas fa-eye"></span></button>
-                                        <button class="btn btn-transparent" id="btnEditUser${row.UserID}" onclick="ShowUserModal(${row.UserID}, 'Edit')"><span class="fas fa-pencil"></span></button>
-                                        <button class="btn btn-transparent" id="btnRemoveUser${row.UserID}" onclick="ShowRemoveUserModal(${row.UserID})"><span class="fas fa-trash"></span></button>
+                                        ${canEditUserRecord ? `<button class="btn btn-transparent" id="btnEditUser${row.UserID}" onclick="ShowUserModal(${row.UserID}, 'Edit')"><span class="fas fa-pencil"></span></button>` : ''}
+                                        ${canRemoveUserRecord ? `<button class="btn btn-transparent" id="btnRemoveUser${row.UserID}" onclick="ShowRemoveUserModal(${row.UserID})"><span class="fas fa-trash"></span></button>` : ''}
                                     </div>
                                 </td>
                             </tr>
@@ -216,6 +213,12 @@
                 console.error('Error fetching users.');
             }
         });
+    }
+
+    function ShowCreateUserModal() {
+        const modal = new bootstrap.Modal(document.getElementById('createUserModal'));
+
+        modal.show();
     }
 
     function ShowUserModal(UserID, Mode) {

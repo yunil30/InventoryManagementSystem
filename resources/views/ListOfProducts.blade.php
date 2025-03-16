@@ -2,7 +2,9 @@
     <div class="col-md-12 main-content">
         <div class="col-md-12 content-header">
             <h3>List of Products</h3>
-            <button type="button" class="btn btn-primary" id="btnAddProduct">Add Product</button>
+            @can('create-product-record')
+                <button type="button" class="btn btn-primary" id="btnAddProduct" onclick="ShowCreateProductModal()">Add Product</button>
+            @endcan
         </div>
         <div class="col-md-12 content-body">
             <table class="table table-hover table-bordered" id="productListTable">
@@ -167,6 +169,9 @@
 </div>
 
 <script>
+    var canEditProductRecord = @json(auth()->user()->can('edit-product-record'));
+    var canRemoveProductRecord = @json(auth()->user()->can('remove-product-record'));
+
     function LoadListOfProducts() {
         $.ajax({
             url: '/GetAllProducts',
@@ -192,8 +197,8 @@
                                 <td style="vertical-align: middle; text-align: center;">
                                     <div style="display: flex; justify-content: space-evenly; align-items: center; width: 100%;">
                                         <button class="btn btn-transparent" id="btnShowProduct${row.ProductID}" onclick="ShowProductModal(${row.ProductID}, 'Show')"><span class="fas fa-eye"></span></button>
-                                        <button class="btn btn-transparent" id="btnEditProduct${row.ProductID}" onclick="ShowProductModal(${row.ProductID}, 'Edit')"><span class="fas fa-pencil"></span></button>
-                                        <button class="btn btn-transparent" id="btnRemoveProduct${row.ProductID}" onclick="ShowRemoveProductModal(${row.ProductID})"><span class="fas fa-trash"></span></button>
+                                        ${canEditProductRecord ? `<button class="btn btn-transparent" id="btnEditProduct${row.ProductID}" onclick="ShowProductModal(${row.ProductID}, 'Edit')"><span class="fas fa-pencil"></span></button>` : ''}
+                                        ${canRemoveProductRecord ? `<button class="btn btn-transparent" id="btnRemoveProduct${row.ProductID}" onclick="ShowRemoveProductModal(${row.ProductID})"><span class="fas fa-trash"></span></button>` : ''}
                                     </div>
                                 </td>
                             </tr>
@@ -333,6 +338,26 @@
         });
     }
 
+    function ShowCreateProductModal() {
+        const productModalElement = document.getElementById('createProductModal');
+        const productModal = new bootstrap.Modal(productModalElement);
+        productModal.show();
+        GetAllProductCategory('addProductCategory');
+
+        document.getElementById('btnAddCategory').addEventListener('click', function() {
+            productModal.hide();
+
+            const existingBackdrop = document.querySelector('.modal-backdrop');
+            if (existingBackdrop) {
+                existingBackdrop.remove(); 
+            }
+
+            const categoryModalElement = document.getElementById('createCategoryModal');
+            const categoryModal = new bootstrap.Modal(categoryModalElement);
+            categoryModal.show();
+        });
+    }
+
     function ShowProductModal(ProductNo, Mode) {
         const modalTitle = document.getElementById('titleProductModal');
         const ProductCode = document.getElementById('showProductCode');
@@ -439,26 +464,6 @@
             }
         });
     }
-
-    document.getElementById('btnAddProduct').addEventListener('click', function() {
-        const productModalElement = document.getElementById('createProductModal');
-        const productModal = new bootstrap.Modal(productModalElement);
-        productModal.show();
-        GetAllProductCategory('addProductCategory');
-
-        document.getElementById('btnAddCategory').addEventListener('click', function() {
-            productModal.hide();
-
-            const existingBackdrop = document.querySelector('.modal-backdrop');
-            if (existingBackdrop) {
-                existingBackdrop.remove(); 
-            }
-
-            const categoryModalElement = document.getElementById('createCategoryModal');
-            const categoryModal = new bootstrap.Modal(categoryModalElement);
-            categoryModal.show();
-        });
-    });
 
     document.addEventListener('DOMContentLoaded', function() {
         LoadListOfProducts();

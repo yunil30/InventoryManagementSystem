@@ -32,11 +32,16 @@ Route::middleware(['auth.user'])->group(function () {
     Route::middleware(['auth.accessLevel:1'])->group(function () {
         // Users page controllers
         Route::get('/ShowListOfUsers', [UserController::class, 'ShowListOfUsers']);
-        Route::get('/GetAllUsers', [MaintenanceController::class, 'GetAllUsers']);
-        Route::get('/GetUserRecord', [MaintenanceController::class, 'GetUserRecord']);
         Route::post('/CreateUserRecord', [MaintenanceController::class, 'CreateUserRecord']);
         Route::post('/EditUserRecord', [MaintenanceController::class, 'EditUserRecord']);
         Route::post('/RemoveUserRecord', [MaintenanceController::class, 'RemoveUserRecord']);
+    });
+
+    Route::middleware(['auth.accessLevel:2'])->group(function () {
+        // Users page controllers
+        Route::get('/ShowListOfUsers', [UserController::class, 'ShowListOfUsers']);
+        Route::get('/GetAllUsers', [MaintenanceController::class, 'GetAllUsers']);
+        Route::get('/GetUserRecord', [MaintenanceController::class, 'GetUserRecord']);
 
         // Menu page controllers
         Route::get('/ShowListOfMenus', [UserController::class, 'ShowListOfMenus']);
@@ -46,24 +51,24 @@ Route::middleware(['auth.user'])->group(function () {
         Route::post('/EditMenuRecord', [MaintenanceController::class, 'EditMenuRecord']);
         Route::post('/RemoveMenuRecord', [MaintenanceController::class, 'RemoveMenuRecord']);
 
-        // Menu mapping controllers
-        Route::get('/ShowMenuMapping', function () {return view('maintenance.MenuMapping');});
-    });
-
-    Route::middleware(['auth.accessLevel:2'])->group(function () {
         // Product page controllers
-        Route::get('/GetProductRecord', [ProductController::class, 'GetProductRecord']);
-        Route::get('/GetAllProducts', [ProductController::class, 'GetAllProducts']);
         Route::post('/CreateProductRecord', [ProductController::class, 'CreateProductRecord']);
         Route::post('/EditProductRecord', [ProductController::class, 'EditProductRecord']);
         Route::post('/RemoveProductRecord', [ProductController::class, 'RemoveProductRecord']);
 
-        // Product category controllers
-        Route::get('/GetAllProductCategory', [ProductController::class, 'GetAllProductCategory']);
-        Route::post('/CreateProductCategory', [ProductController::class, 'CreateProductCategory']);
+        // Menu mapping controllers
+        Route::get('/ShowMenuMapping', function () {return view('maintenance.MenuMapping');});
     });
 
     Route::middleware(['auth.accessLevel:3'])->group(function () {
+        // Product page controllers
+        Route::get('/GetProductRecord', [ProductController::class, 'GetProductRecord']);
+        Route::get('/GetAllProducts', [ProductController::class, 'GetAllProducts']);
+
+        // Product category controllers
+        Route::get('/GetAllProductCategory', [ProductController::class, 'GetAllProductCategory']);
+        Route::post('/CreateProductCategory', [ProductController::class, 'CreateProductCategory']);
+
         Route::get('/', function () {return view('home');});
         Route::get('/', [LoginController::class, 'ShowHomePage']);
         Route::get('/ShowListOfProducts', [UserController::class, 'ShowListOfProducts']);
