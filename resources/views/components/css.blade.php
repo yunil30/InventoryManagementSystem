@@ -572,6 +572,32 @@
                 }
             }
 
+            textarea {
+                color: #1f2328;
+                font-size: 14px;
+                letter-spacing: .5px;
+                border-radius: 0px;
+                border: 1px solid #dee2e6;
+                padding: 10px 15px;
+                box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.3);
+
+                &::placeholder {
+                    font-size: 14px;
+                    letter-spacing: .5px;
+                    text-shadow: 0px 0px 1px rgba(23, 32, 42, 0.8);
+                    color: #8c8f92;
+                }
+
+                &:focus {
+                    border-color: #0056c0;
+                    font-size: 14px;
+                    letter-spacing: .5px;
+                    color: #1f2328;
+                    outline: none;
+                    box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.8);
+                }
+            }
+
             select {
                 color: #1f2328;
                 font-size: 14px;

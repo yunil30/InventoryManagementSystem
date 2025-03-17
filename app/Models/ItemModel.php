@@ -4,24 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\ProductCategoryModel;
+use App\Models\ItemCategoryModel;
 
-class ProductModel extends Model {
+class ItemModel extends Model {
     use HasFactory;
 
     public $timestamps = false;
 
-    protected $table = 'tbl_product_record';
+    protected $table = 'tbl_item_record';
 
-    protected $primaryKey = 'ProductID';
+    protected $primaryKey = 'ItemID';
 
     protected $fillable = [
-        'product_code', 
-        'product_name',
-        'product_category', 
-        'product_quantity',
-        'product_price', 
-        'product_status',
+        'item_code', 
+        'item_name',
+        'item_category', 
+        'item_quantity',
+        'item_price', 
+        'item_status',
         'created_by',
         'date_created',
         'modified_by', 
@@ -29,7 +29,7 @@ class ProductModel extends Model {
     ];
 
     public function category() {
-        return $this->belongsTo(ProductCategoryModel::class, 'product_category', 'CategoryID');
+        return $this->belongsTo(ItemCategoryModel::class, 'item_category', 'CategoryID');
     }
 
     public function getCategoryNameAttribute() {

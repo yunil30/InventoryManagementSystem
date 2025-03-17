@@ -4,7 +4,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function () {
@@ -20,11 +20,11 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth.user'])->group(function () {
-    Route::get('/GetProductQuantityByCategory', [ProductController::class, 'GetProductQuantityByCategory']);
-    Route::get('/GetTotalInventoryValue', [ProductController::class, 'GetTotalInventoryValue']);
-    Route::get('/GetMostExpensiveProducts', [ProductController::class, 'GetMostExpensiveProducts']);
-    Route::get('/GetRecentProducts', [ProductController::class, 'GetRecentProducts']);
-    Route::get('/GetProductStatus', [ProductController::class, 'GetProductStatus']);
+    Route::get('/GetItemQuantityByCategory', [ItemController::class, 'GetItemQuantityByCategory']);
+    Route::get('/GetTotalInventoryValue', [ItemController::class, 'GetTotalInventoryValue']);
+    Route::get('/GetMostExpensiveItems', [ItemController::class, 'GetMostExpensiveItems']);
+    Route::get('/GetRecentItems', [ItemController::class, 'GetRecentItems']);
+    Route::get('/GetItemStatus', [ItemController::class, 'GetItemStatus']);
 
     Route::get('/GetMenu', [UserController::class, 'GetMenu']);
     Route::post('/logout', [LoginController::class, 'userLogout'])->name('userLogout');
@@ -51,28 +51,29 @@ Route::middleware(['auth.user'])->group(function () {
         Route::post('/EditMenuRecord', [MaintenanceController::class, 'EditMenuRecord']);
         Route::post('/RemoveMenuRecord', [MaintenanceController::class, 'RemoveMenuRecord']);
 
-        // Product page controllers
-        Route::post('/CreateProductRecord', [ProductController::class, 'CreateProductRecord']);
-        Route::post('/EditProductRecord', [ProductController::class, 'EditProductRecord']);
-        Route::post('/RemoveProductRecord', [ProductController::class, 'RemoveProductRecord']);
+        // Item page controllers
+        Route::post('/CreateItemRecord', [ItemController::class, 'CreateItemRecord']);
+        Route::post('/EditItemRecord', [ItemController::class, 'EditItemRecord']);
+        Route::post('/RemoveItemRecord', [ItemController::class, 'RemoveItemRecord']);
 
         // Menu mapping controllers
         Route::get('/ShowMenuMapping', function () {return view('maintenance.MenuMapping');});
     });
 
     Route::middleware(['auth.accessLevel:3'])->group(function () {
-        // Product page controllers
-        Route::get('/GetProductRecord', [ProductController::class, 'GetProductRecord']);
-        Route::get('/GetAllProducts', [ProductController::class, 'GetAllProducts']);
+        // Item page controllers
+        Route::get('/GetItemRecord', [ItemController::class, 'GetItemRecord']);
+        Route::get('/GetAllItems', [ItemController::class, 'GetAllItems']);
 
-        // Product category controllers
-        Route::get('/GetAllProductCategory', [ProductController::class, 'GetAllProductCategory']);
-        Route::post('/CreateProductCategory', [ProductController::class, 'CreateProductCategory']);
+        // Item category controllers
+        Route::get('/GetAllItemCategory', [ItemController::class, 'GetAllItemCategory']);
+        Route::post('/CreateItemCategory', [ItemController::class, 'CreateItemCategory']);
 
         Route::get('/', function () {return view('home');});
         Route::get('/', [LoginController::class, 'ShowHomePage']);
-        Route::get('/ShowListOfProducts', [UserController::class, 'ShowListOfProducts']);
+        Route::get('/ShowListOfItems', [UserController::class, 'ShowListOfItems']);
         Route::get('/ShowUserProfile', [UserController::class, 'ShowUserProfile']);
+        Route::get('/ShowListOfRequests', [UserController::class, 'ShowListOfRequests']);
         Route::get('/GetUserInformation', [UserController::class, 'GetUserInformation']);
         Route::post('/EditUserInfo', [UserController::class, 'EditUserInfo']);
         Route::post('/EditUserContacts', [UserController::class, 'EditUserContacts']);

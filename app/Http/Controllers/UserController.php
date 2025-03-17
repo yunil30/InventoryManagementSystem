@@ -21,8 +21,12 @@ class UserController extends Controller {
         return view('UserProfile');
     }
 
-    public function ShowListOfProducts() {
-        return view('ListOfProducts');
+    public function ShowListOfItems() {
+        return view('ListOfItems');
+    }
+
+    public function ShowListOfRequests() {
+        return view('ListOfRequests');
     }
 
     public function GetMenu() {

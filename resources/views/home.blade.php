@@ -1,17 +1,17 @@
 <x-layout>
     <style>
-        .ProductListingDiv {
+        .ItemListingDiv {
             display: flex; 
             justify-content: space-between;
             padding-bottom: 2rem;
 
-            .RecentlyAddedProductsDiv,
-            .MostExpensiveProductsDiv {
+            .RecentlyAddedItemsDiv,
+            .MostExpensiveItemsDiv {
                 background-color: #ffffff;
                 padding: 1rem;
                 margin: 0rem;
                 
-                #expensiveProductsTable,
+                #expensiveItemsTable,
                 #recentlyAddedTable {
                     border: 1px solid #ffffff;
 
@@ -40,12 +40,12 @@
             padding: 1rem;
         }
 
-        .ProductDiv {
+        .ItemDiv {
             display: flex; 
             justify-content: space-between;
             padding-bottom: 2rem;
 
-            .ProductQuantityDiv {
+            .ItemQuantityDiv {
                 background-color: #ffffff;
                 display: flex;
                 justify-content: center;
@@ -61,7 +61,7 @@
                 }
             }
 
-            .ProductStatusDiv{
+            .ItemStatusDiv{
                 background-color: #ffffff;
                 display: flex;
                 justify-content: center;
@@ -85,28 +85,28 @@
         </div>
         <div class="col-md-12 content-body">
             <div class="col-md-12">
-                <div class="row ProductListingDiv">
-                    <div class="col-md-5 MostExpensiveProductsDiv">
-                        <h5>Most Expensive Products</h5>
-                        <table class="table table-hover table-bordered" id="expensiveProductsTable">
+                <div class="row ItemListingDiv">
+                    <div class="col-md-5 MostExpensiveItemsDiv">
+                        <h5>Most Expensive Items</h5>
+                        <table class="table table-hover table-bordered" id="expensiveItemsTable">
                             <thead>
                                 <tr>
                                     <th class="text-left" style="width: 20%; text-align: left;">No.</th>
-                                    <th class="text-left" style="width: 40%; text-align: left;">Product name</th>
-                                    <th class="text-left" style="width: 40%; text-align: left;">Product price</th>
+                                    <th class="text-left" style="width: 40%; text-align: left;">Item name</th>
+                                    <th class="text-left" style="width: 40%; text-align: left;">Item price</th>
                                 </tr>
                             </thead>
-                            <tbody id="loadExpensiveProducts"></tbody>
+                            <tbody id="loadExpensiveItems"></tbody>
                         </table> 
                     </div>
 
-                    <div class="col-md-5 RecentlyAddedProductsDiv">
-                        <h5>Recently Added Products</h5>
+                    <div class="col-md-5 RecentlyAddedItemsDiv">
+                        <h5>Recently Added Items</h5>
                         <table class="table table-hover table-bordered" id="recentlyAddedTable">
                             <thead>
                                 <tr>
                                     <th class="text-left" style="width: 20%; text-align: left;">No.</th>
-                                    <th class="text-left" style="width: 40%; text-align: left;">Product name</th>
+                                    <th class="text-left" style="width: 40%; text-align: left;">Item name</th>
                                     <th class="text-left" style="width: 40%; text-align: left;">Date Added</th>
                                 </tr>
                             </thead>
@@ -116,21 +116,21 @@
                 </div>
             </div>
 
-            <div class="col-md-12 ProductDiv">
-                <div class="col-md-5 ProductQuantityDiv">
+            <div class="col-md-12 ItemDiv">
+                <div class="col-md-5 ItemQuantityDiv">
                     <div class="col-md-12">
                         <div class="row">
-                            <h5>Product Quantity by Category</h5>
-                            <canvas id="ProductQuantityChart"></canvas>
+                            <h5>Item Quantity by Category</h5>
+                            <canvas id="ItemQuantityChart"></canvas>
                         </div>
                     </div>
                 </div>
     
-                <div class="col-md-5 ProductStatusDiv">
+                <div class="col-md-5 ItemStatusDiv">
                     <div class="col-md-12">
                         <div class="row">
-                            <h5>Product Status</h5>
-                            <canvas id="ProductStatusChart"></canvas>
+                            <h5>Item Status</h5>
+                            <canvas id="ItemStatusChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -147,11 +147,11 @@
 <script>
     function GetCategoryLineChart() {
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        var ProductQuantityChartCtx = document.getElementById('ProductQuantityChart').getContext('2d');
-        var ProductQuantityChart;
+        var ItemQuantityChartCtx = document.getElementById('ItemQuantityChart').getContext('2d');
+        var ItemQuantityChart;
 
         $.ajax({
-            url: `/GetProductQuantityByCategory`,
+            url: `/GetItemQuantityByCategory`,
             method: 'GET',
             data: {
                 _token: csrfToken,
@@ -163,7 +163,7 @@
                 const chartData = {
                     labels: categories,
                     datasets: [{
-                        label: 'Product Quantity',
+                        label: 'Item Quantity',
                         data: categories.map(category => Math.round(quantities[category] || 0)),
                         borderColor: '#357edd',
                         backgroundColor: 'rgba(41, 128, 185, 0.3)', 
@@ -178,7 +178,7 @@
                         x: {
                             title: {
                                 display: true,
-                                text: 'Product Category',
+                                text: 'Item Category',
                             },
                             grid: {
                                 color: '#1f2328',
@@ -234,7 +234,7 @@
                     }
                 };
               
-                ProductQuantityChart = new Chart(ProductQuantityChartCtx, {
+                ItemQuantityChart = new Chart(ItemQuantityChartCtx, {
                     type: 'line',
                     data: chartData,
                     options: chartOptions
@@ -246,24 +246,24 @@
         });
     }
 
-    function GetProductStatus() {
+    function GetItemStatus() {
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         $.ajax({
-            url: '/GetProductStatus',
+            url: '/GetItemStatus',
             method: 'GET',
             data: {
                 _token: csrfToken,  // CSRF Token for security
             },
-            success: function(products) {
-                console.table(products); // Log products for debugging
+            success: function(items) {
+                console.table(items); // Log items for debugging
 
-                var ctx = document.getElementById('ProductStatusChart').getContext('2d');
+                var ctx = document.getElementById('ItemStatusChart').getContext('2d');
 
                 const chartData = {
                     labels: ['In Stock', 'Low Stock', 'Out of Stock'],
                     datasets: [{
-                        label: 'Product Status Quantities',
-                        data: [products.inStock, products.lowStock, products.outOfStock],
+                        label: 'Item Status Quantities',
+                        data: [items.inStock, items.lowStock, items.outOfStock],
                         backgroundColor: [
                             'rgba(41, 128, 185, 0.3)',  // In Stock color
                             'rgba(211, 84, 0, 0.3)',  // Low Stock color
@@ -288,7 +288,7 @@
                         x: {
                             title: {
                                 display: true,
-                                text: 'Product Status',
+                                text: 'Item Status',
                             },
                             grid: {
                                 color: '#1f2328',
@@ -382,18 +382,18 @@
         });
     }
 
-    function GetMostExpensiveProducts() {
+    function GetMostExpensiveItems() {
         $.ajax({
-            url: `/GetMostExpensiveProducts`, 
+            url: `/GetMostExpensiveItems`, 
             method: 'GET',
-            success: function(products) { 
-                products.forEach(function(row, index) {
-                    const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'PHP' }).format(row.product_price);
+            success: function(items) { 
+                items.forEach(function(row, index) {
+                    const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'PHP' }).format(row.item_price);
 
-                    $('#loadExpensiveProducts').append(`
+                    $('#loadExpensiveItems').append(`
                         <tr>
                             <td style="vertical-align: middle; text-align: left;">${index + 1}</td>
-                            <td style="vertical-align: middle; text-align: left;">${row.product_name}</td>
+                            <td style="vertical-align: middle; text-align: left;">${row.item_name}</td>
                             <td style="vertical-align: middle; text-align: left;">${formattedPrice}</td>
                         </tr>
                     `);
@@ -402,18 +402,18 @@
         });
     }
 
-    function GetRecentProducts() {
+    function GetRecentItems() {
         $.ajax({
-            url: `/GetRecentProducts`, 
+            url: `/GetRecentItems`, 
             method: 'GET',
-            success: function(products) { 
-                products.forEach(function(row, index) {
+            success: function(items) { 
+                items.forEach(function(row, index) {
                     const formattedDate = new Date(row.date_created).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
 
                     $('#loadRecentlyAdded').append(`
                         <tr>
                             <td style="vertical-align: middle; text-align: left;">${index + 1}</td>
-                            <td style="vertical-align: middle; text-align: left;">${row.product_name}</td>
+                            <td style="vertical-align: middle; text-align: left;">${row.item_name}</td>
                             <td style="vertical-align: middle; text-align: left;">${formattedDate}</td>
                         </tr>
                     `);
@@ -425,8 +425,8 @@
     document.addEventListener('DOMContentLoaded', function() {
         GetCategoryLineChart();
         GetTotalInventoryValue();
-        GetMostExpensiveProducts();
-        GetRecentProducts();
-        GetProductStatus()
+        GetMostExpensiveItems();
+        GetRecentItems();
+        GetItemStatus()
     });
 </script>

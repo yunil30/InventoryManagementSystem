@@ -2,7 +2,7 @@
     <div class="menu-list"></div>
     <div class="menu-logout">
         <div class="menu-item">
-            <a href="#" class="parent-menu" id="showLogoutModal"><i class="fas fa-arrow-right-from-bracket"></i>Logout<i></i></a>
+            <a href="javascript:void(0)" class="parent-menu" id="showLogoutModal"><i class="fas fa-arrow-right-from-bracket"></i>Logout<i></i></a>
         </div>
     </div>
 </aside>
@@ -41,8 +41,8 @@
                     let listItem = `<div class="menu-item">
                                         <a href="${parent.menu_page}" class="parent-menu" data-id="${parent.MenuID}"><i class="${parent.menu_icon}"></i>${parent.menu_name}`;
 
-                    // Add toggle icon only if menu_page is '#'
-                    if (parent.menu_page === '#') {
+                    // Add toggle icon only if menu_page is 'javascript:void(0)'
+                    if (parent.menu_page === 'javascript:void(0)') {
                         listItem += `<i class="fas fa-chevron-down menu-toggle-icon" style="margin-left: auto;"></i>`;
                     } else {
                         listItem += `<i></i>`;
@@ -64,8 +64,8 @@
 
                 // Toggle child menus and icons when parent is clicked
                 $(".parent-menu").on("click", function(e) {
-                    // Prevent default action only if href is '#'
-                    if ($(this).attr('href') === '#') {
+                    // Prevent default action only if href is 'javascript:void(0)'
+                    if ($(this).attr('href') === 'javascript:void(0)') {
                         e.preventDefault(); // Prevent the default action of the link (changing the URL)
                         
                         let parentMenuId = $(this).data('id');
@@ -81,7 +81,7 @@
                             icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
                         }
                     } else {
-                        // Let the browser navigate to the URL if it's not '#'
+                        // Let the browser navigate to the URL if it's not 'javascript:void(0)'
                         window.location.href = $(this).attr('href'); 
                     }
                 });

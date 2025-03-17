@@ -33,16 +33,16 @@ class AppServiceProvider extends ServiceProvider
             return $user->access_level == 1; 
         });
 
-        // Gates for product records
-        Gate::define('create-product-record', function ($user) {
+        // Gates for item records
+        Gate::define('create-item-record', function ($user) {
             return $user->access_level <= 2; 
         });
 
-        Gate::define('edit-product-record', function ($user) {
+        Gate::define('edit-item-record', function ($user) {
             return $user->access_level <= 2; 
         });
 
-        Gate::define('remove-product-record', function ($user) {
+        Gate::define('remove-item-record', function ($user) {
             return $user->access_level == 1; 
         });
 
