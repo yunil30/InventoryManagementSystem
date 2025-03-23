@@ -252,10 +252,10 @@
             url: '/GetItemStatus',
             method: 'GET',
             data: {
-                _token: csrfToken,  // CSRF Token for security
+                _token: csrfToken,
             },
             success: function(items) {
-                console.table(items); // Log items for debugging
+                console.table(items);
 
                 var ctx = document.getElementById('ItemStatusChart').getContext('2d');
 

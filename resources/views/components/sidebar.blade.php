@@ -34,6 +34,7 @@
             url: `/GetMenu`,
             method: 'GET',
             success: function(menus) {
+                console.table(menus);
                 let parentMenus = menus.filter(menu => menu.menu_type === 'parent');
                 let childMenus = menus.filter(menu => menu.menu_type === 'child');
                 
