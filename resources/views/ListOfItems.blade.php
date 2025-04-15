@@ -172,6 +172,15 @@
     var canEditItemRecord = @json(auth()->user()->can('edit-item-record'));
     var canRemoveItemRecord = @json(auth()->user()->can('remove-item-record'));
 
+    const notyf = new Notyf({
+        duration: 2000,
+        ripple: true,
+        position: {
+            x: 'right',
+            y: 'top',
+        }
+    });
+
     function LoadListOfItems() {
         $.ajax({
             url: '/GetAllItems',
@@ -303,12 +312,14 @@
                 ItemNo: ItemNo,
             },
             success: function(response) {
-                console.log('Item record removed successfully', response);
-                window.location.reload();
+                notyf.success(response || 'Item was removed successfully');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
                 submit.disabled = false;
             },
             error: function(error) {
-                console.log('Error removing item record', error);
+                notyf.error(errro || 'Error removing item record');
             }
         });
     }

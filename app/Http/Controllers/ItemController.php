@@ -85,7 +85,7 @@ class ItemController extends Controller {
         $item->date_modified = now()->format('Y-m-d H:i:s');
         $item->save();
 
-        return response()->json(['message' => 'Item record removed successfully!']);
+        return response()->json(['message' => 'Item was removed successfully!']);
     }
 
     public function GetAllItemCategory() {

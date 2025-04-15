@@ -10,6 +10,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
 <!-- This is fontawesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<!-- Notyf CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
 <style>
     body {
@@ -727,6 +730,12 @@
                 }
             }
         }
+    }
+
+    .notyf__toast {
+        max-width: none !important;
+        width: auto !important;
+        white-space: nowrap;
     }
 </style>
 
