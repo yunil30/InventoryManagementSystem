@@ -135,6 +135,15 @@
     var canEditMenuRecord = @json(auth()->user()->can('edit-menu-record'));
     var canRemoveMenuRecord = @json(auth()->user()->can('remove-menu-record'));
 
+    const notyf = new Notyf({
+        duration: 2000,
+        ripple: true,
+        position: {
+            x: 'right',
+            y: 'top',
+        }
+    });
+
     function GetListOfMenus() {
         $.ajax({
             url: '/GetAllMenus',
@@ -255,12 +264,14 @@
                 menu_index: menuIndex,
             },
             success: function(response) {
-                console.log('Menu record created successfully', response);
-                window.location.reload();
+                notyf.success(response || 'Menu record created successfully!');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
                 submit.disabled = false;
             },
             error: function(error) {
-                console.log('Error creating menu record', error);
+                notyf.error(error || 'Error creating menu record!');
             }
         });
     }
@@ -317,12 +328,14 @@
                 MenuID: MenuID,
             },
             success: function(response) {
-                console.log('Menu record edited successfully', response);
-                window.location.reload();
+                notyf.success(response || 'Menu record edited successfully!');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
                 submit.disabled = false;
             },
             error: function(error) {
-                console.log('Error editing menu record', error);
+                notyf.error(error || 'Error editing menu record!');
             }
         });
     }
@@ -341,12 +354,14 @@
                 MenuID: MenuID,
             },
             success: function(response) {
-                console.log('Menu record removed successfully', response);
-                window.location.reload();
+                notyf.success(response || 'Menu record removed successfully');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
                 submit.disabled = false;
             },
             error: function(error) {
-                console.log('Error removing menu record', error);
+                notyf.error(error || 'Error removing menu record');
             }
         });
     }

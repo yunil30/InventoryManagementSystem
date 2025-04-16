@@ -254,12 +254,14 @@
                 item_price: itemPrice,
             },
             success: function(response) {
-                console.log('Item record created successfully', response);
-                window.location.reload();
+                notyf.success(response || 'Item record created successfully');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
                 submit.disabled = false;
             },
             error: function(error) {
-                console.log('Error creating item record', error);
+                notyf.error(error || 'Error creating item record');
             }
         });
     }
@@ -288,12 +290,14 @@
                 ItemNo: ItemNo,
             },
             success: function(response) {
-                console.log('Item record edited successfully', response);
-                window.location.reload();
+                notyf.success(response || 'Item record edited successfully');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
                 submit.disabled = false;
             },
             error: function(error) {
-                console.log('Error editing item record', error);
+                notyf.error(error || 'Error editing item record');
             }
         });
     }
@@ -339,12 +343,14 @@
                 category: itemCategory,
             },
             success: function(response) {
-                console.log('Item category created successfully', response);
-                window.location.reload();
+                notyf.success(response || 'Item category created successfully');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
                 submit.disabled = false;
             },
             error: function(error) {
-                console.log('Error creating item category', error);
+                notyf.error(error || 'Error creating item category');
             }
         });
     }

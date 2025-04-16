@@ -168,6 +168,15 @@
     var canEditUserRecord = @json(auth()->user()->can('edit-user-record'));
     var canRemoveUserRecord = @json(auth()->user()->can('remove-user-record'));
 
+    const notyf = new Notyf({
+        duration: 2000,
+        ripple: true,
+        position: {
+            x: 'right',
+            y: 'top',
+        }
+    });
+
     function GetListOfUsers() {
         $.ajax({
             url: '/GetAllUsers',
@@ -299,12 +308,14 @@
                 access_level: accessLevel
             },
             success: function(response) {
-                console.log('User created successfully', response);
-                window.location.reload();
+                notyf.success(response || 'User created successfully!');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
                 submit.disabled = false;
             },
             error: function(error) {
-                console.log('Error creating user', error);
+                notyf.error(error || 'Error creating user');
             }
         });
     }
@@ -369,12 +380,14 @@
                 UserID: UserID,
             },
             success: function(response) {
-                console.log('Successfully edited!', response);
-                window.location.reload();
+                notyf.success(response || 'Successfully edited!');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
                 submit.disabled = false;
             },
             error: function(error) {
-                console.error('Failed to edit!', error);
+                notyf.error(error || 'Failed to edit!');
             }
         });
     }
@@ -393,12 +406,14 @@
                 UserID: UserID,
             },
             success: function(response) {
-                console.log('Successfully removed!', response);
-                window.location.reload();
+                notyf.success(response || 'Successfully removed!');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
                 submit.disabled = false;
             },
             error: function(error) {
-                console.error('Failed to remove!', error);
+                notyf.error(error || 'Failed to remove!');
             }
         });
     }

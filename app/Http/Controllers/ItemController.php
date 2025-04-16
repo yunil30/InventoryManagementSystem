@@ -25,67 +25,79 @@ class ItemController extends Controller {
     }
 
     public function CreateItemRecord(Request $request) {
-        $UserID = session('u_id');
+        try {
+            $UserID = session('u_id');
 
-        $request->validate([
-            'item_code' => 'required|string|max:255',
-            'item_name' => 'required|string|max:255|unique:tbl_item_record,item_name',
-            'item_category' => 'required|string|max:255',
-            'item_quantity' => 'required|integer',
-            'item_price' => 'required|numeric',
-        ]);
-
-        ItemModel::create([
-            'item_code' => $request->input('item_code'),
-            'item_name' => $request->input('item_name'),
-            'item_category' => $request->input('item_category'),
-            'item_quantity' => $request->input('item_quantity'),
-            'item_price' => $request->input('item_price'),
-            'item_status' => 1,
-            'created_by' => $UserID
-        ]);
-
-        return response()->json(['message' => 'Item record created successfully!']);
+            $request->validate([
+                'item_code' => 'required|string|max:255',
+                'item_name' => 'required|string|max:255|unique:tbl_item_record,item_name',
+                'item_category' => 'required|string|max:255',
+                'item_quantity' => 'required|integer',
+                'item_price' => 'required|numeric',
+            ]);
+    
+            ItemModel::create([
+                'item_code' => $request->input('item_code'),
+                'item_name' => $request->input('item_name'),
+                'item_category' => $request->input('item_category'),
+                'item_quantity' => $request->input('item_quantity'),
+                'item_price' => $request->input('item_price'),
+                'item_status' => 1,
+                'created_by' => $UserID
+            ]);
+    
+            return response()->json(['message' => 'Item record created successfully!']);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Something went wrong!'], 500);
+        }
     }
 
     public function EditItemRecord(Request $request) {
-        $UserID = session('u_id');
-        $ItemRecordID = $request->input('ItemNo');
-
-        $request->validate([
-            'item_code' => 'required|string|max:255',
-            'item_name' => 'required|string|max:255|unique:tbl_item_record,item_name,' . $ItemRecordID . ',ItemID',
-            'item_category' => 'required|string|max:255',
-            'item_quantity' => 'required|integer',
-            'item_price' => 'required|numeric',
-        ]);
-
-        $item = ItemModel::find($ItemRecordID);
-
-        $item->item_code = $request->input('item_code');
-        $item->item_name = $request->input('item_name');
-        $item->item_category = $request->input('item_category');
-        $item->item_quantity = $request->input('item_quantity');
-        $item->item_price = $request->input('item_price');
-        $item->modified_by = $UserID;
-        $item->date_modified = now()->format('Y-m-d H:i:s');
-        $item->save();
-
-        return response()->json(['message' => 'Item record edited successfully!']);
+        try {
+            $UserID = session('u_id');
+            $ItemRecordID = $request->input('ItemNo');
+    
+            $request->validate([
+                'item_code' => 'required|string|max:255',
+                'item_name' => 'required|string|max:255|unique:tbl_item_record,item_name,' . $ItemRecordID . ',ItemID',
+                'item_category' => 'required|string|max:255',
+                'item_quantity' => 'required|integer',
+                'item_price' => 'required|numeric',
+            ]);
+    
+            $item = ItemModel::find($ItemRecordID);
+    
+            $item->item_code = $request->input('item_code');
+            $item->item_name = $request->input('item_name');
+            $item->item_category = $request->input('item_category');
+            $item->item_quantity = $request->input('item_quantity');
+            $item->item_price = $request->input('item_price');
+            $item->modified_by = $UserID;
+            $item->date_modified = now()->format('Y-m-d H:i:s');
+            $item->save();
+    
+            return response()->json(['message' => 'Item record edited successfully!']);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Something went wrong!'], 500);
+        }
     }
 
     public function RemoveItemRecord(Request $request) {
-        $UserID = session('u_id');
-        $ItemRecordID = $request->input('ItemNo');
+        try {
+            $UserID = session('u_id');
+            $ItemRecordID = $request->input('ItemNo');
+    
+            $item = ItemModel::find($ItemRecordID);
+    
+            $item->item_status = 0;
+            $item->modified_by = $UserID;
+            $item->date_modified = now()->format('Y-m-d H:i:s');
+            $item->save();
 
-        $item = ItemModel::find($ItemRecordID);
-
-        $item->item_status = 0;
-        $item->modified_by = $UserID;
-        $item->date_modified = now()->format('Y-m-d H:i:s');
-        $item->save();
-
-        return response()->json(['message' => 'Item was removed successfully!']);
+            return response()->json(['message' => 'Item was removed successfully!']);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Something went wrong!'], 500);
+        }
     }
 
     public function GetAllItemCategory() {
@@ -95,19 +107,23 @@ class ItemController extends Controller {
     }
 
     public function CreateItemCategory(Request $request) {
-        $UserID = session('u_id');
+        try {
+            $UserID = session('u_id');
 
-        $request->validate([
-            'category' => 'required|string|max:255|unique:tbl_item_category,category',
-        ]);
-
-        ItemCategoryModel::create([
-            'category' => $request->input('category'),
-            'category_status' => 1,
-            'created_by' => $UserID
-        ]);
-
-        return response()->json(['message' => 'Item record created successfully!']);
+            $request->validate([
+                'category' => 'required|string|max:255|unique:tbl_item_category,category',
+            ]);
+    
+            ItemCategoryModel::create([
+                'category' => $request->input('category'),
+                'category_status' => 1,
+                'created_by' => $UserID
+            ]);
+    
+            return response()->json(['message' => 'Item record created successfully!']);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Something went wrong!'], 500);
+        }
     }
 
     public function GetItemQuantityByCategory() {
