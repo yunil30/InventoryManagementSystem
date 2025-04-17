@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LoginModel;
+use App\Models\MenuMappingModel;
 use App\Models\MenuModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -205,5 +206,12 @@ class MaintenanceController extends Controller {
         } catch (\Throwable $e) {
             return response()->json(['error' => 'Something went wrong!'], 500);
         }
+    }
+
+    // Maintenance controllers menu mapping
+    public function GetAllMappedMenus() {
+        $menus = MenuModel::all();
+
+        return response()->json($menus);
     }
 }

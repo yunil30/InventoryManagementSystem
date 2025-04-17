@@ -5,6 +5,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ItemController;
+use Illuminate\Contracts\Foundation\MaintenanceMode;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function () {
@@ -35,6 +36,9 @@ Route::middleware(['auth.user'])->group(function () {
         Route::post('/CreateUserRecord', [MaintenanceController::class, 'CreateUserRecord']);
         Route::post('/EditUserRecord', [MaintenanceController::class, 'EditUserRecord']);
         Route::post('/RemoveUserRecord', [MaintenanceController::class, 'RemoveUserRecord']);
+        
+        // Menu mapping page controllers
+        Route::get('/GetAllMappedMenus', [MaintenanceController::class, 'GetAllMappedMenus']);
     });
 
     Route::middleware(['auth.accessLevel:2'])->group(function () {

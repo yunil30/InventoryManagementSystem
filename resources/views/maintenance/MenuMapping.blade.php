@@ -20,3 +20,22 @@
         </div>
     </div>
 </x-layout>
+
+<script>
+    function testing() {
+        $.ajax({
+            url: `/GetAllMappedMenus`,
+            method: 'GET',
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(error) {
+                console.error('Failed to get the user record!', error);
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        testing();
+    });
+</script>
