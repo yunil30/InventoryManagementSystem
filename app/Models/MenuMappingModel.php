@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MenuModel;
 
 class MenuMappingModel extends Model {
     protected $table = 'tbl_menu_mapping';
@@ -15,4 +16,14 @@ class MenuMappingModel extends Model {
         'MenuID',
         'access_level',
     ];
+
+    public function getMenuName() {
+        return $this->belongsTo(MenuModel::class, 'MenuID', 'MenuID');
+    }
+
+    public function getMenuNameAttribute() {
+        return $this->getMenuName ? $this->getMenuName->menu_name : null;
+    }
+
+    protected $appends = ['menu_name'];
 }

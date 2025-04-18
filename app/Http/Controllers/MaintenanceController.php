@@ -210,8 +210,14 @@ class MaintenanceController extends Controller {
 
     // Maintenance controllers menu mapping
     public function GetAllMappedMenus() {
-        $menus = MenuModel::all();
+        $menus = MenuMappingModel::all();
 
+        return response()->json($menus);
+    }
+
+    public function GetAccessMenus() {
+        $menus = MenuModel::select('MenuID', 'menu_name')->where('menu_status', 1)->get(); 
+ 
         return response()->json($menus);
     }
 }
