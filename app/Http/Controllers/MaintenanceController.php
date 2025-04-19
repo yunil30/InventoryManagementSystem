@@ -215,6 +215,14 @@ class MaintenanceController extends Controller {
         return response()->json($menus);
     }
 
+    public function GetMappedMenusByAccess(Request $request) {
+        $accessLevel = $request->input('accessLevel');
+
+        $menus = MenuMappingModel::select('RecID', 'MenuID', 'access_level')->where('access_level', $accessLevel)->get();
+
+        return response()->json($menus);
+    }
+
     public function GetAccessMenus() {
         $menus = MenuModel::select('MenuID', 'menu_name')->where('menu_status', 1)->get(); 
  

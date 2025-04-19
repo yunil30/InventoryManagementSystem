@@ -39,6 +39,7 @@ Route::middleware(['auth.user'])->group(function () {
         
         // Menu mapping page controllers
         Route::get('/GetAllMappedMenus', [MaintenanceController::class, 'GetAllMappedMenus']);
+        Route::get('/GetMappedMenusByAccess', [MaintenanceController::class, 'GetMappedMenusByAccess']);
         Route::get('/GetAccessMenus', [MaintenanceController::class, 'GetAccessMenus']);
     });
 

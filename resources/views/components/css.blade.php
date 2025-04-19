@@ -677,22 +677,38 @@
             }
 
             .choices__item--selectable {
-                background-color: #f1f1f1;
+                background-color: #e5f3fc;
                 border-radius: 5px;
                 padding: 1px 5px;
-                margin: 2px;
+                margin: 5px;
                 font-size: 0.9rem;
                 border: 1px solid #ccc;
-                color: #333;
+                color: #1f2328;
+              
+                .choices__button {
+                    color: #ffffff important;
+                    background-color: red;
+                    padding: 2px 10px;
+                    margin: 3px 0px 3px 3px;
+                    font-size: 0.9rem;
+                    border: 0;
+                }
             }
 
-            .choices__item--selectable .choices__button {
-                color: #333;
-                margin-left: 0px;
-                font-size: 1rem;
-                border-left: 1px solid #003642;
+            .choices__input {
+                color: #1f2328;
+                font-size: 14px;
+                letter-spacing: 0.5px;
+                border-radius: 0px;
+                border: 1px solid #dee2e6;
+                box-shadow: 0px 0px 3px rgba(23, 32, 42, 0.3);
+                padding: 2px 2px;
+                margin: 3px 3px 3px 3px;
+                outline: none;
+                background-color: white; 
+                min-width: 200px;
             }
-        }
+        }   
 
         .modal-footer {
             padding: 5px 20px 15px 20px;
@@ -757,8 +773,6 @@
         width: auto !important;
         white-space: nowrap;
     }
-
-
 </style>
 
 

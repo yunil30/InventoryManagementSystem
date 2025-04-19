@@ -100,70 +100,77 @@
         });
     }
 
-    function ShowEditMappingModal() {
+    let accessMenusChoices;
+    let selectedMappedMenus = [];
+
+    function ShowEditMappingModal(AccessLevel) {
+        console.log('This is the access level: ', AccessLevel);
+        
         const modal = new bootstrap.Modal(document.getElementById('editMenuMappingModal'));
 
-        GetAccessMenus();
+        GetMappedMenusByAccess(AccessLevel, function() {
+            GetAccessMenus();
+        });
 
         modal.show();
     }
 
-    function GetAccessMenus() {
-        const accessMenus = document.getElementById('editAccessMenus');
-        accessMenus.innerHTML = '';
-
+    function GetMappedMenusByAccess(accessLevel, callback) {
         $.ajax({
-            url: '/GetAccessMenus',
+            url: '/GetMappedMenusByAccess',
             method: 'GET',
+            data: { accessLevel: accessLevel },
             success: function(response) {
-                response.forEach(function(row) {
-                    const option = document.createElement("option");
-                    option.value = row.MenuID;
-                    option.textContent = row.menu_name;
-
-                    accessMenus.appendChild(option);
-                });
+                selectedMappedMenus = response.map(item => item.MenuID);  // store mapped MenuIDs
+                if (typeof callback === 'function') callback();  // call the next step
             },
-            error: function(xhr, status, error) {
-                console.error('Failed to get the menu record!', error);
+            error: function(err) {
+                console.error('Failed to get access menus', err);
             }
         });
     }
 
-    let accessMenusChoices;
-
     function GetAccessMenus() {
-        const accessMenus = document.getElementById('editAccessMenus');
-        accessMenus.innerHTML = ''; // Clear current options
+    const accessMenus = document.getElementById('editAccessMenus');
 
-        $.ajax({
-            url: '/GetAccessMenus',
-            method: 'GET',
-            success: function(response) {
-                response.forEach(function(row) {
-                    const option = document.createElement("option");
-                    option.value = row.MenuID;
-                    option.textContent = row.menu_name;
-                    accessMenus.appendChild(option);
-                });
-
-                // Re-init Choices after populating options
-                if (accessMenusChoices) {
-                    accessMenusChoices.destroy();
-                }
-
-                accessMenusChoices = new Choices(accessMenus, {
-                    removeItemButton: true,
-                    placeholder: true,
-                    placeholderValue: 'Select menus',
-                    searchPlaceholderValue: 'Search menus'
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error('Failed to get the menu record!', error);
-            }
-        });
+    if (accessMenusChoices) {
+        accessMenusChoices.destroy();
+        accessMenusChoices = null;
     }
+
+    accessMenus.innerHTML = ''; // clear the select
+
+    $.ajax({
+        url: '/GetAccessMenus',
+        method: 'GET',
+        success: function(response) {
+            response.forEach(function(row) {
+                const option = document.createElement("option");
+                option.value = row.MenuID;
+                option.textContent = row.menu_name;
+
+                accessMenus.appendChild(option);
+            });
+
+            // Now init Choices
+            accessMenusChoices = new Choices(accessMenus, {
+                removeItemButton: true,
+                placeholder: true,
+                placeholderValue: 'Select menus',
+                searchPlaceholderValue: 'Search menus'
+            });
+
+            // Preselect mapped menus using Choices API
+            selectedMappedMenus.forEach(menuID => {
+                accessMenusChoices.setChoiceByValue(menuID.toString());
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Failed to get the menu record!', error);
+        }
+    });
+}
+
 
     document.addEventListener('DOMContentLoaded', function() {
         LoadListOfMappedMenus();
