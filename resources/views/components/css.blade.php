@@ -13,9 +13,9 @@
 <!-- Notyf CSS & JS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-<!-- Add Chosen CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+<!-- Chosen CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
 <style>
     body {
@@ -675,6 +675,23 @@
                     color: #8c8f92;
                 }
             }
+
+            .choices__item--selectable {
+                background-color: #f1f1f1;
+                border-radius: 5px;
+                padding: 1px 5px;
+                margin: 2px;
+                font-size: 0.9rem;
+                border: 1px solid #ccc;
+                color: #333;
+            }
+
+            .choices__item--selectable .choices__button {
+                color: #333;
+                margin-left: 0px;
+                font-size: 1rem;
+                border-left: 1px solid #003642;
+            }
         }
 
         .modal-footer {
@@ -740,6 +757,8 @@
         width: auto !important;
         white-space: nowrap;
     }
+
+
 </style>
 
 

@@ -40,8 +40,7 @@
                     </div>
                     <div class="col-md-12 mb-3">
                         <label>Access menus:</label>
-                        <select class="form-control chosen-select" id="editAccessMenus" multiple>
-                        </select>
+                        <select class="form-control" id="editAccessMenus" multiple></select>
                     </div>
                 </div>
             </div>
@@ -112,9 +111,9 @@
     function GetAccessMenus() {
         const accessMenus = document.getElementById('editAccessMenus');
         accessMenus.innerHTML = '';
-    
+
         $.ajax({
-            url: `/GetAccessMenus`,
+            url: '/GetAccessMenus',
             method: 'GET',
             success: function(response) {
                 response.forEach(function(row) {
@@ -124,10 +123,43 @@
 
                     accessMenus.appendChild(option);
                 });
-
-                accessMenus.trigger('chosen:updated');
             },
-            error: function(error) {
+            error: function(xhr, status, error) {
+                console.error('Failed to get the menu record!', error);
+            }
+        });
+    }
+
+    let accessMenusChoices;
+
+    function GetAccessMenus() {
+        const accessMenus = document.getElementById('editAccessMenus');
+        accessMenus.innerHTML = ''; // Clear current options
+
+        $.ajax({
+            url: '/GetAccessMenus',
+            method: 'GET',
+            success: function(response) {
+                response.forEach(function(row) {
+                    const option = document.createElement("option");
+                    option.value = row.MenuID;
+                    option.textContent = row.menu_name;
+                    accessMenus.appendChild(option);
+                });
+
+                // Re-init Choices after populating options
+                if (accessMenusChoices) {
+                    accessMenusChoices.destroy();
+                }
+
+                accessMenusChoices = new Choices(accessMenus, {
+                    removeItemButton: true,
+                    placeholder: true,
+                    placeholderValue: 'Select menus',
+                    searchPlaceholderValue: 'Search menus'
+                });
+            },
+            error: function(xhr, status, error) {
                 console.error('Failed to get the menu record!', error);
             }
         });
