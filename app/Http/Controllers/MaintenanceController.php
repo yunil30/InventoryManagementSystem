@@ -228,4 +228,23 @@ class MaintenanceController extends Controller {
  
         return response()->json($menus);
     }
+
+    public function EditAccessMenus(Request $request) {
+        try {
+            $accessLevel = $request->input('accessLevel');
+            $accessMenus = explode(',', $request->input('accessMenus'));
+    
+            MenuMappingModel::where('access_level', $accessLevel)->delete();
+    
+            foreach ($accessMenus as $menuID) {
+                MenuMappingModel::create([
+                    'access_level' => $accessLevel,
+                    'MenuID' => $menuID,
+                ]);
+            }
+            return response()->json(['message' => 'Access menus updated successfully!']);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Something went wrong!'], 500);
+        }
+    }
 }

@@ -31,11 +31,11 @@
                 <div class="row">
                     <div class="col-md-12 mb-3">
                         <label>Access level:</label>
-                        <select class="form-control" id="editUserRole">
+                        <select class="form-control" id="editUserRole" disabled>
                             <option value="">Select an Option</option>
                             <option value="1">Level 1</option>
                             <option value="2">Level 2</option>
-                            <option value="3" selected>Level 3</option>
+                            <option value="3">Level 3</option>
                         </select>
                     </div>
                     <div class="col-md-12 mb-3">
@@ -46,7 +46,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="success" id="btnEditMenuMapping">Submit</button>
+                <button type="button" class="success" id="btnEditMenuMapping" onclick="EditAccessMenus()">Submit</button>
             </div>
         </div>
     </div>
@@ -58,7 +58,7 @@
             url: '/GetAllMappedMenus',
             method: 'GET',
             success: function(menus) {
-
+                
                 if ($.fn.DataTable.isDataTable('#userListTable')) {
                     $('#userListTable').DataTable().destroy();
                 }
@@ -100,12 +100,20 @@
         });
     }
 
+    const notyf = new Notyf({
+        duration: 20000,
+        ripple: true,
+        position: {
+            x: 'right',
+            y: 'top',
+        }
+    });
+
     let accessMenusChoices;
     let selectedMappedMenus = [];
 
     function ShowEditMappingModal(AccessLevel) {
-        console.log('This is the access level: ', AccessLevel);
-        
+        document.getElementById('editUserRole').value = AccessLevel;
         const modal = new bootstrap.Modal(document.getElementById('editMenuMappingModal'));
 
         GetMappedMenusByAccess(AccessLevel, function() {
@@ -121,8 +129,8 @@
             method: 'GET',
             data: { accessLevel: accessLevel },
             success: function(response) {
-                selectedMappedMenus = response.map(item => item.MenuID);  // store mapped MenuIDs
-                if (typeof callback === 'function') callback();  // call the next step
+                selectedMappedMenus = response.map(item => item.MenuID); 
+                if (typeof callback === 'function') callback(); 
             },
             error: function(err) {
                 console.error('Failed to get access menus', err);
@@ -131,46 +139,73 @@
     }
 
     function GetAccessMenus() {
-    const accessMenus = document.getElementById('editAccessMenus');
+        const accessMenus = document.getElementById('editAccessMenus');
 
-    if (accessMenusChoices) {
-        accessMenusChoices.destroy();
-        accessMenusChoices = null;
+        if (accessMenusChoices) {
+            accessMenusChoices.destroy();
+            accessMenusChoices = null;
+        }
+
+        accessMenus.innerHTML = ''; 
+
+        $.ajax({
+            url: '/GetAccessMenus',
+            method: 'GET',
+            success: function(response) {
+                response.forEach(function(row) {
+                    const option = document.createElement("option");
+                    option.value = row.MenuID;
+                    option.textContent = row.menu_name;
+
+                    accessMenus.appendChild(option);
+                });
+
+                accessMenusChoices = new Choices(accessMenus, {
+                    removeItemButton: true,
+                    placeholder: true,
+                    placeholderValue: 'Select menus',
+                    searchPlaceholderValue: 'Search menus'
+                });
+
+                selectedMappedMenus.forEach(menuID => {
+                    accessMenusChoices.setChoiceByValue(menuID.toString());
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Failed to get the menu record!', error);
+            }
+        });
     }
 
-    accessMenus.innerHTML = ''; // clear the select
+    function EditAccessMenus() {
+        const submit = document.getElementById('btnEditMenuMapping');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const accessLevel = document.getElementById('editUserRole').value;
+        const accessMenus = Array.from(document.getElementById('editAccessMenus').selectedOptions).map(option => option.value).join(',');
 
-    $.ajax({
-        url: '/GetAccessMenus',
-        method: 'GET',
-        success: function(response) {
-            response.forEach(function(row) {
-                const option = document.createElement("option");
-                option.value = row.MenuID;
-                option.textContent = row.menu_name;
-
-                accessMenus.appendChild(option);
-            });
-
-            // Now init Choices
-            accessMenusChoices = new Choices(accessMenus, {
-                removeItemButton: true,
-                placeholder: true,
-                placeholderValue: 'Select menus',
-                searchPlaceholderValue: 'Search menus'
-            });
-
-            // Preselect mapped menus using Choices API
-            selectedMappedMenus.forEach(menuID => {
-                accessMenusChoices.setChoiceByValue(menuID.toString());
-            });
-        },
-        error: function(xhr, status, error) {
-            console.error('Failed to get the menu record!', error);
-        }
-    });
-}
-
+        submit.disabled = true;
+    
+        $.ajax({
+            url: '/EditAccessMenus',
+            method: 'POST',
+            data: {
+                _token: csrfToken,
+                accessLevel: accessLevel,
+                accessMenus: accessMenus,
+            },
+            success: function(response) {
+                notyf.success(response.message || 'Successfully edited!');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
+                submit.disabled = false;
+            },
+            error: function(error) {
+                notyf.error(error.responseJSON?.message || 'Failed to edit!');
+                submit.disabled = false;
+            }
+        });
+    }
 
     document.addEventListener('DOMContentLoaded', function() {
         LoadListOfMappedMenus();

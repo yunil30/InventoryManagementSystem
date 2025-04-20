@@ -41,6 +41,7 @@ Route::middleware(['auth.user'])->group(function () {
         Route::get('/GetAllMappedMenus', [MaintenanceController::class, 'GetAllMappedMenus']);
         Route::get('/GetMappedMenusByAccess', [MaintenanceController::class, 'GetMappedMenusByAccess']);
         Route::get('/GetAccessMenus', [MaintenanceController::class, 'GetAccessMenus']);
+        Route::post('/EditAccessMenus', [MaintenanceController::class, 'EditAccessMenus']);
     });
 
     Route::middleware(['auth.accessLevel:2'])->group(function () {
