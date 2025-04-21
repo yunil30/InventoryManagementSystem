@@ -242,7 +242,43 @@ class MaintenanceController extends Controller {
                     'MenuID' => $menuID,
                 ]);
             }
+            
             return response()->json(['message' => 'Access menus updated successfully!']);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Something went wrong!'], 500);
+        }
+    }
+
+    public function CreateAccessMenus(Request $request) {
+        try {
+            $accessLevel = $request->input('accessLevel');
+            $accessMenus = explode(',', $request->input('accessMenus'));
+
+            $request->validate([
+                'accessLevel' => 'required|string|max:50|unique:tbl_menu_mapping,access_level,' . $accessLevel . ',access_level'
+            ]);
+
+            MenuMappingModel::where('access_level', $accessLevel)->delete();
+
+            foreach ($accessMenus as $menuID) {
+                $menuMapping = MenuMappingModel::where('access_level', $accessLevel)
+                                               ->where('MenuID', $menuID)
+                                               ->first();
+    
+                if ($menuMapping) {
+                    $menuMapping->update([
+                        'access_level' => $accessLevel,
+                        'MenuID' => $menuID,
+                    ]);
+                } else {
+                    MenuMappingModel::create([
+                        'access_level' => $accessLevel,
+                        'MenuID' => $menuID,
+                    ]);
+                }
+            }
+    
+            return response()->json(['message' => 'Menus mapped successfully!']);
         } catch (\Throwable $e) {
             return response()->json(['error' => 'Something went wrong!'], 500);
         }

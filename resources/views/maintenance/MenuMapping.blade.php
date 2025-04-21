@@ -2,7 +2,7 @@
     <div class="col-md-12 main-content">
         <div class="col-md-12 content-header">
             <h3>Menu Mapping</h3>
-            <button type="button" class="btn btn-primary" id="btnAddUser">Add User</button>
+            <button type="button" class="btn btn-primary" id="btnAddUser" onclick="ShowMappingModal()">Add User</button>
         </div>
         <div class="col-md-12 content-body">
             <table class="table table-hover table-bordered" id="userListTable">
@@ -18,6 +18,39 @@
         </div>
     </div>
 </x-layout>
+
+<!-- Create mapped menu modal -->
+<div class="modal fade" id="addMenuMappingModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 500px; width: 100%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Mapping</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="col-md-12 modal-body">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label>Access level:</label>
+                        <select class="form-control" id="addUserRole">
+                            <option value="">Select an Option</option>
+                            <option value="1">Level 1</option>
+                            <option value="2">Level 2</option>
+                            <option value="3">Level 3</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label>Access menus:</label>
+                        <select class="form-control" id="addAccessMenus" multiple></select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="success" id="btnAddMenuMapping" onclick="CreateAccessMenus()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Edit mapped menu modal -->
 <div class="modal fade" id="editMenuMappingModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -117,8 +150,16 @@
         const modal = new bootstrap.Modal(document.getElementById('editMenuMappingModal'));
 
         GetMappedMenusByAccess(AccessLevel, function() {
-            GetAccessMenus();
+            GetAccessMenus('editAccessMenus');
         });
+
+        modal.show();
+    }
+
+    function ShowMappingModal() {
+        const modal = new bootstrap.Modal(document.getElementById('addMenuMappingModal'));
+
+        GetAccessMenus('addAccessMenus');
 
         modal.show();
     }
@@ -138,8 +179,8 @@
         });
     }
 
-    function GetAccessMenus() {
-        const accessMenus = document.getElementById('editAccessMenus');
+    function GetAccessMenus(elem) {
+        const accessMenus = document.getElementById(elem);
 
         if (accessMenusChoices) {
             accessMenusChoices.destroy();
@@ -202,6 +243,36 @@
             },
             error: function(error) {
                 notyf.error(error.responseJSON?.message || 'Failed to edit!');
+                submit.disabled = false;
+            }
+        });
+    }
+
+    function CreateAccessMenus() {
+        const submit = document.getElementById('btnAddMenuMapping');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const accessLevel = document.getElementById('addUserRole').value;
+        const accessMenus = Array.from(document.getElementById('addAccessMenus').selectedOptions).map(option => option.value).join(',');
+
+        submit.disabled = true;
+    
+        $.ajax({
+            url: '/CreateAccessMenus',
+            method: 'POST',
+            data: {
+                _token: csrfToken,
+                accessLevel: accessLevel,
+                accessMenus: accessMenus,
+            },
+            success: function(response) {
+                notyf.success(response.message || 'Successfully mapped!');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
+                submit.disabled = false;
+            },
+            error: function(error) {
+                notyf.error(error.responseJSON?.message || 'Failed to Add!');
                 submit.disabled = false;
             }
         });
