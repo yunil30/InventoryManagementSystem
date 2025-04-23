@@ -32,18 +32,24 @@
             <div class="col-md-12 modal-body" style="max-height: 65vh; overflow-y: auto;">
                 <div class="row">
                     <div class="col-md-12 mb-3">
-                        <label for="addFirstName">First name:</label>
-                        <input type="text" class="form-control" id="addFirstName" placeholder="First name" required>
+                        <label for="requestor">Requestor:</label>
+                        <select class="form-control" id="requestor" required>
+                            <option value="">Select an Option.</option>
+                        </select>
                     </div>
 
                     <div class="col-md-12 mb-3">
-                        <label for="addLastName">Last name:</label>
-                        <input type="text" class="form-control" id="addLastName" placeholder="Last name" required>
+                        <label for="itemCategory">Category:</label>
+                        <select class="form-control" id="itemCategory" required>
+                            <option value="">Select an Option.</option>
+                        </select>
                     </div>
-                
+
                     <div class="col-md-12 mb-3">
-                        <label for="addReason">Reason:</label>
-                        <textarea class="form-control" id="addReason" placeholder="Reason for request" required></textarea>
+                        <label for="itemName">Item:</label>
+                        <select class="form-control" id="itemName" required>
+                            <option value="">Select an Option.</option>
+                        </select>
                     </div>
                 </div>
             </div>
