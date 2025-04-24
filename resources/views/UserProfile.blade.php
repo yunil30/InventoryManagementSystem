@@ -150,6 +150,15 @@
 </div>
 
 <script>
+    const notyf = new Notyf({
+        duration: 2000,
+        ripple: true,
+        position: {
+            x: 'right',
+            y: 'top',
+        }
+    });
+
     function togglePassword(element) {
         const passwordField = document.getElementById(element);
         const toggleButton = document.querySelector(".toggle-password i");
@@ -235,11 +244,13 @@
                 user_name: userName,
             },
             success: function(response) {
-                console.log('User information updated successfully', response);
-                window.location.reload();
+                notyf.success(response || 'User information updated successfully!');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             },
             error: function(error) {
-                console.log('Error updating user information', error);
+                notyf.error(error || 'Error updating user information!');
             }
         });
     }

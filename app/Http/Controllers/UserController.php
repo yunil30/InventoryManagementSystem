@@ -52,24 +52,28 @@ class UserController extends Controller {
     }
 
     public function EditUserInfo(Request $request) {
-        $UserID = session('u_id');
+        try {
+            $UserID = session('u_id');
 
-        $request->validate([
-            'first_name' => 'required|string|max:145',
-            'last_name' => 'required|string|max:145',
-            'user_name' => 'required|string|max:50|unique:tbl_user_access,user_name,' . $UserID . ',UserID',
-        ]);
-
-        $user = LoginModel::find($UserID);
-
-        $user->first_name = $request->input('first_name');
-        $user->last_name = $request->input('last_name');
-        $user->user_name = $request->input('user_name');
-        $user->modified_by = $UserID;
-        $user->date_modified = now()->format('Y-m-d H:i:s');
-        $user->save();
+            $request->validate([
+                'first_name' => 'required|string|max:145',
+                'last_name' => 'required|string|max:145',
+                'user_name' => 'required|string|max:50|unique:tbl_user_access,user_name,' . $UserID . ',UserID',
+            ]);
     
-        return response()->json(['message' => 'User information updated successfully!']);
+            $user = LoginModel::find($UserID);
+    
+            $user->first_name = $request->input('first_name');
+            $user->last_name = $request->input('last_name');
+            $user->user_name = $request->input('user_name');
+            $user->modified_by = $UserID;
+            $user->date_modified = now()->format('Y-m-d H:i:s');
+            $user->save();
+        
+            return response()->json(['message' => 'User information updated successfully!']);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Something went wrong!'], 500);
+        }
     }
 
     public function EditUserContacts(Request $request) {
