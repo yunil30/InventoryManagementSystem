@@ -77,40 +77,48 @@ class UserController extends Controller {
     }
 
     public function EditUserContacts(Request $request) {
-        $UserID = session('u_id');
+        try {
+            $UserID = session('u_id');
 
-        $request->validate([
-            'user_email' => 'required|email|max:50|unique:tbl_user_access,user_email,' . $UserID . ',UserID',
-            'contact_number' => 'required',
-        ]);
-
-        $user = LoginModel::find($UserID);
-
-        $user->user_email = $request->input('user_email');
-        $user->contact_number = $request->input('contact_number');
-        $user->modified_by = $UserID;
-        $user->date_modified = now()->format('Y-m-d H:i:s');
-        $user->save();
+            $request->validate([
+                'user_email' => 'required|email|max:50|unique:tbl_user_access,user_email,' . $UserID . ',UserID',
+                'contact_number' => 'required',
+            ]);
     
-        return response()->json(['message' => 'User information updated successfully!']);
+            $user = LoginModel::find($UserID);
+    
+            $user->user_email = $request->input('user_email');
+            $user->contact_number = $request->input('contact_number');
+            $user->modified_by = $UserID;
+            $user->date_modified = now()->format('Y-m-d H:i:s');
+            $user->save();
+        
+            return response()->json(['message' => 'User information updated successfully!']);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Something went wrong!'], 500);
+        }
     }
 
     public function ChangePassword(Request $request) {
-        $UserID = session('u_id');
+        try {
+            $UserID = session('u_id');
 
-        $request->validate([
-            'password' => 'required|string|min:8', 
-        ]);
-
-        $hashedPassword = Hash::make($request->input('password'));
-
-        $user = LoginModel::find($UserID);
-
-        $user->password = $hashedPassword;
-        $user->modified_by = $UserID;
-        $user->date_modified = now()->format('Y-m-d H:i:s');
-        $user->save();
-
-        return response()->json(['message' => 'User password changed successfully!']);
+            $request->validate([
+                'password' => 'required|string|min:8', 
+            ]);
+    
+            $hashedPassword = Hash::make($request->input('password'));
+    
+            $user = LoginModel::find($UserID);
+    
+            $user->password = $hashedPassword;
+            $user->modified_by = $UserID;
+            $user->date_modified = now()->format('Y-m-d H:i:s');
+            $user->save();
+    
+            return response()->json(['message' => 'User password changed successfully!']);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Something went wrong!'], 500);
+        }
     }
 }

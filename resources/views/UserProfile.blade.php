@@ -269,11 +269,13 @@
                 contact_number: contactNo,
             },
             success: function(response) {
-                console.log('User contacts updated successfully', response);
-                window.location.reload();
+                notyf.success(response || 'User contacts updated successfully!');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             },
             error: function(error) {
-                console.log('Error updating user contacts', error);
+                notyf.error(error || 'Error updating user contacts!');
             }
         });
     }
@@ -292,11 +294,13 @@
                     password: NewUserPassword,
                 },
                 success: function(response) {
-                    console.log('User password updated successfully', response);
-                    window.location.reload();
+                    notyf.success(response || 'User password updated successfully!');
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1000);
                 },
                 error: function(error) {
-                    console.log('Error updating user password', error);
+                    notyf.error(error || 'Error updating user password!');
                 }
             });
         } 
