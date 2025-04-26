@@ -85,7 +85,7 @@ Route::middleware(['auth.user'])->group(function () {
         Route::get('/GetUserInformation', [UserController::class, 'GetUserInformation']);
         Route::post('/EditUserInfo', [UserController::class, 'EditUserInfo']);
         Route::post('/EditUserContacts', [UserController::class, 'EditUserContacts']);
-        Route::post('/ChangePassword', [UserController::class, 'ChangePassword']);
+        Route::post('/ChangePassword', [UserController::class, 'ChangePassword'])->name('userChangePassword');
     });
 });
 
