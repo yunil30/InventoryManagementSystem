@@ -189,23 +189,21 @@
                 $('#loadUsers').empty();
 
                 users.forEach(function(row, index) {
-                    if (row.user_status === 1) { 
-                        $('#loadUsers').append(`
-                            <tr>
-                                <td style="vertical-align: middle; text-align: left;">${row.UserID}</td>
-                                <td style="vertical-align: middle; text-align: left;">${row.user_name}</td>
-                                <td style="vertical-align: middle; text-align: left;">${row.first_name} ${row.last_name}</td>    
-                                <td style="vertical-align: middle; text-align: left;">${row.user_status === 1 ? 'Active' : 'Inactive'}</td>
-                                <td style="vertical-align: middle; text-align: center;">
-                                    <div style="display: flex; justify-content: space-evenly; align-items: center; width: 100%;">
-                                        <button class="btn btn-transparent" id="btnShowUser${row.UserID}" onclick="ShowUserModal(${row.UserID}, 'Show')"><span class="fas fa-eye"></span></button>
-                                        ${canEditUserRecord ? `<button class="btn btn-transparent" id="btnEditUser${row.UserID}" onclick="ShowUserModal(${row.UserID}, 'Edit')"><span class="fas fa-pencil"></span></button>` : ''}
-                                        ${canRemoveUserRecord ? `<button class="btn btn-transparent" id="btnRemoveUser${row.UserID}" onclick="ShowRemoveUserModal(${row.UserID})"><span class="fas fa-trash"></span></button>` : ''}
-                                    </div>
-                                </td>
-                            </tr>
-                        `);
-                    }
+                    $('#loadUsers').append(`
+                        <tr>
+                            <td style="vertical-align: middle; text-align: left;">${row.UserID}</td>
+                            <td style="vertical-align: middle; text-align: left;">${row.user_name}</td>
+                            <td style="vertical-align: middle; text-align: left;">${row.first_name} ${row.last_name}</td>    
+                            <td style="vertical-align: middle; text-align: left;">${row.user_status === 1 ? 'Active' : 'Inactive'}</td>
+                            <td style="vertical-align: middle; text-align: center;">
+                                <div style="display: flex; justify-content: space-evenly; align-items: center; width: 100%;">
+                                    <button class="btn btn-transparent" id="btnShowUser${row.UserID}" onclick="ShowUserModal(${row.UserID}, 'Show')"><span class="fas fa-eye"></span></button>
+                                    ${canEditUserRecord ? `<button class="btn btn-transparent" id="btnEditUser${row.UserID}" onclick="ShowUserModal(${row.UserID}, 'Edit')"><span class="fas fa-pencil"></span></button>` : ''}
+                                    ${canRemoveUserRecord ? `<button class="btn btn-transparent" id="btnRemoveUser${row.UserID}" onclick="ShowRemoveUserModal(${row.UserID})"><span class="fas fa-trash"></span></button>` : ''}
+                                </div>
+                            </td>
+                        </tr>
+                    `);
                 });
 
                 $('#userListTable').DataTable({

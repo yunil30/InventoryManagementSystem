@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 class MaintenanceController extends Controller {
     // Maintenance controllers for list of users
     public function GetAllUsers() {
-        $users = LoginModel::where('user_status', 1)->get();
+        $users = LoginModel::all();
 
         return response()->json($users);
     }
