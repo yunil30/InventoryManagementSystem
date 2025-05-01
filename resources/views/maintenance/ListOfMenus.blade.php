@@ -88,7 +88,7 @@
                         <label for="showMenuPage">Menu Page:</label>
                         <input type="text" class="form-control" id="showMenuPage" placeholder="Menu page" required>
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label for="showMenuType">Menu type:</label>
                         <select class="form-control" id="showMenuType">
                             <option value="">Select an Option</option>
