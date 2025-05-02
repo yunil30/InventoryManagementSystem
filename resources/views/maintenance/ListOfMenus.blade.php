@@ -104,6 +104,10 @@
                         <label for="showMenuIndex">Menu Index:</label>
                         <input type="number" class="form-control" id="showMenuIndex" placeholder="Menu index" required>
                     </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="showMenuIcon">Menu Icon:</label>
+                        <input type="text" class="form-control" id="showMenuIcon" placeholder="Menu icon" required>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
