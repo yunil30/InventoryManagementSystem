@@ -257,6 +257,7 @@
         const menuType = document.getElementById('addMenuType').value;
         const parentMenu = document.getElementById('addParentMenu').value;
         const menuIndex = document.getElementById('addMenuIndex').value;
+        const menuIcon = document.getElementById('addMenuIcon').value;
 
         submit.disabled = true;
         
