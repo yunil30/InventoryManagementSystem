@@ -271,7 +271,7 @@
                 menu_type: menuType,
                 parent_menu: parentMenu,
                 menu_index: menuIndex,
-                // menu_index: menuIcon,
+                menu_icon: menuIcon,
             },
             success: function(response) {
                 notyf.success(response || 'Menu record created successfully!');
