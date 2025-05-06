@@ -138,6 +138,7 @@ class MaintenanceController extends Controller {
                 'menu_type' => 'required|string|max:45',
                 'parent_menu' => 'required|int|max:100',
                 'menu_index' => 'required|int|max:100',
+                'menu_icon' => 'required|string|max:45',
             ]);
     
             MenuModel::create([
