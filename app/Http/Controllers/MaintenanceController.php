@@ -147,6 +147,7 @@ class MaintenanceController extends Controller {
                 'menu_type' => $request->input('menu_type'),
                 'parent_menu' => $request->input('parent_menu'),
                 'menu_index' => $request->input('menu_index'),
+                'menu_icon' => $request->input('menu_icon'),
                 'created_by' => $UserID,
                 'menu_status' => 1,
             ]);
