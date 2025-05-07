@@ -322,6 +322,7 @@
         const menuType = document.getElementById('showMenuType').value;
         const parentMenu = document.getElementById('showParentMenu').value;
         const menuIndex = document.getElementById('showMenuIndex').value;
+        const menuIcon = document.getElementById('showMenuIcon').value;
 
         submit.disabled = true;
 
