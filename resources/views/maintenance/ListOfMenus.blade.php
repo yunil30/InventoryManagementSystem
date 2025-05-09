@@ -336,6 +336,7 @@
                 menu_type: menuType,
                 parent_menu: parentMenu,
                 menu_index: menuIndex,
+                menu_icon: menuIcon,
                 MenuID: MenuID,
             },
             success: function(response) {
