@@ -179,6 +179,7 @@ class MaintenanceController extends Controller {
             $menu->menu_type = $request->input('menu_type');
             $menu->parent_menu = $request->input('parent_menu');
             $menu->menu_index = $request->input('menu_index');
+            $menu->menu_icon = $request->input('menu_index');
             $menu->modified_by = $UserID;
             $menu->date_modified = now()->format('Y-m-d H:i:s');
             $menu->save();
