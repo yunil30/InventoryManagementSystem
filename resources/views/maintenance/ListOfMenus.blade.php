@@ -213,7 +213,7 @@
         const menuType = document.getElementById('showMenuType');
         const parentMenu = document.getElementById('showParentMenu');
         const menuIndex = document.getElementById('showMenuIndex');
-        const menuIndex = document.getElementById('showMenuIcon');
+        const menuIcon = document.getElementById('showMenuIcon');
         
         const btnSubmit = document.getElementById('btnSubmitEditMenu');
         const modal = new bootstrap.Modal(document.getElementById('showMenuModal'));
