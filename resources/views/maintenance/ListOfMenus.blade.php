@@ -227,7 +227,7 @@
             menuType.disabled = true;
             parentMenu.disabled = true;
             menuIndex.disabled = true;
-            menuIndex.disabled = true;
+            menuIcon.disabled = true;
             modal.show();
         } else {
             btnSubmit.style.display = ''; 
