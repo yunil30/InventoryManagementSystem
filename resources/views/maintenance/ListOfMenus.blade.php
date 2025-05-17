@@ -237,6 +237,7 @@
             menuType.disabled = false;
             parentMenu.disabled = false;
             menuIndex.disabled = false;
+            menuIndex.disabled = false;
             modal.show();
             btnSubmit.setAttribute('onclick', `EditMenuRecord(${MenuID})`);
         }
