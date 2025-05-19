@@ -296,6 +296,7 @@
         const menuType = document.getElementById('showMenuType');
         const parentMenu = document.getElementById('showParentMenu');
         const menuIndex = document.getElementById('showMenuIndex');
+        const menuIndex = document.getElementById('showMenuIndex');
     
         $.ajax({
             url: `/GetMenuRecord`,
