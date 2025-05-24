@@ -311,7 +311,7 @@
                 menuType.value = response.menu_type;
                 parentMenu.value = response.parent_menu;
                 menuIndex.value = response.menu_index;
-                menuIndex.value = response.menu_icon;
+                menuIcon.value = response.menu_icon;
             },
             error: function(error) {
                 console.error('Failed to get the menu record!', error);
