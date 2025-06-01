@@ -434,7 +434,7 @@
                         justify-content: center;
                         background-color: white;
                         color: #1f2328;
-                        box-shadow: 0px 1px 5px #00000035;
+                        box-shadow: 0px 1px 1px #00000035;
                         border: 1px solid rgb(215, 215, 215);
                         border-radius: 50px;
                         padding: 5px 18px;
