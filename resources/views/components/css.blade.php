@@ -626,7 +626,7 @@
                     letter-spacing: .5px;
                     color: #1f2328;
                     outline: none;
-                    box-shadow: 0px 0px 2px rgba(23, 32, 42, 0.8);
+                    /* box-shadow: 0px 0px 2px rgba(23, 32, 42, 0.8); */
                 }
             }
 
