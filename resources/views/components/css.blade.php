@@ -19,7 +19,7 @@
 
 <style>
     body {
-        background-color: #e5f3fc;
+        background-color: #f6fcffec;
         margin: 0;
         height: 100vh;
         display: grid;
@@ -36,7 +36,7 @@
     header {
         grid-area: header;
         background-color: #ffffff;
-        box-shadow: 0px 1px 5px #00000047;
+        box-shadow: 0px 1px 3px #00000047;
         padding: 0.5rem 2rem 0.5rem 1.2rem;
         position: sticky;
         display: flex;
