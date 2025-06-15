@@ -19,7 +19,7 @@
 
 <style>
     body {
-        background-color: #f6fcffec;
+        background-color: #f5f5f5;
         margin: 0;
         height: 100vh;
         display: grid;
@@ -194,6 +194,7 @@
                 padding: 0;
                 display: none; 
                 background-color: #f5f5f5;
+                box-shadow: inset 2px 1px 2px #35353547;            
 
                 a {
                     display: block;
